@@ -46,7 +46,7 @@ class Scene(object):
     def main(self):
         self.start()
         while SceneManager.isScene(self):
-            SceneManager.display.handleEvents()
+            SceneManager.display.handleEvents(SceneManager)
             self.update()
 
         self.finish()
@@ -81,23 +81,27 @@ class Scene(object):
         the scene"""
         pass
 
-
+from level import Map
 class SceneTeste(Scene):
     def start(self):
-        self.timer = 24
-        print "Valendo!"
+        self.timer = 480
+        self.map = Map('maps/desert.tmx')
 
     def draw(self):
-        print "Desenhando"
+        SceneManager.display.update()
 
     def render(self):
-        print "Renderizando"
+        self.map.render(SceneManager.screen)
+        print self.map
+        print SceneManager.screen
+
+        SceneManager.screen.fill((255,255,255))
 
     def logic(self):
         if not self.timer:
             SceneManager.exit()
-        print "Processando"
         self.timer -= 1
 
     def finish(self):
-        print "Acabou!"
+        pass
+
