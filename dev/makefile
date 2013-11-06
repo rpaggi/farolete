@@ -15,9 +15,11 @@ SceneManager.o: SceneManager.cpp
 	g++ -c "SceneManager.cpp" -o SceneManager.o
 SceneSplash1.o: SceneSplash1.cpp
 	g++ -c "SceneSplash1.cpp" -o SceneSplash1.o
+Shot.o: Shot.cpp
+	g++ -c "Shot.cpp" -o Shot.o	
 GamePlay.o: GamePlay.cpp
 	g++ -c "GamePlay.cpp" -o GamePlay.o
 main.o: main.cpp
 	g++ -c "main.cpp" -o main.o
-xingu.exe: main.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o GamePlay.o
-	g++ -o xingu.exe main.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o GamePlay.o $(LIBS)
+xingu.exe: main.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o GamePlay.o
+	g++ -o xingu.exe main.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o GamePlay.o $(LIBS)

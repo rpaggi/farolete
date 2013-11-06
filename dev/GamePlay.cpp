@@ -1,16 +1,21 @@
 #include "GamePlay.hpp"
+
+//Remove this shit mother fucker!
 #include <iostream>
 
 #define PI 3.141593
 
 GamePlay::GamePlay(Display * d){
 	display = d;
+	freeMouse = 0;
+	timeShot = 0.3;
 }
 
 void GamePlay::start(){
 	esc = new GameKey(sf::Keyboard::Escape);
 
 	perText.begin();
+
 	for(int i=0;i<8;i++){
 		perText.push_back(sf::Texture());
 	}
@@ -58,6 +63,11 @@ void GamePlay::start(){
 
 void GamePlay::draw(){
 	display->clear(sf::Color(255,255,255,255));
+
+	for(unsigned i=0;i<vShot.size();i++){
+		display->draw(vShot[i]->getSprite());
+	}
+
 	display->draw(perSprite[pos]);
 
 }
@@ -67,8 +77,13 @@ void GamePlay::render(){
 }
 
 void GamePlay::logic(){
+	time = clock.getElapsedTime();
+	elapsed = time.asSeconds();
+
 	sf::Vector2i mPos = display->getMousePosition();
+
 	float angB = angBetween(perCm.x, perCm.y, mPos.x, (display->getSize().y-mPos.y));
+
 
 	if((angB>0 && angB<22.5) || (angB>=337 && angB<=360)){
 		pos = 0;
@@ -88,13 +103,27 @@ void GamePlay::logic(){
 		pos = 7;
 	}
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && freeMouse < 1)
 	{
-		std::cout<<angB<<std::endl;
+		freeMouse++;
+		clock.restart();
+		vShot.push_back(new Shot(perCm.x, perCm.y, mPos.x, mPos.y));
 	}
 
 	if (keyboard.triggered(*esc)){
         sceneManager->exit();
+    }
+
+    for(unsigned i = 0;i<vShot.size();i++){
+    	if(!vShot[i]->moveShot()){
+    		delete vShot[i];
+			vShot.erase(vShot.begin() + i);
+		}
+    }
+
+    if(freeMouse > 0 && elapsed > timeShot){
+    	clock.restart();
+    	freeMouse--;
     }
 
 }

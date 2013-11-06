@@ -2,26 +2,38 @@
 #define GAMEPLAY_HPP
 
 #include <math.h>
-#include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Mouse.hpp>
+#include <vector>
 
 #include "Display.hpp"
 #include "SceneManager.hpp"
 #include "Input.hpp"
+#include "Shot.hpp"
 
 class GamePlay : public Scene {
 	Display * display;
 
     KeyboardInput keyboard;
     GameKey* esc;
+    int freeMouse;
+    float timeShot;
 
-    //personagem
+    //time variables
+    sf::Clock clock;
+	sf::Time time;
+	float elapsed;
+
+    //person
     int pos;
     sf::Vector2u perCm;
     std::vector<sf::Texture> perText;
     std::vector<sf::Sprite> perSprite;
+
+    //shot
+    std::vector<Shot*> vShot;
 
     float angBetween(float cmX, float cmY, float pX, float pY);
 public:
