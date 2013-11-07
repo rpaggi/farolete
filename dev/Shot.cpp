@@ -2,6 +2,10 @@
 
 //Remove this shit mother fucker!
 #include <iostream>
+#include <cmath>
+
+#define PI 3.14159265
+
 
 Shot::Shot(float pX, float pY, float dX, float dY){
 	position.x = pX;
@@ -11,11 +15,19 @@ Shot::Shot(float pX, float pY, float dX, float dY){
 	destination.y = dY;
 
 	//Calculate the increment
-	float aX, aY, iX, iY;
+	float aX, aY, iX, iY, distance, s, c;
 
 	aX = dX-pX;
 	aY = dY-pY;
 
+	distance = sqrt(pow(aX, 2) * pow(aY,2));
+
+	s = aY/distance;
+	c = aX/distance;
+
+	iX = 30 * c;
+	iY = 30 * s;
+/*
 	if(aX<0){
 		aX *= -1;
 	}
@@ -42,7 +54,7 @@ Shot::Shot(float pX, float pY, float dX, float dY){
 	if(dY<pY){
 		iY *= -1;
 	}
-
+*/
 	increment.x = iX;
 	increment.y = iY;
 
@@ -71,7 +83,9 @@ bool Shot::moveShot(){
 
 	if(elapsed > 0.005){
 		clock.restart();
-		if(increment.x < 0){
+		position.x += increment.x;
+		position.y += increment.y;
+/*		if(increment.x < 0){
 			if((position.x + increment.x) <= destination.x){
 				controlReturn ++;
 			}else{
@@ -98,7 +112,7 @@ bool Shot::moveShot(){
 				position.y += increment.y;
 			}
 		}
-
+*/
 		sprite.setPosition(position.x,position.y);
 
 	}
