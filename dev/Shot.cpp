@@ -15,46 +15,21 @@ Shot::Shot(float pX, float pY, float dX, float dY){
 	destination.y = dY;
 
 	//Calculate the increment
-	float aX, aY, iX, iY, distance, s, c;
+	float aX, aY, iX, iY, distance, s, c, vel;
 
 	aX = dX-pX;
 	aY = dY-pY;
 
-	distance = sqrt(pow(aX, 2) * pow(aY,2));
+	distance = sqrt(pow(aX, 2.0) + pow(aY,2.0));
 
 	s = aY/distance;
 	c = aX/distance;
 
-	iX = 30 * c;
-	iY = 30 * s;
-/*
-	if(aX<0){
-		aX *= -1;
-	}
-	if(aY<0){
-		aY *= -1;
-	}
+	vel = 15;
 
-	if(aX>aY){
-		iX = aX/aY;
-		iY = aY/aY;
-	}else{
-		if(aX<aY){
-			iX = aX/aX;
-			iY = aY/aX;
-		}else{
-			iX = aX/aX;
-			iY = aY/aY;
-		}
-	}
+	iX = vel * c;
+	iY = vel * s;
 
-	if(dX<pX){
-		iX *= -1;
-	}
-	if(dY<pY){
-		iY *= -1;
-	}
-*/
 	increment.x = iX;
 	increment.y = iY;
 
@@ -76,52 +51,40 @@ void Shot::setDestination(float x, float y){
 	destination.y = y;
 }
 
-bool Shot::moveShot(){
+bool Shot::moveShot() {
 	time = clock.getElapsedTime();
 	elapsed = time.asSeconds();
-	int controlReturn = 0;
+	bool controlReturn = true;
 
-	if(elapsed > 0.005){
+	if (elapsed > 0.005) {
 		clock.restart();
 		position.x += increment.x;
 		position.y += increment.y;
-/*		if(increment.x < 0){
-			if((position.x + increment.x) <= destination.x){
-				controlReturn ++;
-			}else{
-				position.x += increment.x;
-			}
-		}else{
-			if((position.x + increment.x) >= destination.x){
-				controlReturn ++;
-			}else{
-				position.x += increment.x;
-			}
+
+		if (increment.x < 0 && increment.y < 0) {
+			if ((position.x + increment.x) <= destination.x && (position.y + increment.y) <= destination.y)
+				controlReturn = false;
+		} else if (increment.x > 0 && increment.y < 0) {
+			if ((position.x + increment.x) >= destination.x && (position.y + increment.y) <= destination.y)
+				controlReturn = false;
+		} else if (increment.x < 0 && increment.y > 0) {
+			if ((position.x + increment.x) <= destination.x && (position.y + increment.y) >= destination.y)
+				controlReturn = false;
+		} else if (increment.x > 0 && increment.y > 0) {
+			if ((position.x + increment.x) >= destination.x && (position.y + increment.y) >= destination.y)
+				controlReturn = false;
+		}
+		if (controlReturn == true) {
+			position.x += increment.x;
+			position.y += increment.y;
+			sprite.setPosition(position.x,position.y);
+		} else {
+			return false;
 		}
 
-		if(increment.x < 0){
-			if((position.y + increment.y) <= destination.y){
-				controlReturn ++;
-			}else{
-				position.y += increment.y;
-			}
-		}else{
-			if((position.y + increment.y) >= destination.y){
-				controlReturn ++;
-			}else{
-				position.y += increment.y;
-			}
-		}
-*/
-		sprite.setPosition(position.x,position.y);
-
 	}
+	return true;
 
-	if (controlReturn >= 2){
-		return false;
-	}else{
-		return true;
-	}
 }
 
 sf::Sprite Shot::getSprite(){
