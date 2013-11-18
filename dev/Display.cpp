@@ -34,6 +34,10 @@ void Display::draw(sf::Text text) {
     window.draw(text);
 }
 
+void Display::draw(tmx::MapLoader* map) {
+    window.draw(*map);
+}
+
 void Display::clear(sf::Color color) {
     window.clear(color);
 }

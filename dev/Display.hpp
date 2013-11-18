@@ -7,6 +7,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Vector2.hpp>
 
+#include <MapLoader.h>
 
 class Display{
     sf::RenderWindow window;
@@ -24,6 +25,8 @@ public:
     void draw(sf::Sprite sprite);
 
     void draw(sf::Text text);
+
+    void draw(tmx::MapLoader* map);
 
     void clear(sf::Color color);
 

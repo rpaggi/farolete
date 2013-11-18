@@ -13,12 +13,15 @@ GamePlay::GamePlay(Display * d){
 
 void GamePlay::start(){
 	esc = new GameKey(sf::Keyboard::Escape);
+	mapLoader = new tmx::MapLoader("maps/");
 
 	perText.begin();
 
 	for(int i=0;i<8;i++){
 		perText.push_back(sf::Texture());
 	}
+
+	mapLoader->Load("desert.tmx");
 
 	perText[0].loadFromFile("person/up.png");
 	perText[1].loadFromFile("person/upr.png");
@@ -63,6 +66,9 @@ void GamePlay::start(){
 
 void GamePlay::draw(){
 	display->clear(sf::Color(255,255,255,255));
+
+	display->draw(mapLoader);
+	//mapLoader.draw(display->getWindow());
 
 	for(unsigned i=0;i<vShot.size();i++){
 		display->draw(vShot[i]->getSprite());

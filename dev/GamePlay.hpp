@@ -13,6 +13,7 @@
 #include "Input.hpp"
 #include "Shot.hpp"
 
+
 class GamePlay : public Scene {
 	Display * display;
 
@@ -34,6 +35,9 @@ class GamePlay : public Scene {
 
     //shot
     std::vector<Shot*> vShot;
+
+    //map
+    tmx::MapLoader* mapLoader;
 
     float angBetween(float cmX, float cmY, float pX, float pY);
 public:
