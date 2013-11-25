@@ -1,4 +1,4 @@
-LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio -lzdll
 
 all: xingu.exe
 pugixml.o: pugixml/pugixml.cpp
