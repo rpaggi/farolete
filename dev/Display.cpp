@@ -22,6 +22,14 @@ sf::Vector2u Display::getSize() {
     return window.getSize();
 }
 
+const sf::View & Display::getView() {
+    return window.getView();
+}
+
+void Display::setView(sf::View view) {
+    window.setView(view);
+}
+
 void Display::display() {
     window.display();
 }

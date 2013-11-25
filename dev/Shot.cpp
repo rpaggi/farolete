@@ -35,6 +35,7 @@ Shot::Shot(float pX, float pY, float dX, float dY){
 
 	texture.loadFromFile("shot/texture.png");
 	sprite.setTexture(texture);
+	sprite.setPosition(pX, pY);
 
 }
 

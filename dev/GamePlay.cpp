@@ -2,8 +2,9 @@
 
 //Remove this shit mother fucker!
 #include <iostream>
+#include <cmath>
 
-#define PI 3.141593
+#define PI 3.14159265
 
 GamePlay::GamePlay(Display * d){
 	display = d;
@@ -13,7 +14,12 @@ GamePlay::GamePlay(Display * d){
 
 void GamePlay::start(){
 	esc = new GameKey(sf::Keyboard::Escape);
+	up = new GameKey(sf::Keyboard::Up);
+	down = new GameKey(sf::Keyboard::Down);
+	left = new GameKey(sf::Keyboard::Left);
+	right = new GameKey(sf::Keyboard::Right);
 	mapLoader = new tmx::MapLoader("maps/");
+	mapLoader->Load("desert.tmx");
 
 	perText.begin();
 
@@ -21,16 +27,16 @@ void GamePlay::start(){
 		perText.push_back(sf::Texture());
 	}
 
-	mapLoader->Load("desert.tmx");
+	
 
-	perText[0].loadFromFile("person/up.png");
-	perText[1].loadFromFile("person/upr.png");
-	perText[2].loadFromFile("person/r.png");
-	perText[3].loadFromFile("person/dor.png");
-	perText[4].loadFromFile("person/do.png");
-	perText[5].loadFromFile("person/dol.png");
-	perText[6].loadFromFile("person/l.png");
-	perText[7].loadFromFile("person/upl.png");
+	perText[0].loadFromFile("person/r.png");
+	perText[1].loadFromFile("person/dor.png");
+	perText[2].loadFromFile("person/do.png");
+	perText[3].loadFromFile("person/dol.png");
+	perText[4].loadFromFile("person/l.png");
+	perText[5].loadFromFile("person/upl.png");
+	perText[6].loadFromFile("person/up.png");
+	perText[7].loadFromFile("person/upr.png");
 
 	perSprite.begin();
 	for(int i=0;i<8;i++){
@@ -62,6 +68,15 @@ void GamePlay::start(){
 	perSprite[6].setPosition(sX-(perText[6].getSize().x/2),sY-(perText[6].getSize().y/2));
 	perSprite[7].setPosition(sX-(perText[7].getSize().x/2),sY-(perText[7].getSize().y/2));
 
+	perSprite[0].setOrigin(perSprite[0].getTextureRect().width/2, perSprite[0].getTextureRect().height/2);
+	perSprite[1].setOrigin(perSprite[1].getTextureRect().width/2, perSprite[1].getTextureRect().height/2);
+	perSprite[2].setOrigin(perSprite[2].getTextureRect().width/2, perSprite[2].getTextureRect().height/2);
+	perSprite[3].setOrigin(perSprite[3].getTextureRect().width/2, perSprite[3].getTextureRect().height/2);
+	perSprite[4].setOrigin(perSprite[4].getTextureRect().width/2, perSprite[4].getTextureRect().height/2);
+	perSprite[5].setOrigin(perSprite[5].getTextureRect().width/2, perSprite[5].getTextureRect().height/2);
+	perSprite[6].setOrigin(perSprite[6].getTextureRect().width/2, perSprite[6].getTextureRect().height/2);
+	perSprite[7].setOrigin(perSprite[7].getTextureRect().width/2, perSprite[7].getTextureRect().height/2);
+
 }
 
 void GamePlay::draw(){
@@ -88,7 +103,34 @@ void GamePlay::logic(){
 
 	sf::Vector2i mPos = display->getMousePosition();
 
-	float angB = angBetween(perCm.x, perCm.y, mPos.x, (display->getSize().y-mPos.y));
+	sf::View view = display->getView();
+
+	screenMovement.x = 0.f;
+	screenMovement.y = 0.f;
+
+	if (keyboard.triggered(*esc))
+        sceneManager->exit();
+    if (keyboard.pressed(*up))
+        screenMovement.y = -1.f;
+    if (keyboard.pressed(*down))
+        screenMovement.y = 1.f;
+    if (keyboard.pressed(*left))
+        screenMovement.x = -1.f;
+    if (keyboard.pressed(*right))
+        screenMovement.x = 1.f;
+    
+    float dt = time.asSeconds();
+    screenMovement = Helpers::Vectors::Normalize(screenMovement) * 10.f * dt;
+	view.move(screenMovement);
+	display->setView(view);
+
+	perCm.x = view.getCenter().x;
+	perCm.y = view.getCenter().y;
+
+	mPos.x = (view.getCenter().x - view.getSize().x/2) + mPos.x;
+	mPos.y = (view.getCenter().y - view.getSize().y/2) + mPos.y;
+
+	float angB = angBetween(perCm.x, perCm.y, mPos.x, mPos.y);
 
 
 	if((angB>0 && angB<22.5) || (angB>=337 && angB<=360)){
@@ -116,10 +158,7 @@ void GamePlay::logic(){
 		vShot.push_back(new Shot(perCm.x, perCm.y, mPos.x, mPos.y));
 	}
 
-	if (keyboard.triggered(*esc)){
-        sceneManager->exit();
-    }
-
+    
     for(unsigned i = 0;i<vShot.size();i++){
     	if(!vShot[i]->moveShot()){
     		delete vShot[i];
@@ -132,6 +171,9 @@ void GamePlay::logic(){
     	freeMouse--;
     }
 
+    
+
+    perSprite[pos].setPosition(view.getCenter());
 }
 
 void GamePlay::finish(){
@@ -142,12 +184,13 @@ float GamePlay::angBetween(float cmX, float cmY, float pX, float pY){
 	float disX = pX-cmX;
 	float disY = pY-cmY;
 
-	float aTan2 = atan2(disX, disY);
-	float ang = (aTan2) * 180/PI;
+	float distance = sqrt(pow(disX, 2.0) + pow(disY,2.0));
 
+	float s = disY/distance;
+	float c = disX/distance;
+	float ang = (atan2(s, c) * 180 / PI);
 	if (ang < 0){
 		ang += 360;
 	}
-
 	return ang;
 }

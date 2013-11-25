@@ -22,6 +22,10 @@ public:
 
     void display();
 
+    const sf::View & getView();
+
+    void setView(sf::View view);
+
     void draw(sf::Sprite sprite);
 
     void draw(sf::Text text);

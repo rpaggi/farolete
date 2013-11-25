@@ -19,6 +19,10 @@ class GamePlay : public Scene {
 
     KeyboardInput keyboard;
     GameKey* esc;
+    GameKey* up;
+    GameKey* down;
+    GameKey* left;
+    GameKey* right;
     int freeMouse;
     float timeShot;
 
@@ -38,6 +42,9 @@ class GamePlay : public Scene {
 
     //map
     tmx::MapLoader* mapLoader;
+
+    //camera view
+    sf::Vector2f screenMovement;
 
     float angBetween(float cmX, float cmY, float pX, float pY);
 public:
