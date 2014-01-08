@@ -120,7 +120,7 @@ void GamePlay::logic(){
         screenMovement.x = 1.f;
     
     float dt = time.asSeconds();
-    screenMovement = Helpers::Vectors::Normalize(screenMovement) * 10.f * dt;
+    screenMovement = Helpers::Vectors::Normalize(screenMovement) * 10.f;// * dt;
 	view.move(screenMovement);
 	display->setView(view);
 
