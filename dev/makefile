@@ -1,4 +1,4 @@
-LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio -lzdll
 
 all: xingu.exe
 pugixml.o: pugixml/pugixml.cpp
@@ -11,6 +11,11 @@ MapLoaderPublic.o: sfml-tmxloader/MapLoaderPublic.cpp
 	g++ -c "sfml-tmxloader/MapLoaderPublic.cpp" -o MapLoaderPublic.o -std=c++0x
 MapLoaderPrivate.o: sfml-tmxloader/MapLoaderPrivate.cpp
 	g++ -c "sfml-tmxloader/MapLoaderPrivate.cpp" -o MapLoaderPrivate.o -std=c++0x
+#Update06-03/14
+DebugShape.o: sfml-tmxloader/DebugShape.cpp
+	g++ -c "sfml-tmxloader/DebugShape.cpp" -o DebugShape.o -std=c++0x	
+MapLayer.o: sfml-tmxloader/MapLayer.cpp
+	g++ -c "sfml-tmxloader/MapLayer.cpp" -o MapLayer.o -std=c++0x	
 Display.o: Display.cpp
 	g++ -c "Display.cpp" -o Display.o -std=c++0x
 Input.o: Input.cpp
@@ -31,5 +36,5 @@ GamePlay.o: GamePlay.cpp
 	g++ -c "GamePlay.cpp" -o GamePlay.o -std=c++0x
 main.o: main.cpp
 	g++ -c "main.cpp" -o main.o -std=c++0x
-xingu.exe: main.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o GamePlay.o pugixml.o
-	g++ -o xingu.exe main.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o GamePlay.o pugixml.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o $(LIBS) -std=c++0x
+xingu.exe: main.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o DebugShape.o MapLayer.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o GamePlay.o pugixml.o
+	g++ -o xingu.exe main.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o GamePlay.o pugixml.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o DebugShape.o MapLayer.o $(LIBS) -std=c++0x

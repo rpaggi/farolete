@@ -1,5 +1,33 @@
-///source for map object class///
-#include <MapObject.h>
+/*********************************************************************
+Matt Marchant 2013 - 2014
+SFML Tiled Map Loader - https://github.com/bjorn/tiled/wiki/TMX-Map-Format
+						http://trederia.blogspot.com/2013/05/tiled-map-loader-for-sfml.html
+
+The zlib license has been used to make this software fully compatible
+with SFML. See http://www.sfml-dev.org/license.php
+
+This software is provided 'as-is', without any express or
+implied warranty. In no event will the authors be held
+liable for any damages arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute
+it freely, subject to the following restrictions:
+
+1. The origin of this software must not be misrepresented;
+   you must not claim that you wrote the original software.
+   If you use this software in a product, an acknowledgment
+   in the product documentation would be appreciated but
+   is not required.
+
+2. Altered source versions must be plainly marked as such,
+   and must not be misrepresented as being the original software.
+
+3. This notice may not be removed or altered from any
+   source distribution.
+*********************************************************************/
+#include <tmx/MapObject.h>
+#include <tmx/MapLayer.h>
 
 using namespace tmx;
 
@@ -20,11 +48,9 @@ bool MapObject::Segment::Intersects(const MapObject::Segment& segment)
 		//point at which lines intersect - do what you will with this
 		sf::Vector2f intersection(Start.x + (t * s1.x), Start.y + (t * s1.y));
 		return true;
-	}						
+	}
 	return false;
 }
-
-
 
 
 
@@ -33,22 +59,10 @@ bool MapObject::Segment::Intersects(const MapObject::Segment& segment)
 //ctor
 MapObject::MapObject()
 	 : m_visible	(true),
-	 m_rotation		(0.f),
 	 m_shape		(Rectangle),
 	 m_furthestPoint(0.f)
 {
-	m_debugShape.setPrimitiveType(sf::LinesStrip);
 
-	//this loads a font for text output during debug drawing
-	//you need to select your own font here as SFML no longer
-	//supports a default font. If you do not plan to use this
-	//during debugging it can be ignored.
-	if(!m_debugFont.loadFromFile("assets/fonts/default.ttf"))
-	{
-		//feel free to supress these messages
-		std::cout << "If you wish to output text during debugging please specify a font file in the map object class" << std::endl;
-		std::cout << "If you do not wish to use debug output this can be safely ignored." << std:: endl;
-	}
 }
 
 //public
@@ -65,43 +79,49 @@ void MapObject::SetProperty(const std::string& name, const std::string& value)
 	m_properties[name] = value;
 }
 
+void MapObject::SetPosition(float x, float y)
+{
+	SetPosition(sf::Vector2f(x, y));
+}
+
 void MapObject::SetPosition(const sf::Vector2f& position)
 {
 	sf::Vector2f distance = position - m_position;
 	Move(distance);
 }
 
-void MapObject::Move(const sf::Vector2f& distance)	
+void MapObject::Move(float x, float y)
+{
+	Move(sf::Vector2f(x, y));
+}
+
+void MapObject::Move(const sf::Vector2f& distance)
 {
 	//update properties by movement amount
 	m_centrePoint += distance;
-	for(auto p : m_polypoints)
+	for(auto& p : m_polypoints)
 		p += distance;
-			
-	for(auto i = 0u; i < m_debugShape.getVertexCount(); ++i)
-		m_debugShape[i].position += distance;
+
+	m_debugShape.move(distance);
 
 	m_AABB.left += distance.x;
 	m_AABB.top += distance.y;
 
 	//set new position
-	m_position += distance;			
+	m_position += distance;
+
+	//if object is of type tile move vertex data
+	if(m_tileQuad) m_tileQuad->Move(distance);
 }
 
-bool MapObject::Contains(sf::Vector2f point) const	
+bool MapObject::Contains(sf::Vector2f point) const
 {
 	if(m_shape == Polyline) return false;
 
 	//convert point to local coords
 	point-= m_position;
 
-	//rotate point relative to object rotation
-	if(m_rotation)
-	{
-		sf::Transform tf;
-		tf.rotate(-m_rotation);
-		point = tf.transformPoint(point);
-	}
+	//TODO transform point instead
 
 	//check if enough poly points
 	if(m_polypoints.size() < 3) return false;
@@ -137,18 +157,22 @@ bool MapObject::Intersects(const MapObject& object) const
 
 void MapObject::CreateDebugShape(const sf::Color& colour)
 {
-	//reset any existing shapes incase new points have been added
-	m_debugShape.clear();
-			
-	//draw poly points
-	for(auto i = m_polypoints.cbegin(); i != m_polypoints.cend(); ++i)
-		m_debugShape.append(sf::Vertex(*i + m_position, colour));
-
-	if(m_shape != Polyline)
+	if(m_polypoints.size() == 0)
 	{
-		//close shape by copying first point to end
-		m_debugShape.append(m_debugShape[0]);
+		std::cerr << "Unable to create debug shape, object data missing." << std::endl;
+		std::cerr << "Check image file paths referenced by tmx file." << std::endl;
+		return;
 	}
+
+	//reset any existing shapes incase new points have been added
+	m_debugShape.Reset();
+
+	for(auto& p : m_polypoints)
+		m_debugShape.AddVertex(sf::Vertex(p, colour));
+	
+	if(m_shape != Polyline) m_debugShape.CloseShape();
+
+	m_debugShape.setPosition(m_position);
 
 	//precompute shape values for intersection testing
 	m_CalcTestValues();
@@ -160,10 +184,6 @@ void MapObject::CreateDebugShape(const sf::Color& colour)
 void MapObject::DrawDebugShape(sf::RenderTarget& rt) const
 {
 	rt.draw(m_debugShape);
-	sf::Text text(m_name, m_debugFont, 14u);
-	text.setPosition(m_position);
-	text.setColor(sf::Color::Black);
-	rt.draw(text);
 }
 
 sf::Vector2f MapObject::FirstPoint() const
@@ -197,11 +217,19 @@ sf::Vector2f MapObject::CollisionNormal(const sf::Vector2f& start, const sf::Vec
 			return Helpers::Vectors::Normalize(n);
 		}
 	}
-	return Helpers::Vectors::Normalize(end - start);
+	sf::Vector2f rv(end - start);
+	return Helpers::Vectors::Normalize(rv);
 }
 
 void MapObject::CreateSegments()
 {
+	if(m_polypoints.size() == 0)
+	{
+		std::cerr << "Unable to object segments, object data missing." << std::endl;
+		std::cerr << "Check image file paths referenced by tmx file." << std::endl;
+		return;
+	}
+	
 	for(auto i = 0u; i < m_polypoints.size() - 1; i++)
 	{
 		m_polySegs.push_back(Segment(m_polypoints[i], m_polypoints[i + 1]));
@@ -209,9 +237,48 @@ void MapObject::CreateSegments()
 	if(m_shape != Polyline) //close shape
 		m_polySegs.push_back(Segment(*(m_polypoints.end() - 1), *m_polypoints.begin()));
 
-	std::cout << "Added " << m_polySegs.size() << " segments to Map Object" << std::endl;
+	std::cerr << "Added " << m_polySegs.size() << " segments to Map Object" << std::endl;
 }
 
+bool MapObject::Convex() const
+{
+	if (m_shape == MapObjectShape::Polyline)
+		return false;
+	
+	bool negative = false;
+	bool positive = false;
+
+	sf::Uint16 a, b, c, n = m_polypoints.size();
+	for (a = 0u; a < n; ++a)
+	{
+		b = (a + 1) % n;
+		c = (b + 1) % n;
+		
+		float cross = Helpers::Vectors::Cross(m_polypoints[a], m_polypoints[b], m_polypoints[c]);
+		
+		if(cross < 0.f)
+			negative = true;
+		else if(cross > 0.f)
+			positive = true;
+		if (positive && negative) return false;
+	}
+	return true;
+}
+
+const std::vector<sf::Vector2f>& MapObject::PolyPoints()const
+{
+	return m_polypoints;
+}
+
+void MapObject::ReverseWinding()
+{
+	std::reverse(m_polypoints.begin(), m_polypoints.end());
+}
+
+void MapObject::SetQuad(std::shared_ptr<TileQuad> quad)
+{
+	m_tileQuad = quad;
+}
 
 //private
 sf::Vector2f MapObject::m_CalcCentre() const
