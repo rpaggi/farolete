@@ -21,37 +21,35 @@ void GamePlay::start(){
 	mapLoader = new tmx::MapLoader("maps/");
 	mapLoader->Load("desert.tmx");
 
-	perText.begin();
-
-	for(int i=0;i<8;i++){
-		perText.push_back(sf::Texture());
-	}
-
 	
-
-	perText[0].loadFromFile("person/r.png");
-	perText[1].loadFromFile("person/dor.png");
-	perText[2].loadFromFile("person/do.png");
-	perText[3].loadFromFile("person/dol.png");
-	perText[4].loadFromFile("person/l.png");
-	perText[5].loadFromFile("person/upl.png");
-	perText[6].loadFromFile("person/up.png");
-	perText[7].loadFromFile("person/upr.png");
+	try
+	{
+		textures.load(Textures::personTex1, "person/r.png");
+		textures.load(Textures::personTex2, "person/dor.png");
+		textures.load(Textures::personTex3, "person/do.png");
+		textures.load(Textures::personTex4, "person/dol.png");
+		textures.load(Textures::personTex5, "person/l.png");
+		textures.load(Textures::personTex6, "person/upl.png");
+		textures.load(Textures::personTex7, "person/up.png");
+		textures.load(Textures::personTex8, "person/upr.png");
+	}
+	catch (std::runtime_error& e)
+	{
+	}
 
 	perSprite.begin();
 	for(int i=0;i<8;i++){
 		perSprite.push_back(sf::Sprite());
 	}
 
-	perSprite[0].setTexture(perText[0]);
-	perSprite[1].setTexture(perText[1]);
-	perSprite[2].setTexture(perText[2]);
-	perSprite[3].setTexture(perText[3]);
-	perSprite[4].setTexture(perText[4]);
-	perSprite[5].setTexture(perText[5]);
-	perSprite[6].setTexture(perText[6]);
-	perSprite[7].setTexture(perText[7]);
-	
+	perSprite[0].setTexture(textures.get(Textures::personTex1));
+	perSprite[1].setTexture(textures.get(Textures::personTex2));
+	perSprite[2].setTexture(textures.get(Textures::personTex3));
+	perSprite[3].setTexture(textures.get(Textures::personTex4));
+	perSprite[4].setTexture(textures.get(Textures::personTex5));
+	perSprite[5].setTexture(textures.get(Textures::personTex6));
+	perSprite[6].setTexture(textures.get(Textures::personTex7));
+	perSprite[7].setTexture(textures.get(Textures::personTex8));
 
 	float sX = display->getSize().x/2;
 	float sY = display->getSize().y/2;
@@ -59,14 +57,14 @@ void GamePlay::start(){
 	perCm.x = sX;
 	perCm.y = sY;
 
-	perSprite[0].setPosition(sX-(perText[0].getSize().x/2),sY-(perText[0].getSize().y/2));
-	perSprite[1].setPosition(sX-(perText[1].getSize().x/2),sY-(perText[1].getSize().y/2));
-	perSprite[2].setPosition(sX-(perText[2].getSize().x/2),sY-(perText[2].getSize().y/2));
-	perSprite[3].setPosition(sX-(perText[3].getSize().x/2),sY-(perText[3].getSize().y/2));
-	perSprite[4].setPosition(sX-(perText[4].getSize().x/2),sY-(perText[4].getSize().y/2));
-	perSprite[5].setPosition(sX-(perText[5].getSize().x/2),sY-(perText[5].getSize().y/2));
-	perSprite[6].setPosition(sX-(perText[6].getSize().x/2),sY-(perText[6].getSize().y/2));
-	perSprite[7].setPosition(sX-(perText[7].getSize().x/2),sY-(perText[7].getSize().y/2));
+	perSprite[0].setPosition(sX-(textures.get(Textures::personTex1).getSize().x/2),sY-(textures.get(Textures::personTex1).getSize().y/2));
+	perSprite[1].setPosition(sX-(textures.get(Textures::personTex2).getSize().x/2),sY-(textures.get(Textures::personTex2).getSize().y/2));
+	perSprite[2].setPosition(sX-(textures.get(Textures::personTex3).getSize().x/2),sY-(textures.get(Textures::personTex3).getSize().y/2));
+	perSprite[3].setPosition(sX-(textures.get(Textures::personTex4).getSize().x/2),sY-(textures.get(Textures::personTex4).getSize().y/2));
+	perSprite[4].setPosition(sX-(textures.get(Textures::personTex5).getSize().x/2),sY-(textures.get(Textures::personTex5).getSize().y/2));
+	perSprite[5].setPosition(sX-(textures.get(Textures::personTex6).getSize().x/2),sY-(textures.get(Textures::personTex6).getSize().y/2));
+	perSprite[6].setPosition(sX-(textures.get(Textures::personTex7).getSize().x/2),sY-(textures.get(Textures::personTex7).getSize().y/2));
+	perSprite[7].setPosition(sX-(textures.get(Textures::personTex8).getSize().x/2),sY-(textures.get(Textures::personTex8).getSize().y/2));
 
 	perSprite[0].setOrigin(perSprite[0].getTextureRect().width/2, perSprite[0].getTextureRect().height/2);
 	perSprite[1].setOrigin(perSprite[1].getTextureRect().width/2, perSprite[1].getTextureRect().height/2);

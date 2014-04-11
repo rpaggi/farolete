@@ -12,7 +12,22 @@
 #include "SceneManager.hpp"
 #include "Input.hpp"
 #include "Shot.hpp"
+#include "AssetsManager.cpp"
 
+namespace Textures
+{
+   enum ID
+   {
+       personTex1,
+       personTex2,
+       personTex3,
+       personTex4,
+       personTex5,
+       personTex6,
+       personTex7,
+       personTex8,
+   };
+}
 
 class GamePlay : public Scene {
 	Display * display;
@@ -34,8 +49,8 @@ class GamePlay : public Scene {
     //person
     int pos;
     sf::Vector2u perCm;
-    std::vector<sf::Texture> perText;
     std::vector<sf::Sprite> perSprite;
+    AssetsManager<sf::Texture, Textures::ID> textures;
 
     //shot
     std::vector<Shot*> vShot;
