@@ -1,44 +1,43 @@
-LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio -lz
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio -lzdll
 
 all: xingu.exe
-Personagem.o: Personagem.cpp
-	g++ -c "Personagem.cpp" -o Personagem.o -std=c++0x
-AssetsManager.o: AssetsManager.cpp
-	g++ -c "AssetsManager.cpp" -o AssetsManager.o -std=c++0x
-pugixml.o: pugixml/pugixml.cpp
-	g++ -c "pugixml/pugixml.cpp" -o pugixml.o -std=c++0x
-QuadTreeNode.o: sfml-tmxloader/QuadTreeNode.cpp
-	g++ -c "sfml-tmxloader/QuadTreeNode.cpp" -o QuadTreeNode.o -std=c++0x
-MapObject.o: sfml-tmxloader/MapObject.cpp
-	g++ -c "sfml-tmxloader/MapObject.cpp" -o MapObject.o -std=c++0x
-MapLoaderPublic.o: sfml-tmxloader/MapLoaderPublic.cpp
-	g++ -c "sfml-tmxloader/MapLoaderPublic.cpp" -o MapLoaderPublic.o -std=c++0x
-MapLoaderPrivate.o: sfml-tmxloader/MapLoaderPrivate.cpp
-	g++ -c "sfml-tmxloader/MapLoaderPrivate.cpp" -o MapLoaderPrivate.o -std=c++0x
-#Update06-03/14
-DebugShape.o: sfml-tmxloader/DebugShape.cpp
-	g++ -c "sfml-tmxloader/DebugShape.cpp" -o DebugShape.o -std=c++0x	
-MapLayer.o: sfml-tmxloader/MapLayer.cpp
-	g++ -c "sfml-tmxloader/MapLayer.cpp" -o MapLayer.o -std=c++0x	
-Display.o: Display.cpp
-	g++ -c "Display.cpp" -o Display.o -std=c++0x
-Input.o: Input.cpp
-	g++ -c "Input.cpp" -o Input.o -std=c++0x
-#SpriteManager.o: SpriteManager.cpp
-#	g++ -c "SpriteManager.cpp" -o SpriteManager.o 
-MainMenu.o: MainMenu.cpp
-	g++ -c "MainMenu.cpp" -o MainMenu.o -std=c++0x
-Scene.o: Scene.cpp
-	g++ -c "Scene.cpp" -o Scene.o -std=c++0x
-SceneManager.o: SceneManager.cpp
-	g++ -c "SceneManager.cpp" -o SceneManager.o -std=c++0x
-SceneSplash1.o: SceneSplash1.cpp
-	g++ -c "SceneSplash1.cpp" -o SceneSplash1.o -std=c++0x
-Shot.o: Shot.cpp
-	g++ -c "Shot.cpp" -o Shot.o	
-GamePlay.o: GamePlay.cpp 
-	g++ -c "GamePlay.cpp" -o GamePlay.o -std=c++0x
-main.o: main.cpp
-	g++ -c "main.cpp" -o main.o -std=c++0x
-xingu.exe: main.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o DebugShape.o MapLayer.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o GamePlay.o pugixml.o AssetsManager.o Personagem.o
-	g++ -o xingu.exe main.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o GamePlay.o pugixml.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o DebugShape.o MapLayer.o AssetsManager.o Personagem.o $(LIBS) -std=c++0x
+AssetsManager.o: source/AssetsManager.cpp
+	g++ -c "source/AssetsManager.cpp" -o obj/AssetsManager.o -std=c++0x
+pugixml.o: source/pugixml/pugixml.cpp
+	g++ -c "source/pugixml/pugixml.cpp" -o obj/pugixml.o -std=c++0x
+QuadTreeNode.o: source/sfml-tmxloader/QuadTreeNode.cpp
+	g++ -c "source/sfml-tmxloader/QuadTreeNode.cpp" -o obj/QuadTreeNode.o -std=c++0x
+MapObject.o: source/sfml-tmxloader/MapObject.cpp
+	g++ -c "source/sfml-tmxloader/MapObject.cpp" -o obj/MapObject.o -std=c++0x
+MapLoaderPublic.o: source/sfml-tmxloader/MapLoaderPublic.cpp
+	g++ -c "source/sfml-tmxloader/MapLoaderPublic.cpp" -o obj/MapLoaderPublic.o -std=c++0x
+MapLoaderPrivate.o: source/sfml-tmxloader/MapLoaderPrivate.cpp
+	g++ -c "source/sfml-tmxloader/MapLoaderPrivate.cpp" -o obj/MapLoaderPrivate.o -std=c++0x
+DebugShape.o: source/sfml-tmxloader/DebugShape.cpp
+	g++ -c "source/sfml-tmxloader/DebugShape.cpp" -o obj/DebugShape.o -std=c++0x	
+MapLayer.o: source/sfml-tmxloader/MapLayer.cpp
+	g++ -c "source/sfml-tmxloader/MapLayer.cpp" -o obj/MapLayer.o -std=c++0x	
+Display.o: source/Display.cpp
+	g++ -c "source/Display.cpp" -o obj/Display.o -std=c++0x
+Input.o: source/Input.cpp
+	g++ -c "source/Input.cpp" -o obj/Input.o -std=c++0x
+MainMenu.o: source/MainMenu.cpp
+	g++ -c "source/MainMenu.cpp" -o obj/MainMenu.o -std=c++0x
+Scene.o: source/Scene.cpp
+	g++ -c "source/Scene.cpp" -o obj/Scene.o -std=c++0x
+SceneManager.o: source/SceneManager.cpp
+	g++ -c "source/SceneManager.cpp" -o obj/SceneManager.o -std=c++0x
+SceneSplash1.o: source/SceneSplash1.cpp
+	g++ -c "source/SceneSplash1.cpp" -o obj/SceneSplash1.o -std=c++0x
+Shot.o: source/Shot.cpp
+	g++ -c "source/Shot.cpp" -o obj/Shot.o -std=c++0x
+GamePlay.o: source/GamePlay.cpp 
+	g++ -c "source/GamePlay.cpp" -o obj/GamePlay.o -std=c++0x
+Character.o: source/Character.cpp
+	g++ -c "source/Character.cpp" -o obj/Character.o -std=c++0x
+Stage1.o: source/Stage1.cpp
+	g++ -c "source/Stage1.cpp" -o obj/Stage1.o -std=c++0x
+main.o: source/main.cpp
+	g++ -c "source/main.cpp" -o obj/main.o -std=c++0x
+xingu.exe: main.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o DebugShape.o MapLayer.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o pugixml.o AssetsManager.o Character.o Stage1.o
+	g++ -o bin/xingu.exe obj/main.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Shot.o obj/pugixml.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/AssetsManager.o obj/Character.o obj/Stage1.o $(LIBS) -std=c++0x
