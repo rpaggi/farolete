@@ -43,8 +43,8 @@ class GamePlay : public Scene {
 
     //time variables
     sf::Clock clock;
-	sf::Time time;
-	float elapsed;
+    sf::Time time;
+    float elapsed;
 
     //person
     int pos;

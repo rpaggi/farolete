@@ -1,12 +1,17 @@
 #include  "Stage1.hpp"
+#include <iostream>
 
 Stage1::Stage1(Display * d){
    display = d;
 }
 
 void Stage1::start(){
+   mouseControl = 0;
+
    float screen_x = display->getSize().x;
    float screen_y = display->getSize().y;
+
+   view = display->getView();
 
    esc = new GameKey(sf::Keyboard::Escape);
    up = new GameKey(sf::Keyboard::Up);
@@ -31,6 +36,9 @@ void Stage1::render(){
 }
 
 void Stage1::logic(){
+   time = clock.getElapsedTime();
+   elapsed = time.asSeconds();
+
    screenMovement.x = 0.f;
    screenMovement.y = 0.f;
 
@@ -50,12 +58,28 @@ void Stage1::logic(){
    display->setView(view);
 
    mouse_position = display->getMousePosition();
-   view = display->getView();
-//   mouse_position.x = (view.getCenter().x - view.getSize().x/2) + mouse_position.x;
-//   mouse_position.y = (view.getCenter().y - view.getSize().y/2) + mouse_position.y;
+   mouse_position.x = (view.getCenter().x - view.getSize().x/2) + mouse_position.x;
+   mouse_position.y = (view.getCenter().y - view.getSize().y/2) + mouse_position.y;
 
-   character->calculateAngle(mouse_position.x, mouse_position.y);
+   character->update(mouse_position.x, mouse_position.y);
    character->setPosition(view.getCenter());
+   character->setView(view);
+
+
+   // if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseControl < 1)
+   if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
+      // mouseControl++;
+      clock.restart();
+      sf::Vector2f cast;
+      cast.x = mouse_position.x;
+      cast.y = mouse_position.y;
+      character->pushTrigger(cast);   
+   }
+
+   // if(mouseControl > 0 && elapsed > 0.03){
+   //    clock.restart();
+   //    mouseControl--;
+   //  }
 }
 
 void Stage1::finish(){

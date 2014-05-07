@@ -7,24 +7,36 @@
 #include <vector>
 #include <cmath>
 
+#include "Bullets.hpp"
+
 #define PI 3.14159265
 
 class Character{
-   sf::Vector2u massCenter;
-   sf::Texture texture;
-   sf::Sprite sprite;
-   sf::Vector2u frameSize;
+   sf::Vector2f      massCenter;
+   sf::Texture       texture;
+   sf::RenderTexture renderTexture;
+   sf::Sprite        sprite;
+   sf::Vector2u      frameSize;
+   sf::Vector2f      position;
 
-   void changeSprite(float angle);
+   void              changeSprite(float angle);
+
+   Bullets *         bullets;
 
  public:
    Character(float screen_x, float screen_y);
 
-   void calculateAngle(float x, float y);
+   void update(float x, float y);
 
    sf::Sprite getSprite();
 
    void setPosition(sf::Vector2f position);
+
+   void setPosition(float x, float y);
+
+   void setView(sf::View view);
+
+   void pushTrigger(sf::Vector2f dest);
 
 };
 

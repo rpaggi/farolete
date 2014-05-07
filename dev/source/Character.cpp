@@ -1,4 +1,5 @@
 #include "Character.hpp"
+#include <iostream>
 
 Character::Character(float screen_x, float screen_y){
   //Defines the mass center of person using the screen size pushed from parameter
@@ -16,16 +17,34 @@ Character::Character(float screen_x, float screen_y){
 
   //Configure sprite frame
   sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
-  sprite.setPosition((screen_x/2)-50,(screen_y/2)-50);
+  sprite.setPosition((screen_x/2)-frameSize.x,(screen_y/2)-frameSize.y);
 
+  sf::Vector2f screen_size;
+  screen_size.x = screen_x;
+  screen_size.y = screen_y;
+  renderTexture.create(screen_x, screen_y);
+  bullets = new Bullets(massCenter, screen_size);
 }
 
 sf::Sprite Character::getSprite(){
-	return sprite;
+	sf::Sprite spriteTemp;
+
+	renderTexture.clear(sf::Color(255,255,255,0));
+	renderTexture.draw(bullets->getSprite());
+	renderTexture.draw(sprite);
+	renderTexture.display();
+
+	sf::View view = renderTexture.getView();
+	spriteTemp.setTexture(renderTexture.getTexture());
+	spriteTemp.setPosition(((view.getCenter().x*2) - view.getSize().x)/2,
+		                   ((view.getCenter().y*2) - view.getSize().y)/2);
+
+	return spriteTemp;
 }
 
-#include <iostream>
-void Character::calculateAngle(float x, float y){
+void Character::update(float x, float y){
+	bullets->moveBullets();
+	
 	float distance_x = x-massCenter.x;
 	float distance_y = y-massCenter.y;
 
@@ -37,7 +56,6 @@ void Character::calculateAngle(float x, float y){
 	if (ang < 0){
 		ang += 360;
 	}
-	std::cout<<ang<<std::endl;
 	changeSprite(ang);
 }
 
@@ -54,5 +72,17 @@ void Character::changeSprite(float angle){
 }
 
 void Character::setPosition(sf::Vector2f position){
-	sprite.setPosition(position);
+	sprite.setPosition(position.x-(frameSize.x/2), position.y-(frameSize.y/2));
+}
+void Character::setPosition(float x, float y){	
+	sprite.setPosition(x-(frameSize.x/2), y-(frameSize.y/2));
+}
+
+void Character::setView(sf::View view){
+	renderTexture.setView(view);
+	bullets->setView(view);
+}
+
+void Character::pushTrigger(sf::Vector2f dest){
+	bullets->includeBullet(dest);
 }

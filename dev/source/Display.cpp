@@ -1,7 +1,7 @@
 #include "Display.hpp"
 
 Display::Display() {
-    //window.create(sf::VideoMode(1280, 720), "xingu", sf::Style::Fullscreen);
+    // window.create(sf::VideoMode(1280, 720), "xingu", sf::Style::Fullscreen);
     //Use window mode to dev the game (:
     window.create(sf::VideoMode(1024, 600), "xingu");
     window.setFramerateLimit(30);
@@ -55,10 +55,8 @@ bool Display::pollEvent(sf::Event e) {
     return window.pollEvent(e);
 }
 
-#include <iostream>
 sf::Vector2i Display::getMousePosition(){
     sf::Vector2i mp = sf::Mouse::getPosition();
-    std::cout<<"X: "<<mp.x<<" Y: "<<mp.y<<std::endl;
     return sf::Mouse::getPosition();
     // return sf::Mouse::getPosition(window);
 }

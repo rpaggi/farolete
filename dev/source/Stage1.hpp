@@ -19,12 +19,17 @@ class Stage1 : public Scene {
     GameKey* down;
     GameKey* left;
     GameKey* right;
+    float    mouseControl;
 
     sf::Vector2i mouse_position;
     sf::View view;
 
     tmx::MapLoader* mapLoader;
     sf::Vector2f screenMovement;
+
+    sf::Clock clock;
+    sf::Time time;
+    float elapsed;
 
 public:
 	Stage1(Display * d);

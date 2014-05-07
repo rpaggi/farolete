@@ -1,13 +1,12 @@
 #ifndef GUN_HPP
 #define GUN_HPP
 
-class Gun {	
+#include <SFML/System/Vector2.hpp>
 
+class Gun {	
 
 public:
 	Gun();
-
-	void pushTrigger();
 };
 
 #endif

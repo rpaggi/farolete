@@ -29,8 +29,8 @@ SceneManager.o: source/SceneManager.cpp
 	g++ -c "source/SceneManager.cpp" -o obj/SceneManager.o -std=c++0x
 SceneSplash1.o: source/SceneSplash1.cpp
 	g++ -c "source/SceneSplash1.cpp" -o obj/SceneSplash1.o -std=c++0x
-Shot.o: source/Shot.cpp
-	g++ -c "source/Shot.cpp" -o obj/Shot.o -std=c++0x
+Bullets.o: source/Bullets.cpp
+	g++ -c "source/Bullets.cpp" -o obj/Bullets.o -std=c++0x
 GamePlay.o: source/GamePlay.cpp 
 	g++ -c "source/GamePlay.cpp" -o obj/GamePlay.o -std=c++0x
 Character.o: source/Character.cpp
@@ -39,5 +39,5 @@ Stage1.o: source/Stage1.cpp
 	g++ -c "source/Stage1.cpp" -o obj/Stage1.o -std=c++0x
 main.o: source/main.cpp
 	g++ -c "source/main.cpp" -o obj/main.o -std=c++0x
-xingu.exe: main.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o DebugShape.o MapLayer.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Shot.o pugixml.o AssetsManager.o Character.o Stage1.o
-	g++ -o bin/xingu.exe obj/main.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Shot.o obj/pugixml.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/AssetsManager.o obj/Character.o obj/Stage1.o $(LIBS) -std=c++0x
+xingu.exe: main.o QuadTreeNode.o MapObject.o MapLoaderPublic.o MapLoaderPrivate.o DebugShape.o MapLayer.o Input.o Display.o Scene.o SceneManager.o SceneSplash1.o MainMenu.o Bullets.o pugixml.o AssetsManager.o Character.o Stage1.o
+	g++ -o bin/xingu.exe obj/main.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Bullets.o obj/pugixml.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/AssetsManager.o obj/Character.o obj/Stage1.o $(LIBS) -std=c++0x
