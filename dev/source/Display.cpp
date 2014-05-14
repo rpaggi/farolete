@@ -1,10 +1,10 @@
 #include "Display.hpp"
 
 Display::Display() {
-    // window.create(sf::VideoMode(1280, 720), "xingu", sf::Style::Fullscreen);
+    window.create(sf::VideoMode(1280, 720), "xingu", sf::Style::Fullscreen);
     //Use window mode to dev the game (:
-    window.create(sf::VideoMode(1024, 600), "xingu");
-    window.setFramerateLimit(30);
+    //window.create(sf::VideoMode(1024, 600), "xingu");
+    // window.setFramerateLimit(60);
 }
 
 void Display::handleEvents() {

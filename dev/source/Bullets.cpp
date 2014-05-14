@@ -1,16 +1,13 @@
 #include "Bullets.hpp"
 
-#include <cmath>
-#include <iostream>
-
 #define PI 3.14159265
 
 
 Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size){
 	massCenter = mass_center;
-	velocity = 15;
+	velocity = 5;
 
-	texture.loadFromFile("images/Bullets/texture.png");
+	texture.loadFromFile("images/bullet/texture.png");
 	renderTexture.create(screen_size.x, screen_size.y);
 }
 
@@ -31,8 +28,6 @@ void Bullets::includeBullet(sf::Vector2f dest){
 
 	destination.push_back(sf::Vector2f());
 	destination[destination.size()-1] = dest;
-
-	renderTexture.create(1024, 600);
 }
 
 void Bullets::moveBullets() {

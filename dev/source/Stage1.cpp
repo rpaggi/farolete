@@ -1,5 +1,4 @@
 #include  "Stage1.hpp"
-#include <iostream>
 
 Stage1::Stage1(Display * d){
    display = d;
@@ -18,6 +17,10 @@ void Stage1::start(){
    down = new GameKey(sf::Keyboard::Down);
    left = new GameKey(sf::Keyboard::Left);
    right = new GameKey(sf::Keyboard::Right);
+   a_key = new GameKey(sf::Keyboard::A);
+   s_key = new GameKey(sf::Keyboard::S);
+   d_key = new GameKey(sf::Keyboard::D);
+   w_key = new GameKey(sf::Keyboard::W);
 
    character = new Character(screen_x, screen_y);
 
@@ -44,31 +47,28 @@ void Stage1::logic(){
 
    if (keyboard.triggered(*esc))
       sceneManager->exit();
-   if (keyboard.pressed(*up))
+   if (keyboard.pressed(*up)||keyboard.pressed(*w_key))
       screenMovement.y = -0.1f;
-   if (keyboard.pressed(*down))
+   if (keyboard.pressed(*down)||keyboard.pressed(*s_key))
       screenMovement.y = 0.1f;
-   if (keyboard.pressed(*left))
+   if (keyboard.pressed(*left)||keyboard.pressed(*a_key))
       screenMovement.x = -0.1f;
-   if (keyboard.pressed(*right))
+   if (keyboard.pressed(*right)||keyboard.pressed(*d_key))
       screenMovement.x = 0.1f;
 
-   screenMovement = Helpers::Vectors::Normalize(screenMovement) * 10.f;
+   screenMovement = Helpers::Vectors::Normalize(screenMovement);
    view.move(screenMovement);
    display->setView(view);
 
    mouse_position = display->getMousePosition();
-   mouse_position.x = (view.getCenter().x - view.getSize().x/2) + mouse_position.x;
-   mouse_position.y = (view.getCenter().y - view.getSize().y/2) + mouse_position.y;
 
    character->update(mouse_position.x, mouse_position.y);
    character->setPosition(view.getCenter());
    character->setView(view);
 
 
-   // if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseControl < 1)
-   if (sf::Mouse::isButtonPressed(sf::Mouse::Left)){
-      // mouseControl++;
+   if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseControl < 1){
+      mouseControl++;
       clock.restart();
       sf::Vector2f cast;
       cast.x = mouse_position.x;
@@ -76,10 +76,10 @@ void Stage1::logic(){
       character->pushTrigger(cast);   
    }
 
-   // if(mouseControl > 0 && elapsed > 0.03){
-   //    clock.restart();
-   //    mouseControl--;
-   //  }
+   if(mouseControl > 0 && elapsed > 0.3){
+      clock.restart();
+      mouseControl--;
+    }
 }
 
 void Stage1::finish(){

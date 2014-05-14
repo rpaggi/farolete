@@ -1,7 +1,8 @@
 #ifndef BULLETS_HPP
 #define BULLETS_HPP
 
-#include <math.h>
+//#include <math.h>
+#include <cmath>
 #include <vector>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Texture.hpp>

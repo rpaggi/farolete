@@ -19,6 +19,10 @@ class Stage1 : public Scene {
     GameKey* down;
     GameKey* left;
     GameKey* right;
+    GameKey* a_key;
+    GameKey* s_key;
+    GameKey* d_key;
+    GameKey* w_key;
     float    mouseControl;
 
     sf::Vector2i mouse_position;
