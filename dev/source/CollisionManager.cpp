@@ -16,7 +16,12 @@ CollisionManager::CollisionManager(){
 }
 
 void CollisionManager::include(CollisionObject * cObj){
-	cObj->id = collisionObjects[collisionObjects.size()-1]->id + 1;
+	if(collisionObjects.size() > 0){
+		cObj->id = collisionObjects[collisionObjects.size()-1]->id + 1;
+	}else{
+		cObj->id = 1;
+	}
+	
 	collisionObjects.push_back(cObj);
 }
 

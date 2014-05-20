@@ -5,13 +5,13 @@
 
 #include "Display.hpp"
 #include "SceneManager.hpp"
-#include "AssetsManager.hpp"
+#include "CollisionManager.hpp"
 #include "Input.hpp"
-#include "Character.hpp"
+#include "CharMain.hpp"
 
 class Stage1 : public Scene {	
 	Display * display;
-	Character * character;
+	CharMain * farolete;
 
 	KeyboardInput keyboard;
     GameKey* esc;
@@ -34,6 +34,8 @@ class Stage1 : public Scene {
     sf::Clock clock;
     sf::Time time;
     float elapsed;
+
+    CollisionManager collisionManager;
 
 public:
 	Stage1(Display * d);

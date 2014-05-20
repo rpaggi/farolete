@@ -12,6 +12,9 @@
 #define PI 3.14159265
 
 class Character{
+ protected:
+   Character();
+
    sf::Vector2f      massCenter;
    sf::Texture       texture;
    sf::RenderTexture renderTexture;
@@ -23,16 +26,20 @@ class Character{
 
    Bullets *         bullets;
 
- public:
-   Character(float screen_x, float screen_y);
+   int               hp;
+   int               xp;
+   int               level;
+   //Arma *          equipament;
+   float             velocity;
 
+ public:
    void update(float x, float y);
 
    sf::Sprite getSprite();
 
-   void setPosition(sf::Vector2f position);
+   void move(sf::Vector2f position);
 
-   void setPosition(float x, float y);
+   void move(float x, float y);
 
    void setView(sf::View view);
 

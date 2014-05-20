@@ -22,16 +22,16 @@ void Stage1::start(){
    d_key = new GameKey(sf::Keyboard::D);
    w_key = new GameKey(sf::Keyboard::W);
 
-   character = new Character(screen_x, screen_y);
+   farolete = new CharMain(screen_x, screen_y);
 
-   mapLoader = new tmx::MapLoader("maps/");
-   mapLoader->Load("desert.tmx");
+   mapLoader = new tmx::MapLoader("maps/stage1/");
+   mapLoader->Load("map1.tmx");
 }
 
 void Stage1::draw(){
    display->clear(sf::Color(255,255,255,255));
    display->draw(mapLoader);
-   display->draw(character->getSprite());
+   display->draw(farolete->getSprite());
    }
 
 void Stage1::render(){
@@ -62,9 +62,9 @@ void Stage1::logic(){
 
    mouse_position = display->getMousePosition();
 
-   character->update(mouse_position.x, mouse_position.y);
-   character->setPosition(view.getCenter());
-   character->setView(view);
+   farolete->update(mouse_position.x, mouse_position.y);
+   farolete->move(view.getCenter());
+   farolete->setView(view);
 
 
    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseControl < 1){
@@ -73,7 +73,7 @@ void Stage1::logic(){
       sf::Vector2f cast;
       cast.x = mouse_position.x;
       cast.y = mouse_position.y;
-      character->pushTrigger(cast);   
+      farolete->pushTrigger(cast);   
    }
 
    if(mouseControl > 0 && elapsed > 0.3){

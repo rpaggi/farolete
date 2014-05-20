@@ -20,6 +20,7 @@ public:
 class CollisionManager{
 	std::vector<CollisionObject *> collisionObjects;
 
+public:
 	CollisionManager();
 
 	void include(CollisionObject * cObj);
