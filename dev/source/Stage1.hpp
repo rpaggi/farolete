@@ -35,7 +35,7 @@ class Stage1 : public Scene {
     sf::Time time;
     float elapsed;
 
-    CollisionManager collisionManager;
+    CollisionManager * collisionManager;
 
 public:
 	Stage1(Display * d);

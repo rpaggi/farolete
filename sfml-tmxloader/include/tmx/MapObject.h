@@ -88,6 +88,8 @@ namespace tmx
 		std::string GetPropertyString(const std::string& name);
 		//returns top left corner of bounding rectangle
 		sf::Vector2f GetPosition() const {return m_position;}
+        //returns size of object
+		sf::Vector2f GetSize() const {return m_size;}
 		//returns precomputed centre of mass, or zero for polylines
 		sf::Vector2f GetCentre() const {return m_centrePoint;};
 		//returns the type of shape of the object

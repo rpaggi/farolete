@@ -12,10 +12,10 @@ void Stage1::start(){
 
    view = display->getView();
 
-   esc = new GameKey(sf::Keyboard::Escape);
-   up = new GameKey(sf::Keyboard::Up);
-   down = new GameKey(sf::Keyboard::Down);
-   left = new GameKey(sf::Keyboard::Left);
+   esc =   new GameKey(sf::Keyboard::Escape);
+   up =    new GameKey(sf::Keyboard::Up);
+   down =  new GameKey(sf::Keyboard::Down);
+   left =  new GameKey(sf::Keyboard::Left);
    right = new GameKey(sf::Keyboard::Right);
    a_key = new GameKey(sf::Keyboard::A);
    s_key = new GameKey(sf::Keyboard::S);
@@ -24,12 +24,13 @@ void Stage1::start(){
 
    farolete = new CharMain(screen_x, screen_y);
 
-   mapLoader = new tmx::MapLoader("maps/stage1/");
+   mapLoader = new tmx::MapLoader("maps/map1/");
    mapLoader->Load("map1.tmx");
+   collisionManager->include(mapLoader);
 }
 
 void Stage1::draw(){
-   display->clear(sf::Color(255,255,255,255));
+   display->clear(sf::Color(0,0,0   ,255));
    display->draw(mapLoader);
    display->draw(farolete->getSprite());
    }

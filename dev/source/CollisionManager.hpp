@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <vector>
 #include <string>
+#include <MapLoader.h>
 
 class CollisionObject{
 public:
@@ -22,6 +23,8 @@ class CollisionManager{
 
 public:
 	CollisionManager();
+
+	void include(tmx::MapLoader * mapLoader);
 
 	void include(CollisionObject * cObj);
 

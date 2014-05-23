@@ -1,5 +1,5 @@
 #include "CollisionManager.hpp"
-
+#include <iostream>
 CollisionObject::CollisionObject(sf::Vector2f p, sf::Vector2f s, std::string t){
 	id = 0;
 	type = t;
@@ -12,6 +12,24 @@ CollisionObject::~CollisionObject(){
 }
 
 CollisionManager::CollisionManager(){
+
+}
+
+void CollisionManager::include(tmx::MapLoader * mapLoader){
+	std::cout<<"Including mapLoader objects"<<std::endl;
+	for(auto layer = mapLoader->GetLayers().begin(); layer != mapLoader->GetLayers().end(); ++layer){
+		if(layer->name == "CollisionHard"){
+			std::cout<<"Layer name now is "<<layer->name<<std::endl;
+			std::cout<<layer->objects.size()<<std::endl;
+			for(auto object = layer->objects.begin(); object != layer->objects.end(); ++object){
+        		sf::Vector2f teste = object->GetPosition();
+            	std::cout<<"X:"<<teste.x<<" Y:"<<teste.y<<std::endl;
+
+            	teste = object->GetSize();
+            	std::cout<<"X:"<<teste.x<<" Y:"<<teste.y<<std::endl;
+        	}
+		}
+	}
 
 }
 
@@ -47,10 +65,5 @@ void CollisionManager::remove(CollisionObject * cObj){
 			collisionObjects.erase(collisionObjects.begin() + i);
 			break;
 		}
-	}
-
-	while(i<collisionObjects.size()){
-		collisionObjects[i]->id--;
-		i++;
 	}
 }
