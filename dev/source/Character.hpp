@@ -33,8 +33,6 @@ class Character{
    float             velocity;
 
  public:
-   void update(float x, float y);
-
    sf::Sprite getSprite();
 
    void move(sf::Vector2f position);

@@ -22,7 +22,10 @@ void Stage1::start(){
    d_key = new GameKey(sf::Keyboard::D);
    w_key = new GameKey(sf::Keyboard::W);
 
+   collisionManager = new CollisionManager();
+
    farolete = new CharMain(screen_x, screen_y);
+   farolete->setCollisionManager(collisionManager);
 
    mapLoader = new tmx::MapLoader("maps/map1/");
    mapLoader->Load("map1.tmx");
@@ -58,15 +61,20 @@ void Stage1::logic(){
       screenMovement.x = 0.1f;
 
    screenMovement = Helpers::Vectors::Normalize(screenMovement);
-   view.move(screenMovement);
-   display->setView(view);
+
+   if(!farolete->testCollisionMovement(screenMovement)){
+      screenMovement.x = 0.f;
+      screenMovement.y = 0.f;      
+      screenMovement = Helpers::Vectors::Normalize(screenMovement);
+   }
 
    mouse_position = display->getMousePosition();
 
+   view.move(screenMovement);
+   display->setView(view);
    farolete->update(mouse_position.x, mouse_position.y);
    farolete->move(view.getCenter());
    farolete->setView(view);
-
 
    if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseControl < 1){
       mouseControl++;

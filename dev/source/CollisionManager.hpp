@@ -10,15 +10,16 @@ class CollisionObject{
 public:
 	int          id;
 	std::string  type;
-	sf::Vector2f position;
 	sf::Vector2f size;
+	sf::Vector2f position;
 
-	CollisionObject(sf::Vector2f p, sf::Vector2f s, std::string t);
+	CollisionObject();
 
 	~CollisionObject();
 };
 
 class CollisionManager{
+private:
 	std::vector<CollisionObject *> collisionObjects;
 
 public:
@@ -29,6 +30,7 @@ public:
 	void include(CollisionObject * cObj);
 
 	std::string test(CollisionObject * cObj);
+    std::string test(CollisionObject * cObj, sf::Vector2f destination);
 
 	void remove(CollisionObject * cObj);
 };

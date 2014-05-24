@@ -21,23 +21,6 @@ sf::Sprite Character::getSprite(){
 	return spriteTemp;
 }
 
-void Character::update(float x, float y){
-	bullets->moveBullets();
-	
-	float distance_x = x-massCenter.x;
-	float distance_y = y-massCenter.y;
-
-	float distance = sqrt(pow(distance_x, 2.0) + pow(distance_y,2.0));
-
-	float s = distance_y/distance;
-	float c = distance_x/distance;
-	float ang = (atan2(s, c) * 180 / PI);
-	if (ang < 0){
-		ang += 360;
-	}
-	changeSprite(ang);
-}
-
 void Character::changeSprite(float angle){
 	 if((angle>=0 && angle<32.195) || (angle>=328.8 && angle<=360)){
 	 	sprite.setTextureRect(sf::IntRect(0, frameSize.y*2, 100, 100));
@@ -50,11 +33,17 @@ void Character::changeSprite(float angle){
 	 }
 }
 
+
+
 void Character::move(sf::Vector2f position){
-	sprite.setPosition(position.x-(frameSize.x/2), position.y-(frameSize.y/2));
+	this->position.x = position.x-(frameSize.x/2);
+	this->position.y = position.y-(frameSize.y/2);
+	sprite.setPosition(this->position.x, this->position.y);
 }
 void Character::move(float x, float y){	
 	sprite.setPosition(x-(frameSize.x/2), y-(frameSize.y/2));
+	position.x = x-(frameSize.x/2);
+	position.y = y-(frameSize.y/2);
 }
 
 void Character::setView(sf::View view){

@@ -12322,6 +12322,21 @@
   </data>
  </layer>
  <objectgroup name="CollisionHard" width="64" height="48">
-  <object x="162" y="162" width="350" height="284"/>
+  <object x="159" y="160" width="352" height="287"/>
+  <object x="1185" y="257" width="159" height="157"/>
+  <object x="959" y="579" width="34" height="155"/>
+  <object x="995" y="609" width="29" height="126"/>
+  <object x="1025" y="642" width="30" height="94"/>
+  <object x="1056" y="674" width="31" height="61"/>
+  <object x="1089" y="706" width="30" height="29"/>
+  <object x="0" y="0" width="1724" height="34"/>
+  <object x="1695" y="34" width="29" height="572"/>
+  <object x="1697" y="898" width="29" height="608"/>
+  <object x="-4" y="34" width="32" height="1502"/>
+  <object x="31" y="1505" width="1695" height="36"/>
+  <object x="1857" y="33" width="125" height="187"/>
+  <object x="1728" y="-4" width="320" height="6"/>
+  <object x="1725" y="1539" width="320" height="6"/>
+  <object x="2048" y="5" width="6" height="1528"/>
  </objectgroup>
 </map>

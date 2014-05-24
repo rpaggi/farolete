@@ -3,7 +3,7 @@
 Display::Display() {
     window.create(sf::VideoMode(1280, 720), "xingu", sf::Style::Fullscreen);
     //Use window mode to dev the game (:
-    //window.create(sf::VideoMode(1024, 600), "xingu");
+    // window.create(sf::VideoMode(1024, 600), "xingu");
     // window.setFramerateLimit(60);
 }
 
