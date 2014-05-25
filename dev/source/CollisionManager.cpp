@@ -30,6 +30,26 @@ void CollisionManager::include(tmx::MapLoader * mapLoader){
 
         		collisionObjects.push_back(cObj);
         	}
+		}else if(layer->name == "CollisionSoft"){
+			for(auto object = layer->objects.begin(); object != layer->objects.end(); ++object){
+				CollisionObject * cObj = new CollisionObject();
+				float marginOut = 30.f;
+				cObj->type       = "cs";
+				cObj->position   = object->GetPosition();
+				cObj->position.x+= marginOut;
+				cObj->position.y+= marginOut;
+				cObj->size       = object->GetSize();
+				cObj->size.x    -= marginOut*2;
+				cObj->size.y    -= marginOut*2;
+				
+         		if(collisionObjects.size() > 0){
+					cObj->id = collisionObjects[collisionObjects.size()-1]->id + 1;
+				}else{
+					cObj->id = 1;
+				}
+
+        		collisionObjects.push_back(cObj);
+        	}
 		}
 	}
 

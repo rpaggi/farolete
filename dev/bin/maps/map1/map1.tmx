@@ -12321,7 +12321,7 @@
    <tile gid="199"/>
   </data>
  </layer>
- <objectgroup name="CollisionHard" width="64" height="48">
+ <objectgroup color="#a40002" name="CollisionHard" width="64" height="48">
   <object x="159" y="160" width="352" height="287"/>
   <object x="1185" y="257" width="159" height="157"/>
   <object x="959" y="579" width="34" height="155"/>
@@ -12338,5 +12338,18 @@
   <object x="1728" y="-4" width="320" height="6"/>
   <object x="1725" y="1539" width="320" height="6"/>
   <object x="2048" y="5" width="6" height="1528"/>
+ </objectgroup>
+ <objectgroup color="#0a5aa4" name="CollisionSoft" width="64" height="48">
+  <object x="641" y="481" width="127" height="128"/>
+  <object x="192" y="608" width="255" height="542"/>
+  <object x="411" y="803" width="291" height="188"/>
+  <object x="896" y="931" width="414" height="220"/>
+  <object x="897" y="1119" width="254" height="226"/>
+  <object x="27" y="1345" width="674" height="160"/>
+  <object x="1506" y="1026" width="190" height="478"/>
+  <object x="1376" y="1346" width="165" height="156"/>
+  <object x="1728" y="1026" width="126" height="157"/>
+  <object x="1919" y="480" width="126" height="157"/>
+  <object x="1889" y="1376" width="155" height="165"/>
  </objectgroup>
 </map>

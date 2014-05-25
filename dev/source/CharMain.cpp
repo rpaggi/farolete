@@ -30,7 +30,7 @@ CharMain::CharMain(float screen_x, float screen_y){
   collisionObject = new CollisionObject();
 }
 
-bool CharMain::update(float x, float y){
+void CharMain::update(float x, float y){
 	bullets->moveBullets();
 	
 	float distance_x = x-massCenter.x;
@@ -45,12 +45,11 @@ bool CharMain::update(float x, float y){
 		ang += 360;
 	}
 	changeSprite(ang);
-
-	if(collisionManager->test(collisionObject) != "n"){
-	 	return false;
-	 }
-
-	return true;
+	if(hidden){
+		sprite.setColor(sf::Color(255,255,255,190));
+	}else{
+		sprite.setColor(sf::Color(255,255,255,255));
+	}
 }
 
 void CharMain::move(sf::Vector2f pos){
@@ -63,8 +62,16 @@ void CharMain::move(sf::Vector2f pos){
 }
 
 bool CharMain::testCollisionMovement(sf::Vector2f destination){
-	if(collisionManager->test(collisionObject, destination) != "n"){
-		return false;
+	std::string test = collisionManager->test(collisionObject, destination);
+	if(test != "n"){
+		if(test == "cs"){
+			hidden = true;
+			return true;
+		}else if(test == "ch"){
+			return false;
+		}
+	}else{
+		hidden = false;
 	}
 	return true;
 }

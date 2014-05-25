@@ -3,16 +3,19 @@
 
 #include "Character.hpp"
 #include "CollisionManager.hpp"
+#include <string>
 
 class CharMain : public Character {	
 private:
 	CollisionManager* collisionManager;
 	CollisionObject * collisionObject;
 	sf::Vector2f      collisionMagin;
+
+	bool              hidden;
 public:
 	CharMain(float screen_x, float screen_y);
 
-	bool update(float x, float y);
+	void update(float x, float y);
 
 	void move(sf::Vector2f pos);
 
