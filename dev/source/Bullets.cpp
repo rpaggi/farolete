@@ -36,6 +36,8 @@ void Bullets::includeBullet(sf::Vector2f dest){
 	destination.push_back(sf::Vector2f());
 	destination[destination.size()-1] = dest;
 
+	hidden.push_back(false);
+
 	CollisionObject * cObj = new CollisionObject();
 	cObj->type           = "f";
 	cObj->position       = view.getCenter();
@@ -68,6 +70,11 @@ void Bullets::moveBullets() {
 
 			std::string test = collisionManager->test(collisionObject[i]);
 			if (controlReturn == true && (test == "n" || test== "c" || test == "cs")) {
+				if(test=="cs"){
+					hidden[i] = true;
+				}else if(hidden[i]){
+					hidden[i] = false;
+				}
 				position[i].x += increment[i].x;
 				position[i].y += increment[i].y;
 				collisionObject[i]->position.x += increment[i].x;
@@ -76,6 +83,7 @@ void Bullets::moveBullets() {
 				position.erase(position.begin() + i);
 				increment.erase(increment.begin() + i);
 				destination.erase(destination.begin() + i);
+				hidden.erase(hidden.begin() + i);
 
 				collisionManager->remove(collisionObject[i]);
 				delete collisionObject[i];
@@ -99,6 +107,11 @@ sf::Sprite Bullets::getSprite(){
 	viewMovement.y = ((view.getCenter().y*2) - view.getSize().y)/2;
 
 	for(unsigned i=0;i<position.size();i++){
+		if(hidden[i]){
+			sprTemp.setColor(sf::Color(255,255,255,0));
+		}else{
+			sprTemp.setColor(sf::Color(255,255,255,255));
+		}
 		sprTemp.setPosition(position[i]+viewMovement);
 		renderTexture.draw(sprTemp);
 		renderTexture.display();

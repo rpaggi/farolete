@@ -18,6 +18,7 @@ class Bullets{
 	std::vector<sf::Vector2f>     position;
 	std::vector<sf::Vector2f>     destination;
 	std::vector<sf::Vector2f>     increment;
+	std::vector<bool>             hidden;
 	std::vector<CollisionObject*> collisionObject;
 	CollisionManager *            collisionManager;
 	sf::Vector2f                  massCenter;

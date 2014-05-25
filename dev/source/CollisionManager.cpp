@@ -33,7 +33,7 @@ void CollisionManager::include(tmx::MapLoader * mapLoader){
 		}else if(layer->name == "CollisionSoft"){
 			for(auto object = layer->objects.begin(); object != layer->objects.end(); ++object){
 				CollisionObject * cObj = new CollisionObject();
-				float marginOut = 30.f;
+				float marginOut = 15.f;
 				cObj->type       = "cs";
 				cObj->position   = object->GetPosition();
 				cObj->position.x+= marginOut;

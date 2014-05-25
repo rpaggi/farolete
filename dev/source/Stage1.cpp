@@ -57,13 +57,13 @@ void Stage1::logic(){
 
    if (keyboard.triggered(*esc))
       sceneManager->exit();
-   if (keyboard.pressed(*up)||keyboard.pressed(*w_key))
+   else if (keyboard.pressed(*up)||keyboard.pressed(*w_key))
       screenMovement.y = -0.1f;
-   if (keyboard.pressed(*down)||keyboard.pressed(*s_key))
+   else if (keyboard.pressed(*down)||keyboard.pressed(*s_key))
       screenMovement.y = 0.1f;
-   if (keyboard.pressed(*left)||keyboard.pressed(*a_key))
+   else if (keyboard.pressed(*left)||keyboard.pressed(*a_key))
       screenMovement.x = -0.1f;
-   if (keyboard.pressed(*right)||keyboard.pressed(*d_key))
+   else if (keyboard.pressed(*right)||keyboard.pressed(*d_key))
       screenMovement.x = 0.1f;
 
    screenMovement = Helpers::Vectors::Normalize(screenMovement);
