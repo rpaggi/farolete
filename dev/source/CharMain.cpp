@@ -30,6 +30,18 @@ CharMain::CharMain(float screen_x, float screen_y){
   collisionObject = new CollisionObject();
 }
 
+void CharMain::changeSprite(float angle){
+	 if((angle>=0 && angle<32.195) || (angle>=328.8 && angle<=360)){
+	 	sprite.setTextureRect(sf::IntRect(0, frameSize.y*2, 100, 100));
+	 }else if(angle>=32.195 && angle<152.276){
+	 	sprite.setTextureRect(sf::IntRect(0, frameSize.y*1, 100, 100));
+	 }else if(angle>=152.276 && angle<206.8){
+	 	sprite.setTextureRect(sf::IntRect(0, frameSize.y*3, 100, 100));
+	 }else if(angle>=206.8 && angle<328.8){
+	 	sprite.setTextureRect(sf::IntRect(0, frameSize.y*4, 100, 100));
+	 }
+}
+
 void CharMain::update(float x, float y){
 	bullets->moveBullets();
 	
@@ -87,4 +99,9 @@ void CharMain::setCollisionManager(CollisionManager * cManager){
 	collisionObject->size.x     = frameSize.x+(collisionMagin.x*2);
 	collisionObject->size.y     = frameSize.y+(collisionMagin.y*2);
 	collisionManager->include(collisionObject);
+}
+
+
+void CharMain::pushTrigger(sf::Vector2f dest){
+	bullets->includeBullet(dest);
 }

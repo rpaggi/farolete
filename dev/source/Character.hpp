@@ -22,8 +22,6 @@ class Character{
    sf::Vector2u      frameSize;
    sf::Vector2f      position;
 
-   void              changeSprite(float angle);
-
    Bullets *         bullets;
 
    int               hp;
@@ -40,9 +38,6 @@ class Character{
    void move(float x, float y);
 
    void setView(sf::View view);
-
-   void pushTrigger(sf::Vector2f dest);
-
 };
 
 #endif
