@@ -1,4 +1,5 @@
 #include  "Stage1.hpp"
+#include <iostream>
 
 Stage1::Stage1(Display * d){
    display = d;
@@ -30,10 +31,15 @@ void Stage1::start(){
    mapLoader = new tmx::MapLoader("maps/map1/");
    mapLoader->Load("map1.tmx");
    collisionManager->include(mapLoader);
+
+   sf::Vector2u mapSize = mapLoader->GetMapSize();
+   mapSize.x = (mapSize.x/2)-(view.getSize().x/2);
+   mapSize.y = (mapSize.y/2)-(view.getSize().y/2);
+   view.move(mapSize.x, mapSize.y+30);
 }
 
 void Stage1::draw(){
-   display->clear(sf::Color(0,0,0   ,255));
+   display->clear(sf::Color(0,0,0,255));
    display->draw(mapLoader);
    display->draw(farolete->getSprite());
    }

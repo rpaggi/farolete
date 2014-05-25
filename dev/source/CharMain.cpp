@@ -90,6 +90,7 @@ bool CharMain::testCollisionMovement(sf::Vector2f destination){
 
 void CharMain::setCollisionManager(CollisionManager * cManager){
 	collisionManager            = cManager;
+	bullets->setCollisionManager(cManager);
 	collisionObject->type       = "c";
 	
 	collisionObject->position   = position;

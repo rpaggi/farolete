@@ -1,4 +1,5 @@
 #include "Bullets.hpp"
+#include <iostream>
 
 #define PI 3.14159265
 
@@ -9,6 +10,12 @@ Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size){
 
 	texture.loadFromFile("images/bullet/texture.png");
 	renderTexture.create(screen_size.x, screen_size.y);
+
+	view = renderTexture.getView();
+}
+
+void Bullets::setCollisionManager(CollisionManager * cManager){
+	collisionManager = cManager;
 }
 
 void Bullets::includeBullet(sf::Vector2f dest){
@@ -28,12 +35,20 @@ void Bullets::includeBullet(sf::Vector2f dest){
 
 	destination.push_back(sf::Vector2f());
 	destination[destination.size()-1] = dest;
+
+	CollisionObject * cObj = new CollisionObject();
+	cObj->type           = "f";
+	cObj->position       = view.getCenter();
+	cObj->size.x         = 15;
+	cObj->size.y         = 15;
+	collisionObject.push_back(cObj);
 }
 
 void Bullets::moveBullets() {
 	time = clock.getElapsedTime();
 	elapsed = time.asSeconds();
 	bool controlReturn = true;
+	view = renderTexture.getView();
 
 	if (elapsed > 0.005) {
 		for(unsigned i=0;i<position.size();i++){
@@ -51,13 +66,20 @@ void Bullets::moveBullets() {
 					controlReturn = false;
 			}
 
-			if (controlReturn == true) {
+			std::string test = collisionManager->test(collisionObject[i]);
+			if (controlReturn == true && (test == "n" || test== "c" || test == "cs")) {
 				position[i].x += increment[i].x;
 				position[i].y += increment[i].y;
+				collisionObject[i]->position.x += increment[i].x;
+				collisionObject[i]->position.y += increment[i].y;
 			} else {
 				position.erase(position.begin() + i);
 				increment.erase(increment.begin() + i);
 				destination.erase(destination.begin() + i);
+
+				collisionManager->remove(collisionObject[i]);
+				delete collisionObject[i];
+				collisionObject.erase(collisionObject.begin() + i);
 			}
 
 			controlReturn = true;
@@ -68,7 +90,6 @@ void Bullets::moveBullets() {
 
 sf::Sprite Bullets::getSprite(){
 	sf::Sprite sprTemp;
-	sf::View view = renderTexture.getView();
 	sf::Vector2f viewMovement;
 	
 	sprTemp.setTexture(texture);

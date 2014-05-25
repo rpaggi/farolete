@@ -13,8 +13,8 @@ using namespace std;
 // Main Processrm 
 int main(){
 	//To hide prompt
-	//HWND hWnd = GetConsoleWindow();
-	//ShowWindow( hWnd, SW_HIDE );
+	// HWND hWnd = GetConsoleWindow();
+	// ShowWindow( hWnd, SW_HIDE );
 
 	Display display;
 	SceneManager sceneManager;

@@ -12322,13 +12322,13 @@
   </data>
  </layer>
  <objectgroup color="#a40002" name="CollisionHard" width="64" height="48">
-  <object x="159" y="160" width="352" height="287"/>
+  <object x="163" y="163" width="346" height="281"/>
   <object x="1185" y="257" width="159" height="157"/>
-  <object x="959" y="579" width="34" height="155"/>
-  <object x="995" y="609" width="29" height="126"/>
-  <object x="1025" y="642" width="30" height="94"/>
-  <object x="1056" y="674" width="31" height="61"/>
-  <object x="1089" y="706" width="30" height="29"/>
+  <object x="959" y="575" width="34" height="157"/>
+  <object x="994" y="613" width="29" height="118"/>
+  <object x="1025" y="643" width="31" height="91"/>
+  <object x="1056" y="676" width="32" height="58"/>
+  <object x="1089" y="707" width="30" height="27"/>
   <object x="0" y="0" width="1724" height="34"/>
   <object x="1695" y="34" width="29" height="572"/>
   <object x="1697" y="898" width="29" height="608"/>

@@ -1,6 +1,7 @@
 #ifndef DISPLAY_HPP
 #define DISPLAY_HPP
 
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -11,6 +12,8 @@
 
 class Display{
     sf::RenderWindow window;
+    sf::Texture m_pointer_texture;
+    sf::Sprite m_pointer_sprite;
 public:
     Display();
 
