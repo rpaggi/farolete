@@ -1,13 +1,5 @@
 #include "CollisionManager.hpp"
 #include <iostream>
-CollisionObject::CollisionObject(){
-
-}
-
-CollisionObject::~CollisionObject(){
-
-}
-
 CollisionManager::CollisionManager(){
 
 }
@@ -93,6 +85,48 @@ std::string CollisionManager::test(CollisionObject * cObj){
 	return "n";	
 }
 
+CollisionObject CollisionManager::testGetObject(CollisionObject * cObj){
+  	CollisionObject objTemp;
+  	objTemp.type = "n";
+	for(unsigned i=0;i < collisionObjects.size();i++){
+		if(cObj->id != collisionObjects[i]->id){
+			if((cObj->position.x+cObj->size.x > collisionObjects[i]->position.x)
+			&& (cObj->position.x < collisionObjects[i]->position.x+collisionObjects[i]->size.x)
+			&& (cObj->position.y+cObj->size.y > collisionObjects[i]->position.y)
+			&& (cObj->position.y < collisionObjects[i]->position.y+collisionObjects[i]->size.y)){
+				objTemp = *collisionObjects[i];
+			}
+		}
+	}
+	return objTemp;	
+}
+
+std::string CollisionManager::testCollisionSide(CollisionObject * cObj){
+	CollisionObject objTemp = this->testGetObject(cObj);
+
+	if(objTemp.type != "n"){
+		if((cObj->position.x+cObj->size.x > objTemp.position.x )
+		&& (objTemp.position.x > cObj->position.x)){
+			return "r";
+		}else{
+			if(objTemp.position.x < cObj->position.x)
+				return "l";
+		}
+	}
+
+	if(objTemp.type != "n"){
+		if((cObj->position.y+cObj->size.y > objTemp.position.y )
+		&& (objTemp.position.y > cObj->position.y)){
+			return "b";
+		}else{
+			if(objTemp.position.y < cObj->position.y)
+				return "t";
+		}
+	}
+	return "n";
+
+}
+
 void CollisionManager::remove(CollisionObject * cObj){
 	unsigned i;
 
@@ -100,6 +134,14 @@ void CollisionManager::remove(CollisionObject * cObj){
 		if(collisionObjects[i]->id == cObj->id){
 			collisionObjects.erase(collisionObjects.begin() + i);
 			break;
+		}
+	}
+}
+
+void CollisionManager::includeEventToObject(int e, int id){
+	for(unsigned i=0; i < collisionObjects.size(); i++){
+		if(collisionObjects[i]->id == id){
+			collisionObjects[i]->includeEvent(e);
 		}
 	}
 }

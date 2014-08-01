@@ -27,6 +27,8 @@ obj/SceneManager.o: source/SceneManager.cpp
 	g++ -c "source/SceneManager.cpp" -o obj/SceneManager.o -std=c++0x
 obj/SceneSplash1.o: source/SceneSplash1.cpp
 	g++ -c "source/SceneSplash1.cpp" -o obj/SceneSplash1.o -std=c++0x
+obj/CollisionObject.o: source/CollisionObject.cpp
+	g++ -c "source/CollisionObject.cpp" -o obj/CollisionObject.o -std=c++0x
 obj/CollisionManager.o: source/CollisionManager.cpp
 	g++ -c "source/CollisionManager.cpp" -o obj/CollisionManager.o -std=c++0x
 obj/Bullets.o: source/Bullets.cpp
@@ -43,5 +45,5 @@ obj/main.o: source/main.cpp
 	g++ -c "source/main.cpp" -o obj/main.o -std=c++0x
 obj/xingu.res: source/xingu.rc
 	windres "source/xingu.rc" -O coff -o obj/xingu.res
-xingu.exe: obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionManager.o obj/Bullets.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res
-	g++ -o bin/xingu.exe obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionManager.o obj/Bullets.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x
+xingu.exe: obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res
+	g++ -o bin/xingu.exe obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x

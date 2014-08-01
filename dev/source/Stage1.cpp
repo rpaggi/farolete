@@ -6,8 +6,6 @@ Stage1::Stage1(Display * d){
 }
 
 void Stage1::start(){
-   mouseControl = 0;
-
    float screen_x = display->getSize().x;
    float screen_y = display->getSize().y;
 
@@ -23,16 +21,18 @@ void Stage1::start(){
    d_key = new GameKey(sf::Keyboard::D);
    w_key = new GameKey(sf::Keyboard::W);
 
-   collisionManager = new CollisionManager();
+   mb_left = new MouseButton(sf::Mouse::Left);
 
-   farolete = new CharMain(screen_x, screen_y);
-   farolete->setCollisionManager(collisionManager);
+   collisionManager = new CollisionManager();
 
    mapLoader = new tmx::MapLoader("maps/map1/");
    mapLoader->Load("map1.tmx");
+   sf::Vector2u mapSize = mapLoader->GetMapSize();
    collisionManager->include(mapLoader);
 
-   sf::Vector2u mapSize = mapLoader->GetMapSize();
+   farolete = new CharMain(screen_x, screen_y, collisionManager);
+   inimigoT = new CharEnemmy(screen_x, screen_y, collisionManager, mapLoader);
+
    mapSize.x = (mapSize.x/2)-(view.getSize().x/2);
    mapSize.y = (mapSize.y/2)-(view.getSize().y/2);
    view.move(mapSize.x, mapSize.y+30);
@@ -42,7 +42,10 @@ void Stage1::draw(){
    display->clear(sf::Color(0,0,0,255));
    display->draw(mapLoader);
    display->draw(farolete->getSprite());
-   }
+
+   if (inimigoT->getHp() > 0)
+      display->draw(inimigoT->getSprite());
+}
 
 void Stage1::render(){
    display->display();
@@ -55,15 +58,17 @@ void Stage1::logic(){
    screenMovement.x = 0.f;
    screenMovement.y = 0.f;
 
+   sf::Vector2f iMovement;
+
    if (keyboard.triggered(*esc))
       sceneManager->exit();
-   else if (keyboard.pressed(*up)||keyboard.pressed(*w_key))
+   else if (keyboard.pressed(*w_key))
       screenMovement.y = -0.1f;
-   else if (keyboard.pressed(*down)||keyboard.pressed(*s_key))
+   else if (keyboard.pressed(*s_key))
       screenMovement.y = 0.1f;
-   else if (keyboard.pressed(*left)||keyboard.pressed(*a_key))
+   else if (keyboard.pressed(*a_key))
       screenMovement.x = -0.1f;
-   else if (keyboard.pressed(*right)||keyboard.pressed(*d_key))
+   else if (keyboard.pressed(*d_key))
       screenMovement.x = 0.1f;
 
    screenMovement = Helpers::Vectors::Normalize(screenMovement);
@@ -82,19 +87,16 @@ void Stage1::logic(){
    farolete->move(view.getCenter());
    farolete->setView(view);
 
-   if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && mouseControl < 1){
-      mouseControl++;
-      clock.restart();
+   if (inimigoT->getHp() > 0)
+      inimigoT->update();
+
+   if (mouse.triggered(*mb_left)){
       sf::Vector2f cast;
       cast.x = mouse_position.x;
       cast.y = mouse_position.y;
       farolete->pushTrigger(cast);   
    }
 
-   if(mouseControl > 0 && elapsed > 0.3){
-      clock.restart();
-      mouseControl--;
-    }
 }
 
 void Stage1::finish(){

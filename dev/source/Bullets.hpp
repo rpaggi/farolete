@@ -30,9 +30,11 @@ class Bullets{
     sf::Clock                     clock;
 	sf::Time                      time;
 	float                         elapsed;
+	std::string                   owner;
 
+	void                          destroyBullet(int i);
 public:
-	Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size);
+	Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own);
 
 	void setCollisionManager(CollisionManager * cManager);
 

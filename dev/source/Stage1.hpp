@@ -8,12 +8,15 @@
 #include "CollisionManager.hpp"
 #include "Input.hpp"
 #include "CharMain.hpp"
+#include "CharEnemmy.hpp"
 
 class Stage1 : public Scene {	
 	Display * display;
-	CharMain * farolete;
+    CharMain * farolete;
 
-	KeyboardInput keyboard;
+	CharEnemmy * inimigoT;
+
+    KeyboardInput keyboard;
     GameKey* esc;
     GameKey* up;
     GameKey* down;
@@ -23,7 +26,9 @@ class Stage1 : public Scene {
     GameKey* s_key;
     GameKey* d_key;
     GameKey* w_key;
-    float    mouseControl;
+
+    MouseInput mouse;
+    MouseButton* mb_left;
 
     sf::Vector2i mouse_position;
     sf::View view;

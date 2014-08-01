@@ -4,6 +4,10 @@
 #include "Character.hpp"
 #include "CollisionManager.hpp"
 #include <string>
+#include <stdlib.h> /* rand */
+#include <time.h> /* time */
+#include <MapLoader.h>
+#include <SFML/System/Time.hpp>
 
 class CharEnemmy : public Character {
 private:
@@ -12,9 +16,21 @@ private:
 	int oldCodDirection;
 	int alcanceVisao; 
 	int pVc[4];
-	CollisionObject cObj;
+
+	bool hited;
+	int  color;
+
+    sf::Clock clock;
+    sf::Time time;
+    float elapsed;
+
+	void readSpawnAreas(tmx::MapLoader * mapLoader);
 public:
-	CharEnemmy();
+	CharEnemmy(float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader);
+
+	void update();
+
+	sf::Sprite getSprite();
 };
 
 #endif

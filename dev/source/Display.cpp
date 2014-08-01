@@ -9,6 +9,7 @@ Display::Display() {
     window.setMouseCursorVisible(false);
     m_pointer_texture.loadFromFile("images/cursor.png");
     m_pointer_sprite.setTexture(m_pointer_texture);
+    m_pointer_sprite.setPosition(-30, -30);
 }
 
 void Display::handleEvents() {

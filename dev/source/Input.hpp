@@ -2,6 +2,7 @@
 #define INPUT_HPP
 
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 
 
 class GameKey {
@@ -22,6 +23,24 @@ public:
     bool pressed(GameKey &gameKey);
 
     bool triggered(GameKey &gameKey);
+};
+
+class MouseButton{
+private:
+
+public:
+	sf::Mouse::Button button;
+	bool pressed;
+	MouseButton(sf::Mouse::Button b);
+};
+
+class MouseInput{
+public:
+	MouseInput();
+
+	bool pressed(MouseButton &mouseButton);
+
+	bool triggered(MouseButton &mouseButton);
 };
 
 #endif

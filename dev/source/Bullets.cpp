@@ -4,7 +4,8 @@
 #define PI 3.14159265
 
 
-Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size){
+Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own){
+	owner = own;
 	massCenter = mass_center;
 	velocity = 5;
 
@@ -12,6 +13,17 @@ Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size){
 	renderTexture.create(screen_size.x, screen_size.y);
 
 	view = renderTexture.getView();
+}
+
+void Bullets::destroyBullet(int i){
+	position.erase(position.begin() + i);
+	increment.erase(increment.begin() + i);
+	destination.erase(destination.begin() + i);
+	hidden.erase(hidden.begin() + i);
+            	
+	collisionManager->remove(collisionObject[i]);
+	delete collisionObject[i];
+	collisionObject.erase(collisionObject.begin() + i);
 }
 
 void Bullets::setCollisionManager(CollisionManager * cManager){
@@ -39,7 +51,12 @@ void Bullets::includeBullet(sf::Vector2f dest){
 	hidden.push_back(false);
 
 	CollisionObject * cObj = new CollisionObject();
-	cObj->type           = "f";
+
+	if(owner == "c")
+		cObj->type = "fc";
+	else if(owner == "e")
+		cObj->type = "fe";
+
 	cObj->position       = view.getCenter();
 	cObj->size.x         = 15;
 	cObj->size.y         = 15;
@@ -68,9 +85,15 @@ void Bullets::moveBullets() {
 					controlReturn = false;
 			}
 
-			std::string test = collisionManager->test(collisionObject[i]);
-			if (controlReturn == true && (test == "n" || test== "c" || test == "cs")) {
-				if(test=="cs"){
+			CollisionObject cObjT = collisionManager->testGetObject(collisionObject[i]);
+			if (controlReturn == true && 
+			   (cObjT.type == "n" || cObjT.type == "cs" || cObjT.type == "c" || cObjT.type == "e")) {
+				if(cObjT.type=="e" && owner == "c"){
+					collisionManager->includeEventToObject(10, cObjT.id);
+					destroyBullet(i);
+				}
+
+				if(cObjT.type=="cs"){
 					hidden[i] = true;
 				}else if(hidden[i]){
 					hidden[i] = false;
@@ -80,14 +103,7 @@ void Bullets::moveBullets() {
 				collisionObject[i]->position.x += increment[i].x;
 				collisionObject[i]->position.y += increment[i].y;
 			} else {
-				position.erase(position.begin() + i);
-				increment.erase(increment.begin() + i);
-				destination.erase(destination.begin() + i);
-				hidden.erase(hidden.begin() + i);
-
-				collisionManager->remove(collisionObject[i]);
-				delete collisionObject[i];
-				collisionObject.erase(collisionObject.begin() + i);
+				destroyBullet(i);
 			}
 
 			controlReturn = true;

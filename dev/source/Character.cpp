@@ -2,7 +2,6 @@
 #include <iostream>
 
 Character::Character(){
-
 }
 
 sf::Sprite Character::getSprite(){
@@ -21,18 +20,11 @@ sf::Sprite Character::getSprite(){
 	return spriteTemp;
 }
 
-void Character::move(sf::Vector2f position){
-	this->position.x = position.x-(frameSize.x/2);
-	this->position.y = position.y-(frameSize.y/2);
-	sprite.setPosition(this->position.x, this->position.y);
-}
-void Character::move(float x, float y){	
-	sprite.setPosition(x-(frameSize.x/2), y-(frameSize.y/2));
-	position.x = x-(frameSize.x/2);
-	position.y = y-(frameSize.y/2);
-}
-
 void Character::setView(sf::View view){
 	renderTexture.setView(view);
 	bullets->setView(view);
+}
+
+int Character::getHp(){
+	return hp;
 }

@@ -8,6 +8,8 @@
 #include <cmath>
 
 #include "Bullets.hpp"
+#include "CollisionObject.hpp"
+#include "CollisionManager.hpp"
 
 #define PI 3.14159265
 
@@ -21,6 +23,10 @@ class Character{
    sf::Sprite        sprite;
    sf::Vector2u      frameSize;
    sf::Vector2f      position;
+   
+   CollisionManager* collisionManager;
+   CollisionObject * collisionObject;
+   sf::Vector2f      collisionMargin;
 
    Bullets *         bullets;
 
@@ -33,11 +39,9 @@ class Character{
  public:
    sf::Sprite getSprite();
 
-   void move(sf::Vector2f position);
-
-   void move(float x, float y);
-
    void setView(sf::View view);
+
+   int  getHp();
 };
 
 #endif

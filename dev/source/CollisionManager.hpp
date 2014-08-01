@@ -6,17 +6,7 @@
 #include <string>
 #include <MapLoader.h>
 
-class CollisionObject{
-public:
-	int          id;
-	std::string  type;
-	sf::Vector2f size;
-	sf::Vector2f position;
-
-	CollisionObject();
-
-	~CollisionObject();
-};
+#include "CollisionObject.hpp"
 
 class CollisionManager{
 private:
@@ -31,8 +21,12 @@ public:
 
 	std::string test(CollisionObject * cObj);
     std::string test(CollisionObject * cObj, sf::Vector2f destination);
+    CollisionObject testGetObject(CollisionObject * cObj);
+    std::string testCollisionSide(CollisionObject * cObj);
 
 	void remove(CollisionObject * cObj);
+
+	void includeEventToObject(int e, int id);
 };
 
 #endif

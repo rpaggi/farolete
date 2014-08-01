@@ -12324,8 +12324,8 @@
  <objectgroup color="#a40002" name="CollisionHard" width="64" height="48">
   <object x="163" y="163" width="346" height="281"/>
   <object x="1185" y="257" width="159" height="157"/>
-  <object x="959" y="575" width="34" height="157"/>
-  <object x="994" y="613" width="29" height="118"/>
+  <object x="959" y="575" width="35" height="159"/>
+  <object x="994" y="613" width="30" height="121"/>
   <object x="1025" y="643" width="31" height="91"/>
   <object x="1056" y="676" width="32" height="58"/>
   <object x="1089" y="707" width="30" height="27"/>
@@ -12351,5 +12351,8 @@
   <object x="1728" y="1026" width="126" height="157"/>
   <object x="1919" y="480" width="126" height="157"/>
   <object x="1889" y="1376" width="155" height="165"/>
+ </objectgroup>
+ <objectgroup color="#5500ff" name="Spawn" width="64" height="48">
+  <object name="Spawn1" x="885" y="292" width="37" height="6"/>
  </objectgroup>
 </map>
