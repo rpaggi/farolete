@@ -87,6 +87,8 @@ void CharMain::move(sf::Vector2f pos){
 	collisionObject->position = position;
 	collisionObject->position.x+= collisionMargin.x;
 	collisionObject->position.y+= collisionMargin.y;
+
+
 }
 
 bool CharMain::testCollisionMovement(sf::Vector2f destination){
@@ -94,12 +96,14 @@ bool CharMain::testCollisionMovement(sf::Vector2f destination){
 	if(test != "n"){
 		if(test == "cs"){
 			hidden = true;
+			collisionObject->type = "h";
 			return true;
 		}else if(test == "ch" || test == "e"){
 			return false;
 		}
 	}else{
 		hidden = false;
+		collisionObject->type = "c";
 	}
 	return true;
 }
@@ -109,4 +113,12 @@ void CharMain::pushTrigger(sf::Vector2f dest){
 		bullets->includeBullet(dest);
 	else
 		controlTrigger = true;
+}
+
+bool CharMain::getHidden(){
+	return hidden;
+}
+
+sf::Vector2f CharMain::getPosition(){
+	return position;
 }

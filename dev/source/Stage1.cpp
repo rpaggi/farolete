@@ -60,18 +60,19 @@ void Stage1::logic(){
 
    sf::Vector2f iMovement;
 
+   float vel = 1.7f;
    if (keyboard.triggered(*esc))
       sceneManager->exit();
    else if (keyboard.pressed(*w_key))
-      screenMovement.y = -0.1f;
+      screenMovement.y = -vel;
    else if (keyboard.pressed(*s_key))
-      screenMovement.y = 0.1f;
+      screenMovement.y = vel;
    else if (keyboard.pressed(*a_key))
-      screenMovement.x = -0.1f;
+      screenMovement.x = -vel;
    else if (keyboard.pressed(*d_key))
-      screenMovement.x = 0.1f;
+      screenMovement.x = vel;
 
-   screenMovement = Helpers::Vectors::Normalize(screenMovement);
+   //screenMovement = Helpers::Vectors::Normalize(screenMovement);
 
    if(!farolete->testCollisionMovement(screenMovement)){
       screenMovement.x = 0.f;
@@ -95,6 +96,13 @@ void Stage1::logic(){
       cast.x = mouse_position.x;
       cast.y = mouse_position.y;
       farolete->pushTrigger(cast);   
+   }
+
+   if((inimigoT->testVision() && !farolete->getHidden())
+   ||  inimigoT->getFollow()  && !farolete->getHidden()){
+      inimigoT->follow(view.getCenter());
+   }else{
+      inimigoT->follow(sf::Vector2f(-1,-1));
    }
 
 }

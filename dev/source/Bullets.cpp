@@ -71,26 +71,40 @@ void Bullets::moveBullets() {
 
 	if (elapsed > 0.005) {
 		for(unsigned i=0;i<position.size();i++){
+			std::cout<<"position.x: "<<position[i].x<<std::endl;
+			std::cout<<"position.y: "<<position[i].y<<std::endl<<std::endl;
+			std::cout<<"destination.x: "<<destination[i].x<<std::endl;
+			std::cout<<"destination.y: "<<destination[i].y<<std::endl<<std::endl;
+
 			if (increment[i].x < 0 && increment[i].y < 0) {
-				if ((position[i].x + increment[i].x) <= destination[i].x && (position[i].y + increment[i].y) <= destination[i].y)
+				if ((position[i].x + increment[i].x) <= destination[i].x && (position[i].y + increment[i].y) <= destination[i].y){
 					controlReturn = false;
+					std::cout<<"if1"<<std::endl;					
+				}
 			} else if (increment[i].x > 0 && increment[i].y < 0) {
-				if ((position[i].x + increment[i].x) >= destination[i].x && (position[i].y + increment[i].y) <= destination[i].y)
+				if ((position[i].x + increment[i].x) >= destination[i].x && (position[i].y + increment[i].y) <= destination[i].y){
 					controlReturn = false;
+					std::cout<<"if2"<<std::endl;					
+				}
 			} else if (increment[i].x < 0 && increment[i].y > 0) {
-				if ((position[i].x + increment[i].x) <= destination[i].x && (position[i].y + increment[i].y) >= destination[i].y)
+				if ((position[i].x + increment[i].x) <= destination[i].x && (position[i].y + increment[i].y) >= destination[i].y){
 					controlReturn = false;
+					std::cout<<"if3"<<std::endl;					
+				}
 			} else if (increment[i].x > 0 && increment[i].y > 0) {
-				if ((position[i].x + increment[i].x) >= destination[i].x && (position[i].y + increment[i].y) >= destination[i].y)
+				if ((position[i].x + increment[i].x) >= destination[i].x && (position[i].y + increment[i].y) >= destination[i].y){
 					controlReturn = false;
+					std::cout<<"if4"<<std::endl;					
+				}
 			}
 
 			CollisionObject cObjT = collisionManager->testGetObject(collisionObject[i]);
 			if (controlReturn == true && 
-			   (cObjT.type == "n" || cObjT.type == "cs" || cObjT.type == "c" || cObjT.type == "e")) {
+			   (cObjT.type != "ch")) {
 				if(cObjT.type=="e" && owner == "c"){
 					collisionManager->includeEventToObject(10, cObjT.id);
 					destroyBullet(i);
+					std::cout<<"destroi1"<<std::endl;										
 				}
 
 				if(cObjT.type=="cs"){
@@ -103,6 +117,8 @@ void Bullets::moveBullets() {
 				collisionObject[i]->position.x += increment[i].x;
 				collisionObject[i]->position.y += increment[i].y;
 			} else {
+				std::cout<<"controlReturn: "<<controlReturn<<std::endl;										
+				std::cout<<"cObjT.type: "<<cObjT.type<<std::endl;										
 				destroyBullet(i);
 			}
 
@@ -141,4 +157,8 @@ sf::Sprite Bullets::getSprite(){
 
 void Bullets::setView(sf::View view){
 	renderTexture.setView(view);
+}
+
+void Bullets::setMassCenter(sf::Vector2f mc){
+	massCenter = mc;
 }

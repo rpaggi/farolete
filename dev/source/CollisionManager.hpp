@@ -20,6 +20,7 @@ public:
 	void include(CollisionObject * cObj);
 
 	std::string test(CollisionObject * cObj);
+	std::string testVision(CollisionObject * cObj);
     std::string test(CollisionObject * cObj, sf::Vector2f destination);
     CollisionObject testGetObject(CollisionObject * cObj);
     std::string testCollisionSide(CollisionObject * cObj);

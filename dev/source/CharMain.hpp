@@ -20,6 +20,10 @@ public:
 	bool testCollisionMovement(sf::Vector2f destination);
 
     void pushTrigger(sf::Vector2f dest);
+
+    bool getHidden();
+
+    sf::Vector2f getPosition();
 };
 
 #endif

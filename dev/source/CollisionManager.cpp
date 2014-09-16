@@ -59,7 +59,7 @@ void CollisionManager::include(CollisionObject * cObj){
 
 std::string CollisionManager::test(CollisionObject * cObj, sf::Vector2f destination){
 	for(unsigned i=0;i < collisionObjects.size();i++){
-		if(cObj->id != collisionObjects[i]->id){
+		if(cObj->id != collisionObjects[i]->id && collisionObjects[i]->type!="v"){
 			if((cObj->position.x+destination.x+cObj->size.x > collisionObjects[i]->position.x)
 			&& (cObj->position.x+destination.x < collisionObjects[i]->position.x+collisionObjects[i]->size.x)
 			&& (cObj->position.y+destination.y+cObj->size.y > collisionObjects[i]->position.y)
@@ -73,7 +73,21 @@ std::string CollisionManager::test(CollisionObject * cObj, sf::Vector2f destinat
 
 std::string CollisionManager::test(CollisionObject * cObj){
 	for(unsigned i=0;i < collisionObjects.size();i++){
-		if(cObj->id != collisionObjects[i]->id){
+		if(cObj->id != collisionObjects[i]->id && collisionObjects[i]->type!="v"){
+			if((cObj->position.x+cObj->size.x > collisionObjects[i]->position.x)
+			&& (cObj->position.x < collisionObjects[i]->position.x+collisionObjects[i]->size.x)
+			&& (cObj->position.y+cObj->size.y > collisionObjects[i]->position.y)
+			&& (cObj->position.y < collisionObjects[i]->position.y+collisionObjects[i]->size.y)){
+				return collisionObjects[i]->type;
+			}
+		}
+	}
+	return "n";	
+}
+
+std::string CollisionManager::testVision(CollisionObject * cObj){
+	for(unsigned i=0;i < collisionObjects.size();i++){
+		if(cObj->id != collisionObjects[i]->id && collisionObjects[i]->type=="c"){
 			if((cObj->position.x+cObj->size.x > collisionObjects[i]->position.x)
 			&& (cObj->position.x < collisionObjects[i]->position.x+collisionObjects[i]->size.x)
 			&& (cObj->position.y+cObj->size.y > collisionObjects[i]->position.y)
@@ -89,7 +103,7 @@ CollisionObject CollisionManager::testGetObject(CollisionObject * cObj){
   	CollisionObject objTemp;
   	objTemp.type = "n";
 	for(unsigned i=0;i < collisionObjects.size();i++){
-		if(cObj->id != collisionObjects[i]->id){
+		if(cObj->id != collisionObjects[i]->id && collisionObjects[i]->type!="v"){
 			if((cObj->position.x+cObj->size.x > collisionObjects[i]->position.x)
 			&& (cObj->position.x < collisionObjects[i]->position.x+collisionObjects[i]->size.x)
 			&& (cObj->position.y+cObj->size.y > collisionObjects[i]->position.y)
