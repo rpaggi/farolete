@@ -57,7 +57,11 @@ void Bullets::includeBullet(sf::Vector2f dest){
 	else if(owner == "e")
 		cObj->type = "fe";
 
-	cObj->position       = view.getCenter();
+	if(owner == "c")
+		cObj->position       = view.getCenter();
+	else
+		cObj->position       = massCenter;
+
 	cObj->size.x         = 15;
 	cObj->size.y         = 15;
 	collisionObject.push_back(cObj);
@@ -71,30 +75,21 @@ void Bullets::moveBullets() {
 
 	if (elapsed > 0.005) {
 		for(unsigned i=0;i<position.size();i++){
-			std::cout<<"position.x: "<<position[i].x<<std::endl;
-			std::cout<<"position.y: "<<position[i].y<<std::endl<<std::endl;
-			std::cout<<"destination.x: "<<destination[i].x<<std::endl;
-			std::cout<<"destination.y: "<<destination[i].y<<std::endl<<std::endl;
-
 			if (increment[i].x < 0 && increment[i].y < 0) {
 				if ((position[i].x + increment[i].x) <= destination[i].x && (position[i].y + increment[i].y) <= destination[i].y){
 					controlReturn = false;
-					std::cout<<"if1"<<std::endl;					
 				}
 			} else if (increment[i].x > 0 && increment[i].y < 0) {
 				if ((position[i].x + increment[i].x) >= destination[i].x && (position[i].y + increment[i].y) <= destination[i].y){
 					controlReturn = false;
-					std::cout<<"if2"<<std::endl;					
 				}
 			} else if (increment[i].x < 0 && increment[i].y > 0) {
 				if ((position[i].x + increment[i].x) <= destination[i].x && (position[i].y + increment[i].y) >= destination[i].y){
 					controlReturn = false;
-					std::cout<<"if3"<<std::endl;					
 				}
 			} else if (increment[i].x > 0 && increment[i].y > 0) {
 				if ((position[i].x + increment[i].x) >= destination[i].x && (position[i].y + increment[i].y) >= destination[i].y){
 					controlReturn = false;
-					std::cout<<"if4"<<std::endl;					
 				}
 			}
 
@@ -104,7 +99,6 @@ void Bullets::moveBullets() {
 				if(cObjT.type=="e" && owner == "c"){
 					collisionManager->includeEventToObject(10, cObjT.id);
 					destroyBullet(i);
-					std::cout<<"destroi1"<<std::endl;										
 				}
 
 				if(cObjT.type=="cs"){
@@ -117,8 +111,6 @@ void Bullets::moveBullets() {
 				collisionObject[i]->position.x += increment[i].x;
 				collisionObject[i]->position.y += increment[i].y;
 			} else {
-				std::cout<<"controlReturn: "<<controlReturn<<std::endl;										
-				std::cout<<"cObjT.type: "<<cObjT.type<<std::endl;										
 				destroyBullet(i);
 			}
 

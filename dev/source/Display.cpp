@@ -2,9 +2,9 @@
 #include <iostream>
 
 Display::Display() {
-    // window.create(sf::VideoMode(1280, 720),sssssssd "Farolete", sf::Style::Fullscreen);
+    window.create(sf::VideoMode(1280, 720), "Farolete", sf::Style::Fullscreen);
     //Use window mode to dev the game (:
-    window.create(sf::VideoMode(1024, 600), "xingu");
+    // window.create(sf::VideoMode(1024, 600), "xingu");
 
     window.setMouseCursorVisible(false);
     m_pointer_texture.loadFromFile("images/cursor.png");
