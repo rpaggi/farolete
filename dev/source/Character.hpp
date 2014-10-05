@@ -7,6 +7,7 @@
 #include <vector>
 #include <cmath>
 
+#include "Gun.hpp"
 #include "Bullets.hpp"
 #include "CollisionObject.hpp"
 #include "CollisionManager.hpp"
@@ -35,6 +36,8 @@ class Character{
    int               level;
    //Arma *          equipament;
    float             velocity;
+
+   Gun               gun1;
 
  public:
    sf::Sprite getSprite();

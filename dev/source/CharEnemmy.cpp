@@ -4,7 +4,6 @@ bool showCollisions = false;
 
 CharEnemmy::CharEnemmy(float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader){
    srand (std::time(NULL));
-   hp = 100;  
 
    //Load the texture map
    texture.loadFromFile("images/character/character.png");
@@ -118,6 +117,7 @@ void CharEnemmy::update(){
 
     for(unsigned i=0;i < collisionObject->events.size();i++){
       hp -= collisionObject->events[i];
+      std::cout<<hp<<std::endl;
       hited = true;
     }
     collisionObject->clearEvents();

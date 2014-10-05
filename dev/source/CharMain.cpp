@@ -1,7 +1,7 @@
 #include "CharMain.hpp"
 #include <iostream>
 
-CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager){
+CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, Gun g){
    //Defines the mass center of person using the screen size pushed from parameter
 	massCenter.x = screen_x/2;
 	massCenter.y = screen_y/2;
@@ -44,6 +44,13 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager){
 	collisionManager->include(collisionObject);
 
 	controlTrigger = true;
+
+	gun1 = g;
+	activeGun = g;
+	gunFlag = 1;
+
+	bullets->setLifetime(0.80 * gun1.getRange());
+	bullets->setDamage(gun1.getDamage());
 }
 
 void CharMain::changeSprite(float angle){
@@ -59,6 +66,9 @@ void CharMain::changeSprite(float angle){
 }
 
 void CharMain::update(float x, float y){
+	gTime = gClock.getElapsedTime();
+	gElapsed = gTime.asSeconds();
+
 	bullets->moveBullets();
 	
 	float distance_x = x-massCenter.x;
@@ -69,15 +79,22 @@ void CharMain::update(float x, float y){
 	float s = distance_y/distance;
 	float c = distance_x/distance;
 	float ang = (atan2(s, c) * 180 / PI);
+
 	if (ang < 0){
 		ang += 360;
 	}
 	changeSprite(ang);
+
 	if(hidden){
 		sprite.setColor(sf::Color(255,255,255,190));
 	}else{
 		sprite.setColor(sf::Color(255,255,255,255));
 	}
+
+    for(unsigned i=0;i < collisionObject->events.size();i++){
+      hp -= collisionObject->events[i];
+    }
+    collisionObject->clearEvents();
 }
 
 void CharMain::move(sf::Vector2f pos){
@@ -87,8 +104,6 @@ void CharMain::move(sf::Vector2f pos){
 	collisionObject->position = position;
 	collisionObject->position.x+= collisionMargin.x;
 	collisionObject->position.y+= collisionMargin.y;
-
-
 }
 
 bool CharMain::testCollisionMovement(sf::Vector2f destination){
@@ -109,14 +124,34 @@ bool CharMain::testCollisionMovement(sf::Vector2f destination){
 }
 
 void CharMain::pushTrigger(sf::Vector2f dest){
-	if(controlTrigger)
-		bullets->includeBullet(dest);
-	else
-		controlTrigger = true;
+	if(controlTrigger){
+		if(activeGun.getRange() > 0){
+			bullets->includeBullet(dest);
+		}
+		controlTrigger = false;
+	}
+	else{
+		if(gElapsed >= (0.75/activeGun.getCadence())){
+			gClock.restart();
+			controlTrigger = true;
+		}
+	}
+}
+
+int CharMain::getTriggerType(){
+	if (activeGun.getCadence() == 3){
+		return 2;
+	}else{
+		return 1;
+	}
 }
 
 bool CharMain::getHidden(){
 	return hidden;
+}
+
+void CharMain::setHidden(bool h){
+	hidden = h;
 }
 
 sf::Vector2f CharMain::getPosition(){

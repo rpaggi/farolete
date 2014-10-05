@@ -13,6 +13,9 @@ Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string
 	renderTexture.create(screen_size.x, screen_size.y);
 
 	view = renderTexture.getView();
+
+	elapsedCounter = 0;
+	lifetime = 1.5;
 }
 
 void Bullets::destroyBullet(int i){
@@ -20,6 +23,7 @@ void Bullets::destroyBullet(int i){
 	increment.erase(increment.begin() + i);
 	destination.erase(destination.begin() + i);
 	hidden.erase(hidden.begin() + i);
+	elapsedTime.erase(elapsedTime.begin() + i);
             	
 	collisionManager->remove(collisionObject[i]);
 	delete collisionObject[i];
@@ -31,6 +35,9 @@ void Bullets::setCollisionManager(CollisionManager * cManager){
 }
 
 void Bullets::includeBullet(sf::Vector2f dest){
+	time = clock.getElapsedTime();
+	elapsed = time.asSeconds();
+
 	//Calculate the increment
 	float distance;
 	sf::Vector2f aux;
@@ -49,6 +56,7 @@ void Bullets::includeBullet(sf::Vector2f dest){
 	destination[destination.size()-1] = dest;
 
 	hidden.push_back(false);
+	elapsedTime.push_back(elapsed);
 
 	CollisionObject * cObj = new CollisionObject();
 
@@ -73,7 +81,7 @@ void Bullets::moveBullets() {
 	bool controlReturn = true;
 	view = renderTexture.getView();
 
-	if (elapsed > 0.005) {
+	if ((elapsed - elapsedCounter) > 0.005) {
 		for(unsigned i=0;i<position.size();i++){
 			if (increment[i].x < 0 && increment[i].y < 0) {
 				if ((position[i].x + increment[i].x) <= destination[i].x && (position[i].y + increment[i].y) <= destination[i].y){
@@ -94,10 +102,17 @@ void Bullets::moveBullets() {
 			}
 
 			CollisionObject cObjT = collisionManager->testGetObject(collisionObject[i]);
-			if (controlReturn == true && 
-			   (cObjT.type != "ch")) {
+
+			if ((controlReturn == true && cObjT.type != "ch")
+			&& ((elapsed - elapsedTime[i]) <= lifetime)
+			   ){
 				if(cObjT.type=="e" && owner == "c"){
-					collisionManager->includeEventToObject(10, cObjT.id);
+					collisionManager->includeEventToObject(damage, cObjT.id);
+					destroyBullet(i);
+				}
+				
+				if(cObjT.type=="c" && owner == "e"){
+					collisionManager->includeEventToObject(damage, cObjT.id);
 					destroyBullet(i);
 				}
 
@@ -116,7 +131,7 @@ void Bullets::moveBullets() {
 
 			controlReturn = true;
 		}
-		clock.restart();
+		elapsedCounter = elapsed;
 	}
 }
 
@@ -153,4 +168,12 @@ void Bullets::setView(sf::View view){
 
 void Bullets::setMassCenter(sf::Vector2f mc){
 	massCenter = mc;
+}
+
+void Bullets::setLifetime(float l){
+	lifetime = l;
+}
+
+void Bullets::setDamage(int d){
+	damage = 2.5*(d+1);
 }

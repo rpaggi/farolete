@@ -2,6 +2,7 @@
 #include <iostream>
 
 Character::Character(){
+	hp = 100;
 }
 
 sf::Sprite Character::getSprite(){

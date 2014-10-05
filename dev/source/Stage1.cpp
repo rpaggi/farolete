@@ -30,7 +30,10 @@ void Stage1::start(){
    sf::Vector2u mapSize = mapLoader->GetMapSize();
    collisionManager->include(mapLoader);
 
-   farolete = new CharMain(screen_x, screen_y, collisionManager);
+   gunManager = new GunManager();
+   Gun machete = gunManager->getGun(2);
+
+   farolete = new CharMain(screen_x, screen_y, collisionManager, machete);
    inimigoT = new CharEnemmy(screen_x, screen_y, collisionManager, mapLoader);
 
    mapSize.x = (mapSize.x/2)-(view.getSize().x/2);
@@ -82,21 +85,36 @@ void Stage1::logic(){
 
    mouse_position = display->getMousePosition();
 
-   view.move(screenMovement);
-   display->setView(view);
+   if(farolete->getHp() > 0){
+      view.move(screenMovement);
+      display->setView(view);
+      farolete->move(view.getCenter());
+      farolete->setView(view);
+
+      if(farolete->getTriggerType() == 1){
+         if (mouse.triggered(*mb_left)){
+            sf::Vector2f cast;
+            cast.x = mouse_position.x;
+            cast.y = mouse_position.y;
+            farolete->pushTrigger(cast);   
+         }
+      }else{
+         if (mouse.pressed(*mb_left)){
+            sf::Vector2f cast;
+            cast.x = mouse_position.x;
+            cast.y = mouse_position.y;
+            farolete->pushTrigger(cast);   
+         }
+      }
+   }else{
+      farolete->setHidden(true);
+   }
+
    farolete->update(mouse_position.x, mouse_position.y);
-   farolete->move(view.getCenter());
-   farolete->setView(view);
 
    if (inimigoT->getHp() > 0)
       inimigoT->update();
 
-   if (mouse.triggered(*mb_left)){
-      sf::Vector2f cast;
-      cast.x = mouse_position.x;
-      cast.y = mouse_position.y;
-      farolete->pushTrigger(cast);   
-   }
 
    if((inimigoT->testVision() && !farolete->getHidden())
    ||  inimigoT->getFollow()  && !farolete->getHidden()){

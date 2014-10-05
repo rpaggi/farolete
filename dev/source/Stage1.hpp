@@ -9,6 +9,7 @@
 #include "Input.hpp"
 #include "CharMain.hpp"
 #include "CharEnemmy.hpp"
+#include "GunManager.hpp"
 
 class Stage1 : public Scene {	
 	Display * display;
@@ -41,6 +42,8 @@ class Stage1 : public Scene {
     float elapsed;
 
     CollisionManager * collisionManager;
+
+    GunManager * gunManager;
 
 public:
 	Stage1(Display * d);

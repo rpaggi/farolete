@@ -10,8 +10,16 @@ private:
 	bool              controlTrigger;
 
 	void              changeSprite(float angle);
+
+	int               gunFlag;
+	Gun               activeGun;
+	Gun               gun2;
+	sf::Clock         gClock;
+    sf::Time          gTime;
+    float             gElapsed;
+
 public:
-	CharMain(float screen_x, float screen_y, CollisionManager * cManager);
+	CharMain(float screen_x, float screen_y, CollisionManager * cManager, Gun g);
 
 	void update(float x, float y);
 
@@ -21,7 +29,11 @@ public:
 
     void pushTrigger(sf::Vector2f dest);
 
+    int getTriggerType();
+
     bool getHidden();
+    
+    void setHidden(bool h);
 
     sf::Vector2f getPosition();
 };

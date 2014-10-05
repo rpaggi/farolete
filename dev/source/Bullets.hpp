@@ -20,6 +20,7 @@ class Bullets{
 	std::vector<sf::Vector2f>     increment;
 	std::vector<bool>             hidden;
 	std::vector<CollisionObject*> collisionObject;
+	std::vector<float>            elapsedTime;
 	CollisionManager *            collisionManager;
 	sf::Vector2f                  massCenter;
 	float                         velocity;
@@ -30,7 +31,10 @@ class Bullets{
     sf::Clock                     clock;
 	sf::Time                      time;
 	float                         elapsed;
+	float                         elapsedCounter;
 	std::string                   owner;
+	float                         lifetime;
+	float                         damage;
 
 	void                          destroyBullet(int i);
 public:
@@ -48,6 +52,9 @@ public:
 
 	void setMassCenter(sf::Vector2f mc);
 
+	void setLifetime(float l);
+
+	void setDamage(int d);
 };
 
 #endif
