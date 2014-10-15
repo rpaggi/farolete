@@ -15,46 +15,46 @@
 #include "CollisionManager.hpp"
 
 class Bullets{
-	std::vector<sf::Vector2f>     position;
-	std::vector<sf::Vector2f>     destination;
-	std::vector<sf::Vector2f>     increment;
-	std::vector<bool>             hidden;
-	std::vector<CollisionObject*> collisionObject;
-	std::vector<float>            elapsedTime;
-	CollisionManager *            collisionManager;
-	sf::Vector2f                  massCenter;
-	float                         velocity;
-	sf::Texture                   texture;
-	sf::Sprite                    sprite;
-	sf::RenderTexture             renderTexture;
-	sf::View                      view;
+   std::vector<sf::Vector2f>     position;
+   std::vector<sf::Vector2f>     destination;
+   std::vector<sf::Vector2f>     increment;
+   std::vector<bool>             hidden;
+   std::vector<CollisionObject*> collisionObject;
+   std::vector<float>            elapsedTime;
+   CollisionManager *            collisionManager;
+   sf::Vector2f                  massCenter;
+   float                         velocity;
+   sf::Texture                   texture;
+   sf::Sprite                    sprite;
+   sf::RenderTexture             renderTexture;
+   sf::View                      view;
     sf::Clock                     clock;
-	sf::Time                      time;
-	float                         elapsed;
-	float                         elapsedCounter;
-	std::string                   owner;
-	float                         lifetime;
-	float                         damage;
+   sf::Time                      time;
+   float                         elapsed;
+   float                         elapsedCounter;
+   std::string                   owner;
+   float                         lifetime;
+   float                         damage;
 
-	void                          destroyBullet(int i);
+   void                          destroyBullet(int i);
 public:
-	Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own);
+   Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own);
 
-	void setCollisionManager(CollisionManager * cManager);
+   void setCollisionManager(CollisionManager * cManager);
 
-	void includeBullet(sf::Vector2f dest);
+   void includeBullet(sf::Vector2f dest);
 
-	void moveBullets();
+   void moveBullets();
 
-	sf::Sprite getSprite();
+   sf::Sprite getSprite();
 
-	void setView(sf::View view);
+   void setView(sf::View view);
 
-	void setMassCenter(sf::Vector2f mc);
+   void setMassCenter(sf::Vector2f mc);
 
-	void setLifetime(float l);
+   void setLifetime(float l);
 
-	void setDamage(int d);
+   void setDamage(int d);
 };
 
 #endif

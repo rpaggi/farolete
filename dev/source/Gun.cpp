@@ -5,24 +5,24 @@ Gun::Gun(){
 }
 
 int Gun::getId(){
-	return id;
+   return id;
 }
 std::string Gun::getName(){
-	return name;
+   return name;
 }
 
 int Gun::getRange(){
-	return range;
+   return range;
 }
 
 int Gun::getCadence(){
-	return cadence;
+   return cadence;
 }
 
 int Gun::getDamage(){
-	return damage;
+   return damage;
 }
 
 int Gun::getWeight(){
-	return weight;
+   return weight;
 }

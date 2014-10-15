@@ -5,13 +5,13 @@
 #include <fstream> 
 #include "Gun.hpp"
 
-class GunManager {	
+class GunManager {   
 private:
-	std::vector<Gun> gunVector;
+   std::vector<Gun> gunVector;
 public:
-	GunManager();
+   GunManager();
 
-	Gun getGun(int id);
+   Gun getGun(int id);
 };
 
 #endif

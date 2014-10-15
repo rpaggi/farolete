@@ -9,50 +9,51 @@
 #include "Input.hpp"
 #include "CharMain.hpp"
 #include "CharEnemmy.hpp"
-#include "GunManager.hpp"
+#include "Hud.hpp"
 
-class Stage1 : public Scene {	
-	Display * display;
-    CharMain * farolete;
+class Stage1 : public Scene { 
+   Display * display;
+   CharMain * farolete;
 
-	CharEnemmy * inimigoT;
+   CharEnemmy * inimigoT;
 
-    KeyboardInput keyboard;
-    GameKey* esc;
-    GameKey* up;
-    GameKey* down;
-    GameKey* left;
-    GameKey* right;
-    GameKey* a_key;
-    GameKey* s_key;
-    GameKey* d_key;
-    GameKey* w_key;
+   KeyboardInput keyboard;
+   GameKey* esc;
+   GameKey* up;
+   GameKey* down;
+   GameKey* left;
+   GameKey* right;
+   GameKey* a_key;
+   GameKey* s_key;
+   GameKey* d_key;
+   GameKey* w_key;
+   GameKey* snapshot_key;
 
-    MouseInput mouse;
-    MouseButton* mb_left;
+   MouseInput mouse;
+   MouseButton* mb_left;
 
-    sf::Vector2i mouse_position;
-    sf::View view;
+   sf::Vector2i mouse_position;
+   sf::View view;
 
-    tmx::MapLoader* mapLoader;
-    sf::Vector2f screenMovement;
+   tmx::MapLoader* mapLoader;
+   sf::Vector2f screenMovement;
 
-    sf::Clock clock;
-    sf::Time time;
-    float elapsed;
+   sf::Clock clock;
+   sf::Time time;
+   float elapsed;
 
-    CollisionManager * collisionManager;
+   CollisionManager * collisionManager;
 
-    GunManager * gunManager;
+   Hud * hud;
 
 public:
-	Stage1(Display * d);
+   Stage1(Display * d);
 
-	void start();
-	void draw();
-	void render();
-	void logic();
-	void finish();
+   void start();
+   void draw();
+   void render();
+   void logic();
+   void finish();
 };
 
 #endif

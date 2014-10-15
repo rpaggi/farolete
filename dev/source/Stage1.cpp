@@ -20,6 +20,7 @@ void Stage1::start(){
    s_key = new GameKey(sf::Keyboard::S);
    d_key = new GameKey(sf::Keyboard::D);
    w_key = new GameKey(sf::Keyboard::W);
+   snapshot_key = new GameKey(sf::Keyboard::F12);
 
    mb_left = new MouseButton(sf::Mouse::Left);
 
@@ -30,15 +31,14 @@ void Stage1::start(){
    sf::Vector2u mapSize = mapLoader->GetMapSize();
    collisionManager->include(mapLoader);
 
-   gunManager = new GunManager();
-   Gun machete = gunManager->getGun(2);
-
-   farolete = new CharMain(screen_x, screen_y, collisionManager, machete);
+   farolete = new CharMain(screen_x, screen_y, collisionManager);
    inimigoT = new CharEnemmy(screen_x, screen_y, collisionManager, mapLoader);
 
    mapSize.x = (mapSize.x/2)-(view.getSize().x/2);
    mapSize.y = (mapSize.y/2)-(view.getSize().y/2);
    view.move(mapSize.x, mapSize.y+30);
+
+   hud = new Hud(display);
 }
 
 void Stage1::draw(){
@@ -48,6 +48,8 @@ void Stage1::draw(){
 
    if (inimigoT->getHp() > 0)
       display->draw(inimigoT->getSprite());
+
+   hud->draw();
 }
 
 void Stage1::render(){
@@ -74,6 +76,8 @@ void Stage1::logic(){
       screenMovement.x = -vel;
    else if (keyboard.pressed(*d_key))
       screenMovement.x = vel;
+   else if (keyboard.pressed(*snapshot_key))
+      display->printScreen();
 
    //screenMovement = Helpers::Vectors::Normalize(screenMovement);
 
@@ -111,6 +115,7 @@ void Stage1::logic(){
    }
 
    farolete->update(mouse_position.x, mouse_position.y);
+   hud->update(farolete->getHp(), farolete->getStamina(), farolete->getGunId(), farolete->getBulletQtd());
 
    if (inimigoT->getHp() > 0)
       inimigoT->update();

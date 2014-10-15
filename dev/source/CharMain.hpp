@@ -2,40 +2,50 @@
 #define CHARMAIN_HPP
 
 #include "Character.hpp"
+#include "GunManager.hpp"
 #include <string>
 
-class CharMain : public Character {	
+class CharMain : public Character { 
 private:
-	bool              hidden;
-	bool              controlTrigger;
+   bool          hidden;
+   bool          controlTrigger;
+   float         stamina;
 
-	void              changeSprite(float angle);
+   void          changeSprite(float angle);
 
-	int               gunFlag;
-	Gun               activeGun;
-	Gun               gun2;
-	sf::Clock         gClock;
-    sf::Time          gTime;
-    float             gElapsed;
+   GunManager *  gunManager;
+   int           gunFlag;
+   Gun           activeGun;
+   Gun           gun2;
+   sf::Clock     gClock;
+   sf::Time      gTime;
+   float         gElapsed;
+   int           bulletStock;
 
 public:
-	CharMain(float screen_x, float screen_y, CollisionManager * cManager, Gun g);
+   CharMain(float screen_x, float screen_y, CollisionManager * cManager);
 
-	void update(float x, float y);
+   void         update(float x, float y);
 
-	void move(sf::Vector2f pos);
+   void         move(sf::Vector2f pos);
+      
+   bool         testCollisionMovement(sf::Vector2f destination);
 
-	bool testCollisionMovement(sf::Vector2f destination);
+   void         pushTrigger(sf::Vector2f dest);
 
-    void pushTrigger(sf::Vector2f dest);
+   int          getTriggerType();
 
-    int getTriggerType();
+   bool         getHidden();
+   
+   void         setHidden(bool h);
 
-    bool getHidden();
-    
-    void setHidden(bool h);
+   sf::Vector2f getPosition();
 
-    sf::Vector2f getPosition();
+   float        getStamina();
+
+   int          getGunId();
+
+   int          getBulletQtd();
 };
 
 #endif

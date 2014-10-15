@@ -72,8 +72,14 @@ CharEnemmy::CharEnemmy(float screen_x, float screen_y, CollisionManager * cManag
    hited = false;
    color = 200;
    follow_flag = false;
-     follow_side = 1;
+   follow_side = 1;
    velocity = 0.2f;
+
+   gunManager = new GunManager();
+   gun1 = gunManager->getGun(2);
+
+   bullets->setLifetime(gun1.getRange());
+   bullets->setDamage(gun1.getDamage());
 }
 
 void CharEnemmy::readSpawnAreas(tmx::MapLoader * mapLoader){
@@ -88,108 +94,108 @@ void CharEnemmy::readSpawnAreas(tmx::MapLoader * mapLoader){
 }
 
 void CharEnemmy::update(){
-    //Movimenta as balas
-    bullets->moveBullets();
+   //Movimenta as balas
+   bullets->moveBullets();
 
-    //Pega o tempo do inimigo
-    time = clock.getElapsedTime();
-    elapsed = time.asSeconds();
+   //Pega o tempo do inimigo
+   time = clock.getElapsedTime();
+   elapsed = time.asSeconds();
 
-    //Pega o tempo da arma
-    time = gunClock.getElapsedTime();
-    gunElapsed = time.asSeconds();
+   //Pega o tempo da arma
+   time = gunClock.getElapsedTime();
+   gunElapsed = time.asSeconds();
 
-    sf::Vector2f movement(0,0);
+   sf::Vector2f movement(0,0);
 
-    if(codDirection == 3){
-      sprite.setTextureRect(sf::IntRect(0, frameSize.y*2, 100, 100));
-      movement.x += velocity;
-    }else if(codDirection == 4){
-      sprite.setTextureRect(sf::IntRect(0, frameSize.y*1, 100, 100));
-      movement.y += velocity;
-    }else if(codDirection == 1){
-      sprite.setTextureRect(sf::IntRect(0, frameSize.y*3, 100, 100));
-      movement.x -= velocity;
-    }else if(codDirection == 2){
-      sprite.setTextureRect(sf::IntRect(0, frameSize.y*4, 100, 100));
-      movement.y -= velocity;
-    }
+   if(codDirection == 3){
+     sprite.setTextureRect(sf::IntRect(0, frameSize.y*2, 100, 100));
+     movement.x += velocity;
+   }else if(codDirection == 4){
+     sprite.setTextureRect(sf::IntRect(0, frameSize.y*1, 100, 100));
+     movement.y += velocity;
+   }else if(codDirection == 1){
+     sprite.setTextureRect(sf::IntRect(0, frameSize.y*3, 100, 100));
+     movement.x -= velocity;
+   }else if(codDirection == 2){
+     sprite.setTextureRect(sf::IntRect(0, frameSize.y*4, 100, 100));
+     movement.y -= velocity;
+   }
 
-    for(unsigned i=0;i < collisionObject->events.size();i++){
-      hp -= collisionObject->events[i];
-      std::cout<<hp<<std::endl;
-      hited = true;
-    }
-    collisionObject->clearEvents();
+   for(unsigned i=0;i < collisionObject->events.size();i++){
+     hp -= collisionObject->events[i];
+     std::cout<<hp<<std::endl;
+     hited = true;
+   }
+   collisionObject->clearEvents();
 
-    std::string collisionTest = collisionManager->test(collisionObject, movement);
+   std::string collisionTest = collisionManager->test(collisionObject, movement);
 
-    if(collisionTest == "n"){
-      position = position + movement;
-      sprite.setPosition(position);
-      collisionObject->position = collisionObject->position + movement;
-      visionX->position = visionX->position + movement;
-      visionY->position = visionY->position + movement;
-      massCenter.x = position.x+(frameSize.x/2);
-      massCenter.y = position.y+(frameSize.y/2);
-      bullets->setMassCenter(massCenter);
-    }
+   if(collisionTest == "n"){
+     position = position + movement;
+     sprite.setPosition(position);
+     collisionObject->position = collisionObject->position + movement;
+     visionX->position = visionX->position + movement;
+     visionY->position = visionY->position + movement;
+     massCenter.x = position.x+(frameSize.x/2);
+     massCenter.y = position.y+(frameSize.y/2);
+     bullets->setMassCenter(massCenter);
+   }
 
-    if(!follow_flag){
-      if((collisionTest != "n")|| elapsed > 5.f){
-          clock.restart();
-          srand (std::time(NULL));
-          int r = rand() % 4 + 1;
-          oldCodDirection = codDirection;
-          if(codDirection == r){
-              if(codDirection == 4){
-                  codDirection    = 1;
-              }else{
-                  codDirection++;
-              }
-          }else{
-              codDirection = r;
-          }
-      }
-    }else{
-      if(follow_side == 1){
-        if(follow_dest.x >= position.x){
-          codDirection = 3;
-        }else{
-          codDirection = 1;            
-        }
-      }else{
-        if(follow_dest.y >= position.y){
-          codDirection = 4;
-        }else{
-          codDirection = 2;            
-        }
-      }
+   if(!follow_flag){
+     if((collisionTest != "n")|| elapsed > 5.f){
+         clock.restart();
+         srand (std::time(NULL));
+         int r = rand() % 4 + 1;
+         oldCodDirection = codDirection;
+         if(codDirection == r){
+             if(codDirection == 4){
+                 codDirection    = 1;
+             }else{
+                 codDirection++;
+             }
+         }else{
+             codDirection = r;
+         }
+     }
+   }else{
+     if(follow_side == 1){
+       if(follow_dest.x >= position.x){
+         codDirection = 3;
+       }else{
+         codDirection = 1;            
+       }
+     }else{
+       if(follow_dest.y >= position.y){
+         codDirection = 4;
+       }else{
+         codDirection = 2;            
+       }
+     }
 
-      pushTrigger(follow_dest);
+     pushTrigger(follow_dest);
 
-      if(collisionTest == "n" || collisionTest == "c"){
-        if(elapsed > 1.5f){
-          clock.restart();
-          if(follow_side == 1){
-            follow_side = 2;
-          }else{
-            follow_side = 1;
-          }
-        }
-      }else{
-        if(elapsed > 1.49f){
-          clock.restart();
-          follow_flag = false;
-          velocity = 0.2f;
-        }
-        if(follow_side == 1){
-          follow_side = 2;
-        }else{
-          follow_side = 1;
-        }
-      }
-    }
+     if(collisionTest == "n" || collisionTest == "c"){
+       if(elapsed > 1.5f){
+         clock.restart();
+         if(follow_side == 1){
+           follow_side = 2;
+         }else{
+           follow_side = 1;
+         }
+       }
+     }else{
+       if(elapsed > 1.49f){
+         clock.restart();
+         follow_flag = false;
+         velocity = 0.2f;
+       }
+       if(follow_side == 1){
+         follow_side = 2;
+       }else{
+         follow_side = 1;
+       }
+     }
+   }
 }
 
 sf::Sprite CharEnemmy::getSprite(){
@@ -256,23 +262,25 @@ bool CharEnemmy::testVision(){
 }
 
 void CharEnemmy::follow(sf::Vector2f dest){
-  if(dest.x>=0){
-    follow_flag = true;
-    follow_dest = dest;
-    velocity = 0.4f;
-  }else{
-    follow_flag = false;
-    velocity = 0.2f;
-  }
+   if(dest.x>=0){
+      follow_flag = true;
+      follow_dest = dest;
+      velocity = 0.4f;
+   }else{
+      follow_flag = false;
+      velocity = 0.2f;
+   }
 }
 
 bool CharEnemmy::getFollow(){
-  return follow_flag;
+   return follow_flag;
 }
 
 void CharEnemmy::pushTrigger(sf::Vector2f dest){
-    if(gunElapsed > 1.5f){
+   if(gunElapsed > (0.75/gun1.getCadence())){
+      if(gun1.getRange() > 0){
+         bullets->includeBullet(dest);
+      }
       gunClock.restart();
-      bullets->includeBullet(dest);
-    }
+   }
 }

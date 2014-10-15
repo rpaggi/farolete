@@ -5,10 +5,13 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Image.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include <MapLoader.h>
+#include <ctime>
+#include <sstream>
 
 class Display{
     sf::RenderWindow window;
@@ -40,6 +43,8 @@ public:
     bool pollEvent(sf::Event e);
 
     sf::Vector2i getMousePosition();
+
+    void printScreen();
 };
 
 #endif

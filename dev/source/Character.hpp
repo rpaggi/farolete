@@ -34,7 +34,6 @@ class Character{
    int               hp;
    int               xp;
    int               level;
-   //Arma *          equipament;
    float             velocity;
 
    Gun               gun1;
