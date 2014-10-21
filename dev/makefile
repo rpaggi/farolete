@@ -37,6 +37,8 @@ obj/Gun.o: source/Gun.cpp
 	g++ -c "source/Gun.cpp" -o obj/Gun.o -std=c++0x
 obj/GunManager.o: source/GunManager.cpp
 	g++ -c "source/GunManager.cpp" -o obj/GunManager.o -std=c++0x
+obj/EnemmyParmsInterface.o: source/EnemmyParmsInterface.cpp
+	g++ -c "source/EnemmyParmsInterface.cpp" -o obj/EnemmyParmsInterface.o -std=c++0x
 obj/Character.o: source/Character.cpp
 	g++ -c "source/Character.cpp" -o obj/Character.o -std=c++0x
 obj/CharMain.o: source/CharMain.cpp
@@ -51,5 +53,5 @@ obj/main.o: source/main.cpp
 	g++ -c "source/main.cpp" -o obj/main.o -std=c++0x
 obj/xingu.res: source/xingu.rc
 	windres "source/xingu.rc" -O coff -o obj/xingu.res
-xingu.exe: obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res
-	g++ -o bin/xingu.exe obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x
+xingu.exe: obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/EnemmyParmsInterface.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res
+	g++ -o bin/xingu.exe obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/EnemmyParmsInterface.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x

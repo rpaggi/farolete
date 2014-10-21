@@ -7,13 +7,13 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager){
    massCenter.y = screen_y/2;
 
    //Load the texture map
-   texture.loadFromFile("images/character/character.png");
+   texture.loadFromFile("images/character/farolete.png");
 
    //Load texture into sprite
    sprite.setTexture(texture);
 
-   frameSize.x = 100;
-   frameSize.y = 100;
+   frameSize.x = 102;
+   frameSize.y = 104;
 
    //Configure sprite frame
    sprite.setTextureRect(sf::IntRect(0, 0, frameSize.x, frameSize.y));
@@ -53,8 +53,8 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager){
    bullets->setLifetime(gun1.getRange());
    bullets->setDamage(gun1.getDamage());
 
-   stamina = 30;
-   bulletStock = 30;
+   stamina = 50;
+   bulletStock = 10;
 }
 
 void CharMain::changeSprite(float angle){
@@ -97,7 +97,6 @@ void CharMain::update(float x, float y){
 
     for(unsigned i=0;i < collisionObject->events.size();i++){
       hp -= collisionObject->events[i];
-      std::cout<<hp<<std::endl;
     }
     collisionObject->clearEvents();
 }
@@ -130,8 +129,9 @@ bool CharMain::testCollisionMovement(sf::Vector2f destination){
 
 void CharMain::pushTrigger(sf::Vector2f dest){
    if(controlTrigger){
-      if(activeGun.getRange() > 0){
+      if(activeGun.getRange() > 0 && bulletStock > 0){
          bullets->includeBullet(dest);
+         bulletStock--;
       }
       controlTrigger = false;
    }

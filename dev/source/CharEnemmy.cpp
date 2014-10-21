@@ -6,16 +6,16 @@ CharEnemmy::CharEnemmy(float screen_x, float screen_y, CollisionManager * cManag
    srand (std::time(NULL));
 
    //Load the texture map
-   texture.loadFromFile("images/character/character.png");
+   texture.loadFromFile("images/character/cabra.png");
    sprite.setTexture(texture);
-   frameSize.x = 100;
-   frameSize.y = 100;
+   frameSize.x = 102;
+   frameSize.y = 104;
    renderTexture.create(mapLoader->GetMapSize().x, mapLoader->GetMapSize().y);
 
    //Initialize colision areas
-   collisionObject = new CollisionObject();
-   visionX         = new CollisionObject();
-   visionY         = new CollisionObject();
+   collisionObject             = new CollisionObject();
+   visionX                     = new CollisionObject();
+   visionY                     = new CollisionObject();
    collisionManager            = cManager;
 
    //Define character collision
@@ -70,7 +70,7 @@ CharEnemmy::CharEnemmy(float screen_x, float screen_y, CollisionManager * cManag
    bullets->setCollisionManager(cManager);   
 
    hited = false;
-   color = 200;
+   color = 250;
    follow_flag = false;
    follow_side = 1;
    velocity = 0.2f;
@@ -202,14 +202,14 @@ sf::Sprite CharEnemmy::getSprite(){
    sf::Sprite spriteTemp;
 
    if(hited){
-      color = 150;
+      color = 200;
       hited = false;
    }
    else{
-      if(color>100)
-         color-=1;
+      if(color<255)
+         color+=1;
    }
-   sprite.setColor(sf::Color(255,100,color,255));
+   sprite.setColor(sf::Color(color,color,255,255));
 
    if(showCollisions){
       sf::RectangleShape coll1;
