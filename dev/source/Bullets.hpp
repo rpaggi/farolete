@@ -13,6 +13,7 @@
 #include <SFML/System/Time.hpp>
 
 #include "CollisionManager.hpp"
+#include "Display.hpp"
 
 class Bullets{
    std::vector<sf::Vector2f>     position;
@@ -27,6 +28,7 @@ class Bullets{
    sf::Texture                   texture;
    sf::Sprite                    sprite;
    sf::RenderTexture             renderTexture;
+   Display *                     display;
    sf::View                      view;
     sf::Clock                     clock;
    sf::Time                      time;
@@ -38,7 +40,7 @@ class Bullets{
 
    void                          destroyBullet(int i);
 public:
-   Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own);
+   Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own, Display * dis);
 
    void setCollisionManager(CollisionManager * cManager);
 
@@ -46,7 +48,7 @@ public:
 
    void moveBullets();
 
-   sf::Sprite getSprite();
+   void draw();
 
    void setView(sf::View view);
 

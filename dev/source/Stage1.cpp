@@ -10,6 +10,7 @@ void Stage1::start(){
    float screen_y = display->getSize().y;
 
    view = display->getView();
+   this->render();
 
    esc =   new GameKey(sf::Keyboard::Escape);
    up =    new GameKey(sf::Keyboard::Up);
@@ -31,8 +32,16 @@ void Stage1::start(){
    sf::Vector2u mapSize = mapLoader->GetMapSize();
    collisionManager->include(mapLoader);
 
-   farolete = new CharMain(screen_x, screen_y, collisionManager);
-   inimigoT = new CharEnemmy(screen_x, screen_y, collisionManager, mapLoader);
+   farolete = new CharMain(screen_x, screen_y, collisionManager, display);
+
+   for(int i=0;i<40;i++){
+      inimigos.push_back(new CharEnemmy(display, screen_x, screen_y, collisionManager, mapLoader));
+
+      this->render();
+   }
+
+   dropManager = new DropManager(display, mapSize.x, mapSize.y, collisionManager);
+   dropManager->sortItem(750, 780);
 
    mapSize.x = (mapSize.x/2)-(view.getSize().x/2);
    mapSize.y = (mapSize.y/2)-(view.getSize().y/2);
@@ -44,10 +53,14 @@ void Stage1::start(){
 void Stage1::draw(){
    display->clear(sf::Color(0,0,0,255));
    display->draw(mapLoader);
-   display->draw(farolete->getSprite());
 
-   if (inimigoT->getHp() > 0)
-      display->draw(inimigoT->getSprite());
+   dropManager->draw();
+   
+   farolete->draw();
+
+   for(unsigned i=0; i<inimigos.size();i++){
+      inimigos[i]->draw();
+   }
 
    hud->draw();
 }
@@ -65,9 +78,10 @@ void Stage1::logic(){
 
    sf::Vector2f iMovement;
 
-   float vel = 1.7f;
-   if (keyboard.triggered(*esc))
-      sceneManager->exit();
+   float vel = 2.2f;
+   if (keyboard.triggered(*esc)){
+         sceneManager->exit();
+   }
    else if (keyboard.pressed(*w_key))
       screenMovement.y = -vel;
    else if (keyboard.pressed(*s_key))
@@ -116,18 +130,17 @@ void Stage1::logic(){
 
    farolete->update(mouse_position.x, mouse_position.y);
    hud->update(farolete->getHp(), farolete->getStamina(), farolete->getGunId(), farolete->getBulletQtd());
+   dropManager->update();
 
-   if (inimigoT->getHp() > 0)
-      inimigoT->update();
-
-
-   if((inimigoT->testVision() && !farolete->getHidden())
-   ||  inimigoT->getFollow()  && !farolete->getHidden()){
-      inimigoT->follow(view.getCenter());
-   }else{
-      inimigoT->follow(sf::Vector2f(-1,-1));
+   for(unsigned i=0; i<inimigos.size();i++){
+      inimigos[i]->update();
+      if((inimigos[i]->testVision() && !farolete->getHidden())
+      ||  inimigos[i]->getFollow()  && !farolete->getHidden()){
+         inimigos[i]->follow(view.getCenter());
+      }else{
+         inimigos[i]->follow(sf::Vector2f(-1,-1));
+      }
    }
-
 }
 
 void Stage1::finish(){

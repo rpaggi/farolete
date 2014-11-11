@@ -23,6 +23,7 @@ public:
 	std::string testVision(CollisionObject * cObj);
     std::string test(CollisionObject * cObj, sf::Vector2f destination);
     CollisionObject testGetObject(CollisionObject * cObj);
+    CollisionObject testGetObject(CollisionObject * cObj, std::string type);
     std::string testCollisionSide(CollisionObject * cObj);
 
 	void remove(CollisionObject * cObj);

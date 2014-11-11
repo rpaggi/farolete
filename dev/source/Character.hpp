@@ -7,6 +7,7 @@
 #include <vector>
 #include <cmath>
 
+#include "Display.hpp"
 #include "Gun.hpp"
 #include "Bullets.hpp"
 #include "CollisionObject.hpp"
@@ -17,10 +18,9 @@
 class Character{
  protected:
    Character();
-
+   Display *         display;
    sf::Vector2f      massCenter;
    sf::Texture       texture;
-   sf::RenderTexture renderTexture;
    sf::Sprite        sprite;
    sf::Vector2u      frameSize;
    sf::Vector2f      position;
@@ -39,7 +39,7 @@ class Character{
    Gun               gun1;
 
  public:
-   sf::Sprite getSprite();
+   void draw();
 
    void setView(sf::View view);
 

@@ -4,10 +4,11 @@
 #define PI 3.14159265
 
 
-Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own){
+Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own, Display * dis){
    owner = own;
    massCenter = mass_center;
    velocity = 5;
+   display = dis;
 
    texture.loadFromFile("images/bullet/texture.png");
    renderTexture.create(screen_size.x, screen_size.y);
@@ -135,12 +136,12 @@ void Bullets::moveBullets() {
    }
 }
 
-sf::Sprite Bullets::getSprite(){
+void Bullets::draw(){
    sf::Sprite sprTemp;
    sf::Vector2f viewMovement;
    
    sprTemp.setTexture(texture);
-   renderTexture.clear(sf::Color(255,255,255,0));
+   // renderTexture.clear(sf::Color(255,255,255,0));
 
    viewMovement.x = ((view.getCenter().x*2) - view.getSize().x)/2;
    viewMovement.y = ((view.getCenter().y*2) - view.getSize().y)/2;
@@ -152,14 +153,11 @@ sf::Sprite Bullets::getSprite(){
          sprTemp.setColor(sf::Color(255,255,255,255));
       }
       sprTemp.setPosition(position[i]+viewMovement);
-      renderTexture.draw(sprTemp);
-      renderTexture.display();
+      display->draw(sprTemp);
    }
 
-   sprite.setTexture(renderTexture.getTexture());
-   sprite.setPosition(viewMovement);
-   
-   return sprite;
+   // sprite.setTexture(renderTexture.getTexture());
+   // sprite.setPosition(viewMovement);
 }
 
 void Bullets::setView(sf::View view){

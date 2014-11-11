@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Image.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -38,6 +39,8 @@ public:
 
     void draw(tmx::MapLoader* map);
 
+    void draw(sf::RectangleShape rectangleShape);
+
     void clear(sf::Color color);
 
     bool pollEvent(sf::Event e);
@@ -45,6 +48,8 @@ public:
     sf::Vector2i getMousePosition();
 
     void printScreen();
+
+    void setActive(bool a);
 };
 
 #endif

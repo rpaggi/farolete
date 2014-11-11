@@ -4,8 +4,8 @@
 Display::Display() {
    window.create(sf::VideoMode(1280, 720), "Farolete", sf::Style::Fullscreen);
    //Use window mode to dev the game (:
-   // window.create(sf::VideoMode(1024, 600), "xingu");
-
+   // window.create(sf::VideoMode(1024, 600), "xingu"); 
+   window.setVerticalSyncEnabled(true);
    window.setMouseCursorVisible(false);
    m_pointer_texture.loadFromFile("images/cursor.png");
    m_pointer_sprite.setTexture(m_pointer_texture);
@@ -55,6 +55,10 @@ void Display::draw(tmx::MapLoader* map) {
    window.draw(*map);
 }
 
+void Display::draw(sf::RectangleShape rectangleShape) {
+   window.draw(rectangleShape);
+}
+
 void Display::clear(sf::Color color) {
    window.clear(color);
 }
@@ -83,4 +87,8 @@ void Display::printScreen(){
    sf::Image image = window.capture();
    filename << "screenshots/screenshot_" << dt[4]<<dt[5]<<dt[6]<<dt[8]<<dt[9]<<dt[11]<<dt[12]<<dt[14]<<dt[15]<<dt[17]<<dt[18] << ".png";
    image.saveToFile( filename.str() );
+}
+
+void Display::setActive(bool a){
+   window.setActive(a);
 }

@@ -53,7 +53,7 @@ void CollisionManager::include(CollisionObject * cObj){
 	}else{
 		cObj->id = 1;
 	}
-	
+
 	collisionObjects.push_back(cObj);
 }
 
@@ -104,6 +104,22 @@ CollisionObject CollisionManager::testGetObject(CollisionObject * cObj){
   	objTemp.type = "n";
 	for(unsigned i=0;i < collisionObjects.size();i++){
 		if(cObj->id != collisionObjects[i]->id && collisionObjects[i]->type!="v"){
+			if((cObj->position.x+cObj->size.x > collisionObjects[i]->position.x)
+			&& (cObj->position.x < collisionObjects[i]->position.x+collisionObjects[i]->size.x)
+			&& (cObj->position.y+cObj->size.y > collisionObjects[i]->position.y)
+			&& (cObj->position.y < collisionObjects[i]->position.y+collisionObjects[i]->size.y)){
+				objTemp = *collisionObjects[i];
+			}
+		}
+	}
+	return objTemp;	
+}
+
+CollisionObject CollisionManager::testGetObject(CollisionObject * cObj, std::string type){
+  	CollisionObject objTemp;
+  	objTemp.type = "n";
+	for(unsigned i=0;i < collisionObjects.size();i++){
+		if(cObj->id != collisionObjects[i]->id && collisionObjects[i]->type == type){
 			if((cObj->position.x+cObj->size.x > collisionObjects[i]->position.x)
 			&& (cObj->position.x < collisionObjects[i]->position.x+collisionObjects[i]->size.x)
 			&& (cObj->position.y+cObj->size.y > collisionObjects[i]->position.y)

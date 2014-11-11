@@ -1,12 +1,12 @@
 #ifndef CHARENEMMY_HPP
 #define CHARENEMMY_HPP
 
+#include "Display.hpp"
+#include "Random.hpp"
 #include "Character.hpp"
 #include "CollisionManager.hpp"
 #include "GunManager.hpp"
 #include <string>
-#include <stdlib.h> /* rand */
-#include <time.h> /* time */
 #include <MapLoader.h>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -40,11 +40,13 @@ private:
     sf::Clock         gunClock;
     float             gunElapsed;
 
+    Display *         display;
+
    void readSpawnAreas(tmx::MapLoader * mapLoader);
 
    void pushTrigger(sf::Vector2f dest);
 public:
-   CharEnemmy(float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader);
+   CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader);
 
    void update();
 
@@ -52,7 +54,7 @@ public:
 
    bool getFollow();
 
-   sf::Sprite getSprite();
+   void draw();
 
    void follow(sf::Vector2f dest);
 };

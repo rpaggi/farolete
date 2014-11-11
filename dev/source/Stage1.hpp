@@ -1,6 +1,7 @@
 #ifndef STAGE1_HPP
 #define STAGE1_HPP
 
+#include <vector>
 #include <SFML/System/Vector2.hpp>
 
 #include "Display.hpp"
@@ -10,12 +11,14 @@
 #include "CharMain.hpp"
 #include "CharEnemmy.hpp"
 #include "Hud.hpp"
+#include "DropManager.hpp"
+#include "DropStamina.hpp"
 
 class Stage1 : public Scene { 
    Display * display;
    CharMain * farolete;
 
-   CharEnemmy * inimigoT;
+   std::vector<CharEnemmy *> inimigos;
 
    KeyboardInput keyboard;
    GameKey* esc;
@@ -45,6 +48,9 @@ class Stage1 : public Scene {
    CollisionManager * collisionManager;
 
    Hud * hud;
+
+   DropItem    * dropStamina;
+   DropManager * dropManager;
 
 public:
    Stage1(Display * d);

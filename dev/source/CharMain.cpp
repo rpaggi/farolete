@@ -1,10 +1,12 @@
 #include "CharMain.hpp"
 #include <iostream>
 
-CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager){
+CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, Display * dis){
    //Defines the mass center of person using the screen size pushed from parameter
    massCenter.x = screen_x/2;
    massCenter.y = screen_y/2;
+
+   display = dis;
 
    //Load the texture map
    texture.loadFromFile("images/character/farolete.png");
@@ -24,9 +26,8 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager){
    sf::Vector2f screen_size;
    screen_size.x = screen_x;
    screen_size.y = screen_y;
-   renderTexture.create(screen_x, screen_y);
 
-   bullets = new Bullets(massCenter, screen_size, "c");
+   bullets = new Bullets(massCenter, screen_size, "c", dis);
 
    collisionObject = new CollisionObject();
    collisionManager            = cManager;
@@ -96,7 +97,12 @@ void CharMain::update(float x, float y){
    }
 
     for(unsigned i=0;i < collisionObject->events.size();i++){
-      hp -= collisionObject->events[i];
+      std::cout<<collisionObject->events[i]<<std::endl;
+      if(collisionObject->events[i] > 0){
+         hp -= collisionObject->events[i];
+      }else if(collisionObject->events[i] == -1){
+         stamina += 10;
+      }
     }
     collisionObject->clearEvents();
 }

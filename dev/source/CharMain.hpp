@@ -23,7 +23,7 @@ private:
    int           bulletStock;
 
 public:
-   CharMain(float screen_x, float screen_y, CollisionManager * cManager);
+   CharMain(float screen_x, float screen_y, CollisionManager * cManager, Display * dis);
 
    void         update(float x, float y);
 
