@@ -24,6 +24,7 @@ void Stage1::start(){
    snapshot_key = new GameKey(sf::Keyboard::F12);
 
    mb_left = new MouseButton(sf::Mouse::Left);
+   mb_right = new MouseButton(sf::Mouse::Right);
 
    collisionManager = new CollisionManager();
 

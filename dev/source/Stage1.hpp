@@ -34,6 +34,7 @@ class Stage1 : public Scene {
 
    MouseInput mouse;
    MouseButton* mb_left;
+   MouseButton* mb_right;
 
    sf::Vector2i mouse_position;
    sf::View view;
