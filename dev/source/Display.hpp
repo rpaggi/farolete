@@ -7,6 +7,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Vector2.hpp>
 
@@ -16,8 +17,8 @@
 
 class Display{
     sf::RenderWindow window;
-    sf::Texture m_pointer_texture;
-    sf::Sprite m_pointer_sprite;
+    sf::Texture      m_pointer_texture;
+    sf::Sprite       m_pointer_sprite;
 public:
     Display();
 
@@ -48,8 +49,6 @@ public:
     sf::Vector2i getMousePosition();
 
     void printScreen();
-
-    void setActive(bool a);
 };
 
 #endif

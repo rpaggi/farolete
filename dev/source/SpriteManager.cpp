@@ -1,43 +1,96 @@
 #include "SpriteManager.hpp"
+#include <iostream>
 
-SpriteManager::SpriteManager() {}
-
-void SpriteManager::start(Display * d, std::string file, int countF, int refreshRate){
-    refreshRate = refreshRate;
-    counter = 0; 
-	display = d;
-	texture.loadFromFile("imgMenu/menu_bg.png");
-	countFrames = countF;
-	fSize.x = texture.getSize().x/countF;
-	fSize.y = texture.getSize().y;
-	sprite.setTexture(texture);
-	sprite.setTextureRect(sf::IntRect(0, 0, fSize.x, fSize.y));
-	sprite.setPosition(0,0);
+SpriteManager::SpriteManager(Display * d, std::string file){
+   display = d;
+   texture.loadFromFile(file);
+   sprite.setTexture(texture);
+   sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
+   animationFrame = 0;
+   frameRate = 0.15;
+   color = 255;
+   alpha = 255;
 }
 
 void SpriteManager::draw(){
-    display->draw(sprite);
+   if(hited){
+       color = 200;
+       hited = false;
+   }
+   else{
+       if(color<255)
+            color+=1;
+   }
+
+   if(hide){
+      alpha = 190;
+   }else{
+      alpha = 255;
+   }
+
+   sprite.setColor(sf::Color(color,color,255,alpha));
+
+   display->draw(sprite);
 }
 
-void SpriteManager::change(){
-    if (counter % refreshRate) {
-        counter++;
-        return;
-    }
-	sf::IntRect texRect = sprite.getTextureRect();
+void SpriteManager::update(int gunId, int side){
+   // sprite.setPosition(position);
+   int gunCast;
 
-	if((texRect.left+fSize.x) < texture.getSize().x){
-		sprite.setTextureRect(sf::IntRect((texRect.left+fSize.x), 0, fSize.x, fSize.y));
-	}else{
-		sprite.setTextureRect(sf::IntRect(0, 0, fSize.x, fSize.y));
-	}
-    counter = 1;
+   // gunId = 6;
+   if(gunId < 6){
+      if(gunId == 1){
+         gunCast = gunId;
+      }else if(gunId == 2){
+         gunCast = 4;
+      }else if(gunId == 3){
+         gunCast = 3;
+      }else if(gunId == 4){
+         gunCast = 5;
+      }else if(gunId == 5){
+         gunCast = 6;
+      }
+      sprite.setTextureRect(sf::IntRect((((100*3)*(side-1))+(100*animationFrame)), (100*gunCast), 100, 100));
+      // sprite.setTextureRect(sf::IntRect((((100*3)*(side-1))+(100*animationFrame)), 600, 100, 100));
+   }else{
+      if(side == 1){
+         sprite.setTextureRect(sf::IntRect(0, 700, 100, 120));
+      }else if(side == 2){
+         sprite.setTextureRect(sf::IntRect(300, 700, 100, 139));
+      }else if(side == 3){
+         sprite.setTextureRect(sf::IntRect(600, 700, 120, 100));
+      }else if(side == 4){
+         sprite.setTextureRect(sf::IntRect(1000, 700, 120, 100));
+      }
+   }
+
 }
 
-void SpriteManager::setPosition(float x, float y){
-	sprite.setPosition(x,y);
+void SpriteManager::setPosition(sf::Vector2f position){
+   sprite.setPosition(position);
 }
 
-sf::Sprite SpriteManager::getSprite(){
-	return sprite;
+void SpriteManager::setHide(bool hide){
+   this->hide = hide;
+}
+
+void SpriteManager::animate(){
+   float currentTime = clock.getElapsedTime().asSeconds();
+
+   if(currentTime > frameRate){
+      animationFrame += 1;
+      if(animationFrame>2){
+         animationFrame = 0;  
+      }
+
+      clock.restart();
+   }
+}
+
+void SpriteManager::hit(){
+   hited = true;
+}
+
+void SpriteManager::setFrameRate(float fr){
+   frameRate = fr;
 }

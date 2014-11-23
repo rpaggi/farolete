@@ -17,6 +17,7 @@ Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string
 
    elapsedCounter = 0;
    lifetime = 1.5;
+   hide = false;
 }
 
 void Bullets::destroyBullet(int i){
@@ -71,8 +72,8 @@ void Bullets::includeBullet(sf::Vector2f dest){
    else
       cObj->position       = massCenter;
 
-   cObj->size.x         = 15;
-   cObj->size.y         = 15;
+   cObj->size.x         = 10;
+   cObj->size.y         = 10;
    collisionObject.push_back(cObj);
 }
 
@@ -117,7 +118,7 @@ void Bullets::moveBullets() {
                destroyBullet(i);
             }
 
-            if(cObjT.type=="cs"){
+            if(cObjT.type=="cs" || hide){
                hidden[i] = true;
             }else if(hidden[i]){
                hidden[i] = false;
@@ -169,9 +170,17 @@ void Bullets::setMassCenter(sf::Vector2f mc){
 }
 
 void Bullets::setLifetime(float l){
-   lifetime = 0.4 * l;
+   if(l == 0){
+      lifetime = 0.18;
+   }else{
+      lifetime = 0.4 * l;
+   }
 }
 
 void Bullets::setDamage(int d){
    damage = 2.5*(d+1);
+}
+
+void Bullets::setHide(bool h){
+   hide = h;
 }

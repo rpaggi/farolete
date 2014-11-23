@@ -12,6 +12,7 @@
 #include "Bullets.hpp"
 #include "CollisionObject.hpp"
 #include "CollisionManager.hpp"
+#include "SpriteManager.hpp"
 
 #define PI 3.14159265
 
@@ -29,14 +30,17 @@ class Character{
    CollisionObject * collisionObject;
    sf::Vector2f      collisionMargin;
 
+   SpriteManager   * spriteManager;
+
    Bullets *         bullets;
 
    int               hp;
    int               xp;
-   int               level;
    float             velocity;
 
    Gun               gun1;
+
+   int               side;
 
  public:
    void draw();
@@ -44,6 +48,8 @@ class Character{
    void setView(sf::View view);
 
    int  getHp();
+
+   void animate();
 };
 
 #endif

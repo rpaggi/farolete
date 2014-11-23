@@ -10,6 +10,10 @@ void Stage1::start(){
    float screen_y = display->getSize().y;
 
    view = display->getView();
+
+   loadingTex.loadFromFile("images/FaroleteInfos.png");
+   loadingSpr.setTexture(loadingTex);
+   display->draw(loadingSpr);
    this->render();
 
    esc =   new GameKey(sf::Keyboard::Escape);
@@ -21,6 +25,8 @@ void Stage1::start(){
    s_key = new GameKey(sf::Keyboard::S);
    d_key = new GameKey(sf::Keyboard::D);
    w_key = new GameKey(sf::Keyboard::W);
+   c_key = new GameKey(sf::Keyboard::C);
+   spacebar = new GameKey(sf::Keyboard::Space);
    snapshot_key = new GameKey(sf::Keyboard::F12);
 
    mb_left = new MouseButton(sf::Mouse::Left);
@@ -35,14 +41,18 @@ void Stage1::start(){
 
    farolete = new CharMain(screen_x, screen_y, collisionManager, display);
 
-   for(int i=0;i<40;i++){
-      inimigos.push_back(new CharEnemmy(display, screen_x, screen_y, collisionManager, mapLoader));
-
-      this->render();
-   }
-
    dropManager = new DropManager(display, mapSize.x, mapSize.y, collisionManager);
    dropManager->sortItem(750, 780);
+
+   waveManager = new WaveManager(1, screen_x, screen_y, collisionManager, mapLoader, display);
+   inimigos = waveManager->getWaveEnemmyList(1);
+
+   for(unsigned i=0;i<inimigos.size();i++){
+      inimigos[i]->activeCollision();
+      inimigos[i]->setDropManager(dropManager);
+   }
+
+   loadWave = 0;
 
    mapSize.x = (mapSize.x/2)-(view.getSize().x/2);
    mapSize.y = (mapSize.y/2)-(view.getSize().y/2);
@@ -81,18 +91,30 @@ void Stage1::logic(){
 
    float vel = 2.2f;
    if (keyboard.triggered(*esc)){
-         sceneManager->exit();
+      sceneManager->exit();
    }
-   else if (keyboard.pressed(*w_key))
+   
+   if (keyboard.pressed(*w_key)){
       screenMovement.y = -vel;
-   else if (keyboard.pressed(*s_key))
+   }else if (keyboard.pressed(*s_key)){
       screenMovement.y = vel;
-   else if (keyboard.pressed(*a_key))
+   }else if (keyboard.pressed(*a_key)){
       screenMovement.x = -vel;
-   else if (keyboard.pressed(*d_key))
+   }else if (keyboard.pressed(*d_key)){
       screenMovement.x = vel;
-   else if (keyboard.pressed(*snapshot_key))
+   }
+
+   if (keyboard.triggered(*c_key)){
+      dropManager->getGunOn();
+   }
+
+   if (keyboard.triggered(*snapshot_key)){
       display->printScreen();
+   }
+
+   if(keyboard.triggered(*spacebar)){
+      farolete->switchGun();
+   }
 
    //screenMovement = Helpers::Vectors::Normalize(screenMovement);
 
@@ -105,24 +127,30 @@ void Stage1::logic(){
    mouse_position = display->getMousePosition();
 
    if(farolete->getHp() > 0){
+      if(screenMovement.x != 0 || screenMovement.y != 0){
+         farolete->animate();
+      }
+
       view.move(screenMovement);
       display->setView(view);
       farolete->move(view.getCenter());
       farolete->setView(view);
 
+      sf::Vector2f cast;
+      cast.x = mouse_position.x;
+      cast.y = mouse_position.y;
+
       if(farolete->getTriggerType() == 1){
          if (mouse.triggered(*mb_left)){
-            sf::Vector2f cast;
-            cast.x = mouse_position.x;
-            cast.y = mouse_position.y;
             farolete->pushTrigger(cast);   
+         }else if(mouse.triggered(*mb_right)){
+            farolete->fastTrigger(cast);
          }
       }else{
          if (mouse.pressed(*mb_left)){
-            sf::Vector2f cast;
-            cast.x = mouse_position.x;
-            cast.y = mouse_position.y;
             farolete->pushTrigger(cast);   
+         }else if(mouse.pressed(*mb_right)){
+            farolete->fastTrigger(cast);  
          }
       }
    }else{
@@ -140,6 +168,26 @@ void Stage1::logic(){
          inimigos[i]->follow(view.getCenter());
       }else{
          inimigos[i]->follow(sf::Vector2f(-1,-1));
+      }
+
+      if(inimigos[i]->getHp() <= 0){
+         inimigos[i]->kill();
+         inimigos.erase(inimigos.begin() + i);
+      }
+   }
+
+   if(inimigos.size() <= 0){
+      if(loadWave == 0){
+         loadWave = elapsed;
+      }
+      if(elapsed - loadWave >= 5){
+         //waveManager->setWaveAtual(waveManager->getWaveAtual() + 1);
+         inimigos = waveManager->getWaveEnemmyList(waveManager->getWaveAtual() + 1);
+         loadWave = 0;
+         for(unsigned i=0;i<inimigos.size();i++){
+            inimigos[i]->activeCollision();
+            inimigos[i]->setDropManager(dropManager);
+         }
       }
    }
 }

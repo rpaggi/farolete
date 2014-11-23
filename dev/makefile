@@ -39,14 +39,20 @@ obj/Gun.o: source/Gun.cpp
 	g++ -c "source/Gun.cpp" -o obj/Gun.o -std=c++0x
 obj/GunManager.o: source/GunManager.cpp
 	g++ -c "source/GunManager.cpp" -o obj/GunManager.o -std=c++0x
+obj/SpriteManager.o: source/SpriteManager.cpp
+	g++ -c "source/SpriteManager.cpp" -o obj/SpriteManager.o -std=c++0x
 obj/DropItem.o: source/DropItem.cpp
 	g++ -c "source/DropItem.cpp" -o obj/DropItem.o -std=c++0x
 obj/DropStamina.o: source/DropStamina.cpp
 	g++ -c "source/DropStamina.cpp" -o obj/DropStamina.o -std=c++0x
+obj/DropHealth.o: source/DropHealth.cpp
+	g++ -c "source/DropHealth.cpp" -o obj/DropHealth.o -std=c++0x
+obj/DropBullets.o: source/DropBullets.cpp
+	g++ -c "source/DropBullets.cpp" -o obj/DropBullets.o -std=c++0x
+obj/DropColt.o: source/DropColt.cpp
+	g++ -c "source/DropColt.cpp" -o obj/DropColt.o -std=c++0x
 obj/DropManager.o: source/DropManager.cpp
 	g++ -c "source/DropManager.cpp" -o obj/DropManager.o -std=c++0x
-obj/EnemmyParmsInterface.o: source/EnemmyParmsInterface.cpp
-	g++ -c "source/EnemmyParmsInterface.cpp" -o obj/EnemmyParmsInterface.o -std=c++0x
 obj/Character.o: source/Character.cpp
 	g++ -c "source/Character.cpp" -o obj/Character.o -std=c++0x
 obj/CharMain.o: source/CharMain.cpp
@@ -55,11 +61,15 @@ obj/CharEnemmy.o: source/CharEnemmy.cpp
 	g++ -c "source/CharEnemmy.cpp" -o obj/CharEnemmy.o -std=c++0x
 obj/Hud.o: source/Hud.cpp
 	g++ -c "source/Hud.cpp" -o obj/Hud.o -std=c++0x
+obj/Wave.o: source/Wave.cpp
+	g++ -c "source/Wave.cpp" -o obj/Wave.o -std=c++0x
+obj/WaveManager.o: source/Wavemanager.cpp
+	g++ -c "source/WaveManager.cpp" -o obj/WaveManager.o -std=c++0x
 obj/Stage1.o: source/Stage1.cpp
 	g++ -c "source/Stage1.cpp" -o obj/Stage1.o -std=c++0x
 obj/main.o: source/main.cpp
 	g++ -c "source/main.cpp" -o obj/main.o -std=c++0x
 obj/xingu.res: source/xingu.rc
 	windres "source/xingu.rc" -O coff -o obj/xingu.res
-xingu.exe: obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/DropItem.o obj/DropStamina.o obj/DropManager.o obj/EnemmyParmsInterface.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res
-	g++ -o bin/xingu.exe obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/DropItem.o obj/DropStamina.o obj/DropManager.o obj/EnemmyParmsInterface.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x
+xingu.exe: obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropColt.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res
+	g++ -o bin/xingu.exe obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropColt.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x

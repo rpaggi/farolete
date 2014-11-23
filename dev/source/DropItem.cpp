@@ -7,10 +7,10 @@ DropItem::DropItem(){
 void DropItem::start(){
    this->id                           = 0;
    this->collisionObject              = new CollisionObject();
-   this->collisionObject->position.x  = this->sprite.getPosition().x;
-   this->collisionObject->position.y  = this->sprite.getPosition().y;
-   this->collisionObject->size.x      = this->texture.getSize().x;
-   this->collisionObject->size.y      = this->texture.getSize().y;
+   this->collisionObject->position.x  = this->sprite.getPosition().x + 10;
+   this->collisionObject->position.y  = this->sprite.getPosition().y + 10;
+   this->collisionObject->size.x      = this->texture.getSize().x - 20;
+   this->collisionObject->size.y      = this->texture.getSize().y - 20;
    this->collisionObject->type        = "d";
 }
 

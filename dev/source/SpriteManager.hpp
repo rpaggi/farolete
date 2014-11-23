@@ -4,30 +4,48 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/System/Clock.hpp>
+#include <string>
 
 #include "Display.hpp"
 
 class SpriteManager{
 private:
-	Display * display;
-	sf::Texture texture;
-	sf::Sprite sprite;
-	sf::Vector2u fSize;
-	int countFrames;
-    int counter;
-    int refreshRate;
-public:
-	SpriteManager();
+	Display      *display;
+	sf::Clock     clock;
+	float         lastTime;
+	sf::Texture   texture;
+	sf::Sprite    sprite;
+	sf::Vector2f  fSize;
+	bool          hide;
+	bool          hited;
+	int           animationFrame;
+	float         frameRate;
+	int           color;
+	int           alpha;
 
-	void start(Display * d, std::string file, int countF, int refreshRate);
+public:
+	SpriteManager(Display * d, std::string file);
 
 	void draw();
 
-	void change();
+	/* To the update method, the side definition is:
+	 * 1 = behind / up
+	 * 2 = front   / down
+	 * 3 = left side
+	 * 4 = right side
+	 */
+	void update(int gunId, int side);
 
-	void setPosition(float x, float y);
+	void animate();
 
-	sf::Sprite getSprite();
+	void setPosition(sf::Vector2f position);
+
+	void setHide(bool hide);
+
+	void hit();
+
+	void setFrameRate(float fr);
 };
 
 #endif

@@ -16,6 +16,10 @@ float EnemmyParmsInterface::getVelocity(){
 	return velocity;
 }
 
+float EnemmyParmsInterface::getHp(){
+	return hp;
+}
+
 int EnemmyParmsInterface::getIdGun(){
 	return idGun;
 }

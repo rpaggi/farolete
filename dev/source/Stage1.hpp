@@ -13,10 +13,13 @@
 #include "Hud.hpp"
 #include "DropManager.hpp"
 #include "DropStamina.hpp"
+#include "WaveManager.hpp"
 
 class Stage1 : public Scene { 
    Display * display;
    CharMain * farolete;
+
+   WaveManager * waveManager;
 
    std::vector<CharEnemmy *> inimigos;
 
@@ -30,6 +33,8 @@ class Stage1 : public Scene {
    GameKey* s_key;
    GameKey* d_key;
    GameKey* w_key;
+   GameKey* c_key;
+   GameKey* spacebar;
    GameKey* snapshot_key;
 
    MouseInput mouse;
@@ -52,6 +57,11 @@ class Stage1 : public Scene {
 
    DropItem    * dropStamina;
    DropManager * dropManager;
+
+   sf::Texture loadingTex;
+   sf::Sprite  loadingSpr;
+
+   float       loadWave;
 
 public:
    Stage1(Display * d);

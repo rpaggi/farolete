@@ -10,16 +10,19 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
 
    //Load the texture map
    texture.loadFromFile("images/character/farolete.png");
+   spriteManager = new SpriteManager(display, "images/character/spriteSheetFarolete.png");
+   spriteManager->setFrameRate(0.1);
 
    //Load texture into sprite
-   sprite.setTexture(texture);
+   // sprite.setTexture(texture);
 
-   frameSize.x = 102;
-   frameSize.y = 104;
+   frameSize.x = 100;
+   frameSize.y = 100;
 
    //Configure sprite frame
-   sprite.setTextureRect(sf::IntRect(0, 0, frameSize.x, frameSize.y));
-   sprite.setPosition((screen_x/2)-(frameSize.x/2),(screen_y/2)-(frameSize.y/2));
+   // sprite.setTextureRect(sf::IntRect(0, 0, frameSize.x, frameSize.y));
+   // sprite.setPosition((screen_x/2)-(frameSize.x/2),(screen_y/2)-(frameSize.y/2));
+   spriteManager->setPosition(sf::Vector2f((screen_x/2)-(frameSize.x/2),(screen_y/2)-(frameSize.y/2)));
    position.x = (screen_x/2)-(frameSize.x/2);
    position.y = (screen_y/2)-(frameSize.y/2);
 
@@ -33,7 +36,7 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    collisionManager            = cManager;
    bullets->setCollisionManager(cManager);   
 
-   collisionMargin.x = 22.f;
+   collisionMargin.x = 25.f;
    collisionMargin.y = 10.f;
 
    collisionObject->type       = "c";  
@@ -48,6 +51,7 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
 
    gunManager = new GunManager();
    gun1 = gunManager->getGun(2);
+   gun2 = gunManager->getGun(1);
    activeGun = gun1; 
    gunFlag = 1;
 
@@ -55,19 +59,31 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    bullets->setDamage(gun1.getDamage());
 
    stamina = 50;
-   bulletStock = 10;
+   bulletStock = 50;
+
+   fastShot = 1;
+
+   hp = 100;
 }
 
 void CharMain::changeSprite(float angle){
-    if((angle>=0 && angle<32.195) || (angle>=328.8 && angle<=360)){
-      sprite.setTextureRect(sf::IntRect(0, frameSize.y*2, 100, 100));
-    }else if(angle>=32.195 && angle<152.276){
-      sprite.setTextureRect(sf::IntRect(0, frameSize.y*1, 100, 100));
-    }else if(angle>=152.276 && angle<206.8){
-      sprite.setTextureRect(sf::IntRect(0, frameSize.y*3, 100, 100));
-    }else if(angle>=206.8 && angle<328.8){
-      sprite.setTextureRect(sf::IntRect(0, frameSize.y*4, 100, 100));
-    }
+   if((angle>=0 && angle<32.195) || (angle>=328.8 && angle<=360)){
+      //Right
+      side = 4;
+      // sprite.setTextureRect(sf::IntRect(0, frameSize.y*2, 100, 100));
+   }else if(angle>=32.195 && angle<152.276){
+      //Down
+      side = 2;
+      // sprite.setTextureRect(sf::IntRect(0, frameSize.y*1, 100, 100));
+   }else if(angle>=152.276 && angle<206.8){
+      //Left
+      side = 3;
+      // sprite.setTextureRect(sf::IntRect(0, frameSize.y*3, 100, 100));
+   }else if(angle>=206.8 && angle<328.8){
+      //Up
+      side = 1;
+      // sprite.setTextureRect(sf::IntRect(0, frameSize.y*4, 100, 100));
+   }
 }
 
 void CharMain::update(float x, float y){
@@ -90,18 +106,18 @@ void CharMain::update(float x, float y){
    }
    changeSprite(ang);
 
-   if(hidden){
-      sprite.setColor(sf::Color(255,255,255,190));
-   }else{
-      sprite.setColor(sf::Color(255,255,255,255));
-   }
+   spriteManager->update(activeGun.getId(), side);
+   spriteManager->setHide(hidden);
 
     for(unsigned i=0;i < collisionObject->events.size();i++){
-      std::cout<<collisionObject->events[i]<<std::endl;
       if(collisionObject->events[i] > 0){
          hp -= collisionObject->events[i];
       }else if(collisionObject->events[i] == -1){
          stamina += 10;
+      }else if(collisionObject->events[i] == -2){
+         hp += 10;
+      }else if(collisionObject->events[i] == -3){
+         bulletStock += 10;
       }
     }
     collisionObject->clearEvents();
@@ -110,14 +126,15 @@ void CharMain::update(float x, float y){
 void CharMain::move(sf::Vector2f pos){
    position.x = pos.x-(frameSize.x/2);
    position.y = pos.y-(frameSize.y/2);
-   sprite.setPosition(position.x, position.y);
+   // sprite.setPosition(position.x, position.y);
+   spriteManager->setPosition(position);
    collisionObject->position = position;
    collisionObject->position.x+= collisionMargin.x;
    collisionObject->position.y+= collisionMargin.y;
 }
 
 bool CharMain::testCollisionMovement(sf::Vector2f destination){
-   std::string test = collisionManager->test(collisionObject, destination);
+   std::string test = collisionManager->test(collisionObject, destination);   
    if(test != "n"){
       if(test == "cs"){
          hidden = true;
@@ -137,15 +154,32 @@ void CharMain::pushTrigger(sf::Vector2f dest){
    if(controlTrigger){
       if(activeGun.getRange() > 0 && bulletStock > 0){
          bullets->includeBullet(dest);
+         
          bulletStock--;
+
+         if(fastShot>1){
+            stamina -= 5;
+         }
+      }else{
+         if(activeGun.getId() == 1){
+            bullets->includeBullet(dest);
+         }
       }
       controlTrigger = false;
    }
    else{
-      if(gElapsed >= (0.75/activeGun.getCadence())){
+      if(gElapsed >= ((0.75 / fastShot)/activeGun.getCadence()) || activeGun.getId() == 1){
          gClock.restart();
          controlTrigger = true;
       }
+   }
+}
+
+void CharMain::fastTrigger(sf::Vector2f dest){
+   if(stamina>0){
+      fastShot = 2.5;
+      this->pushTrigger(dest);
+      fastShot = 1.f;
    }
 }
 
@@ -179,4 +213,21 @@ int CharMain::getGunId(){
 
 int CharMain::getBulletQtd(){
    return bulletStock;
+}
+
+void CharMain::switchGun(){
+   if(activeGun.getId() == gun1.getId()){
+      activeGun = gun2;
+   }else{
+      activeGun = gun1;
+   }
+
+   bullets->setLifetime(activeGun.getRange());
+   bullets->setDamage(activeGun.getDamage());
+
+   if(activeGun.getId() == 1){
+      bullets->setHide(true);
+   }else{
+      bullets->setHide(false);
+   }
 }

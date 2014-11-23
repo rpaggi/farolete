@@ -6,6 +6,7 @@
 #include "Character.hpp"
 #include "CollisionManager.hpp"
 #include "GunManager.hpp"
+#include "DropManager.hpp"
 #include <string>
 #include <MapLoader.h>
 #include <SFML/System/Time.hpp>
@@ -14,6 +15,8 @@
 
 class CharEnemmy : public Character {
 private:
+   //
+   int id;
    //Direction code is the number of direction to the movimentation. Left=1, Up=2, Right=3 and Down=4
    int codDirection;
    int oldCodDirection;
@@ -22,6 +25,8 @@ private:
    float velocity;
    CollisionObject * visionX;
    CollisionObject * visionY;
+
+   DropManager     * dropManager;
 
    sf::Vector2f      collisionMarginVision;
 
@@ -42,11 +47,13 @@ private:
 
     Display *         display;
 
+    bool              dropGun;
+
    void readSpawnAreas(tmx::MapLoader * mapLoader);
 
    void pushTrigger(sf::Vector2f dest);
 public:
-   CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader);
+   CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader, int hp, int xp, int gunId, float velocity, int idInimigo, float alcanceVisao);
 
    void update();
 
@@ -57,6 +64,14 @@ public:
    void draw();
 
    void follow(sf::Vector2f dest);
+
+   void activeCollision();
+
+   void kill();
+
+   void setDropManager(DropManager *);
+
+   void setDropGun(bool dg);
 };
 
 #endif

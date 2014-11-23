@@ -38,6 +38,8 @@ class Bullets{
    float                         lifetime;
    float                         damage;
 
+   bool                          hide;
+
    void                          destroyBullet(int i);
 public:
    Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string own, Display * dis);
@@ -57,6 +59,8 @@ public:
    void setLifetime(float l);
 
    void setDamage(int d);
+
+   void setHide(bool h);
 };
 
 #endif

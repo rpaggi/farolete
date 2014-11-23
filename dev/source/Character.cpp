@@ -2,7 +2,6 @@
 #include <iostream>
 
 Character::Character(){
-   hp = 100;
 }
 
 void Character::draw(){
@@ -15,7 +14,8 @@ void Character::draw(){
 
    // display->draw(bullets->getSprite());
    bullets->draw();
-   display->draw(sprite);
+   // display->draw(sprite);
+   spriteManager->draw();
 
    // sf::View view = renderTexture.getView();
    // spriteTemp.setTexture(renderTexture.getTexture());
@@ -29,4 +29,8 @@ void Character::setView(sf::View view){
 
 int Character::getHp(){
    return hp;
+}
+
+void Character::animate(){
+   spriteManager->animate();
 }
