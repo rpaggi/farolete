@@ -52,7 +52,7 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    gunManager = new GunManager();
    gun1 = gunManager->getGun(2);
    gun2 = gunManager->getGun(1);
-   activeGun = gun1; 
+   activeGun = &gun1; 
    gunFlag = 1;
 
    bullets->setLifetime(gun1.getRange());
@@ -106,7 +106,7 @@ void CharMain::update(float x, float y){
    }
    changeSprite(ang);
 
-   spriteManager->update(activeGun.getId(), side);
+   spriteManager->update(activeGun->getId(), side);
    spriteManager->setHide(hidden);
 
     for(unsigned i=0;i < collisionObject->events.size();i++){
@@ -118,6 +118,10 @@ void CharMain::update(float x, float y){
          hp += 10;
       }else if(collisionObject->events[i] == -3){
          bulletStock += 10;
+      }else if(collisionObject->events[i] == -11){
+         gun1 = gunManager->getGun(2);
+      }else if(collisionObject->events[i] == -12){
+         gun1 = gunManager->getGun(3);
       }
     }
     collisionObject->clearEvents();
@@ -152,7 +156,7 @@ bool CharMain::testCollisionMovement(sf::Vector2f destination){
 
 void CharMain::pushTrigger(sf::Vector2f dest){
    if(controlTrigger){
-      if(activeGun.getRange() > 0 && bulletStock > 0){
+      if(activeGun->getRange() > 0 && bulletStock > 0){
          bullets->includeBullet(dest);
          
          bulletStock--;
@@ -161,14 +165,14 @@ void CharMain::pushTrigger(sf::Vector2f dest){
             stamina -= 5;
          }
       }else{
-         if(activeGun.getId() == 1){
+         if(activeGun->getId() == 1){
             bullets->includeBullet(dest);
          }
       }
       controlTrigger = false;
    }
    else{
-      if(gElapsed >= ((0.75 / fastShot)/activeGun.getCadence()) || activeGun.getId() == 1){
+      if(gElapsed >= ((0.75 / fastShot)/activeGun->getCadence()) || activeGun->getId() == 1){
          gClock.restart();
          controlTrigger = true;
       }
@@ -184,7 +188,7 @@ void CharMain::fastTrigger(sf::Vector2f dest){
 }
 
 int CharMain::getTriggerType(){
-   if (activeGun.getCadence() == 3){
+   if (activeGun->getCadence() == 3){
       return 2;
    }else{
       return 1;
@@ -208,7 +212,7 @@ float CharMain::getStamina(){
 }
 
 int CharMain::getGunId(){
-   return activeGun.getId();
+   return activeGun->getId();
 }
 
 int CharMain::getBulletQtd(){
@@ -216,16 +220,16 @@ int CharMain::getBulletQtd(){
 }
 
 void CharMain::switchGun(){
-   if(activeGun.getId() == gun1.getId()){
-      activeGun = gun2;
+   if(activeGun->getId() == gun1.getId()){
+      activeGun = &gun2;
    }else{
-      activeGun = gun1;
+      activeGun = &gun1;
    }
 
-   bullets->setLifetime(activeGun.getRange());
-   bullets->setDamage(activeGun.getDamage());
+   bullets->setLifetime(activeGun->getRange());
+   bullets->setDamage(activeGun->getDamage());
 
-   if(activeGun.getId() == 1){
+   if(activeGun->getId() == 1){
       bullets->setHide(true);
    }else{
       bullets->setHide(false);

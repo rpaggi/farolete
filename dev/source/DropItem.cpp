@@ -33,3 +33,7 @@ void DropItem::setId(int id){
 char DropItem::getType(){
    return this->type;
 }
+
+int DropItem::getGunId(){
+
+}

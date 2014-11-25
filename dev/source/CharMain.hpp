@@ -15,7 +15,7 @@ private:
 
    GunManager *  gunManager;
    int           gunFlag;
-   Gun           activeGun;
+   Gun        *  activeGun;
    Gun           gun2;
    sf::Clock     gClock;
    sf::Time      gTime;

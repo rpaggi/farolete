@@ -22,6 +22,8 @@ public:
 	int               getId();
 	void              setId(int id);
 	char              getType();
+
+	int               getGunId();
 };
 
 #endif

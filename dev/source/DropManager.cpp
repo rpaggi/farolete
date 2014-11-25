@@ -50,6 +50,11 @@ void DropManager::update(){
          }else if(type == 'g'){
             showMessage = true;
             if(getGun){
+               if(vetor[i]->getGunId() == 2){
+                  collisionManager->includeEventToObject(-11, cObj.id);
+               }else if(vetor[i]->getGunId() == 3){
+                  collisionManager->includeEventToObject(-12, cObj.id);
+               }
                collisionManager->remove(vetor[i]->getCollisionObject());
                vetor.erase(vetor.begin() + i);
                getGun = false;
