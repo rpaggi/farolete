@@ -59,6 +59,11 @@ void Stage1::start(){
    view.move(mapSize.x, mapSize.y+30);
 
    hud = new Hud(display);
+
+   verdana.loadFromFile("images/hud/verdanab.ttf");
+   txtCont.setFont(verdana);
+   txtCont.setString("00");
+   txtCont.setCharacterSize(32);
 }
 
 void Stage1::draw(){
@@ -71,6 +76,15 @@ void Stage1::draw(){
 
    for(unsigned i=0; i<inimigos.size();i++){
       inimigos[i]->draw();
+   }
+
+   if(cont > 0){
+      if(cont<=3){
+         txtCont.setColor(sf::Color::Red);
+      }else{
+         txtCont.setColor(sf::Color(100, 100, 100));         
+      }
+      display->draw(txtCont);
    }
 
    hud->draw();
@@ -171,6 +185,7 @@ void Stage1::logic(){
       }
 
       if(inimigos[i]->getHp() <= 0){
+         farolete->addXp(inimigos[i]->getXp());
          inimigos[i]->kill();
          inimigos.erase(inimigos.begin() + i);
       }
@@ -180,16 +195,32 @@ void Stage1::logic(){
       if(loadWave == 0){
          loadWave = elapsed;
       }
-      if(elapsed - loadWave >= 5){
+
+      cont = 10 - (elapsed - loadWave);
+
+      std::ostringstream ss;
+
+      if(cont<10){
+         ss <<"0"<< cont;
+      }else{
+         ss << cont;
+      }
+
+      txtCont.setString(ss.str());
+
+      if(elapsed - loadWave >= 10){
          //waveManager->setWaveAtual(waveManager->getWaveAtual() + 1);
          inimigos = waveManager->getWaveEnemmyList(waveManager->getWaveAtual() + 1);
          loadWave = 0;
+         cont = 0;
          for(unsigned i=0;i<inimigos.size();i++){
             inimigos[i]->activeCollision();
             inimigos[i]->setDropManager(dropManager);
          }
       }
    }
+
+   txtCont.setPosition((view.getCenter().x)-10, (view.getCenter().y - display->getSize().y/2) + 30);
 }
 
 void Stage1::finish(){

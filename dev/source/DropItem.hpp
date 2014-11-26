@@ -12,6 +12,8 @@ protected:
 	sf::Sprite          sprite;
 	char                type;
 	CollisionObject *   collisionObject;
+	float               lastTime;
+	int                 gunId;
 
 public:
 	DropItem();
@@ -24,6 +26,9 @@ public:
 	char              getType();
 
 	int               getGunId();
+
+	float             getLastTime();
+	void              setLastTime(float);
 };
 
 #endif

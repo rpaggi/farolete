@@ -5,12 +5,17 @@
 #include <SFML\System\Vector2.hpp>
 #include <SFML\Graphics\Text.hpp>
 #include <SFML\Graphics\Font.hpp>
+#include <SFML\System\Clock.hpp>
 
 #include "Display.hpp"
 #include "DropStamina.hpp"
 #include "DropHealth.hpp"
+#include "DropXp.hpp"
 #include "DropBullets.hpp"
 #include "DropColt.hpp"
+#include "DropLuger.hpp"
+#include "DropMauser.hpp"
+#include "DropWinchester.hpp"
 #include "CollisionManager.hpp"
 #include "Random.hpp"
 
@@ -26,6 +31,9 @@ private:
 	bool                     showMessage;
 
 	bool                     getGun;
+
+	sf::Clock                clock;
+	float                    elapsed;
 public:
 	DropManager(Display * display, float areaX, float areaY, CollisionManager * collisionManager);
 

@@ -52,7 +52,7 @@ public:
 
    void draw();
 
-   void setView(sf::View view);
+   // void setView(sf::View view);
 
    void setMassCenter(sf::Vector2f mc);
 

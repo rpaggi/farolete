@@ -24,7 +24,7 @@ void Character::draw(){
 }
 
 void Character::setView(sf::View view){
-   bullets->setView(view);
+   // bullets->setView(view);
 }
 
 int Character::getHp(){
@@ -33,4 +33,11 @@ int Character::getHp(){
 
 void Character::animate(){
    spriteManager->animate();
+}
+
+int Character::getXp(){
+   return this->xp;
+}
+void Character::addXp(int xp){
+   this->xp += xp;
 }

@@ -11,9 +11,9 @@ Bullets::Bullets(sf::Vector2f mass_center, sf::Vector2f screen_size, std::string
    display = dis;
 
    texture.loadFromFile("images/bullet/texture.png");
-   renderTexture.create(screen_size.x, screen_size.y);
+   // renderTexture.create(screen_size.x, screen_size.y);
 
-   view = renderTexture.getView();
+   view = dis->getView();
 
    elapsedCounter = 0;
    lifetime = 1.5;
@@ -81,7 +81,7 @@ void Bullets::moveBullets() {
    time = clock.getElapsedTime();
    elapsed = time.asSeconds();
    bool controlReturn = true;
-   view = renderTexture.getView();
+   view = display->getView();
 
    if ((elapsed - elapsedCounter) > 0.005) {
       for(unsigned i=0;i<position.size();i++){
@@ -144,8 +144,14 @@ void Bullets::draw(){
    sprTemp.setTexture(texture);
    // renderTexture.clear(sf::Color(255,255,255,0));
 
-   viewMovement.x = ((view.getCenter().x*2) - view.getSize().x)/2;
-   viewMovement.y = ((view.getCenter().y*2) - view.getSize().y)/2;
+   if(owner == "c"){
+      viewMovement.x = ((view.getCenter().x*2) - view.getSize().x)/2;
+      viewMovement.y = ((view.getCenter().y*2) - view.getSize().y)/2;
+   }else{
+      viewMovement.x = 0;
+      viewMovement.y = 0;
+
+   }
 
    for(unsigned i=0;i<position.size();i++){
       if(hidden[i]){
@@ -161,9 +167,9 @@ void Bullets::draw(){
    // sprite.setPosition(viewMovement);
 }
 
-void Bullets::setView(sf::View view){
-   renderTexture.setView(view);
-}
+// void Bullets::setView(sf::View view){
+//    renderTexture.setView(view);
+// }
 
 void Bullets::setMassCenter(sf::Vector2f mc){
    massCenter = mc;

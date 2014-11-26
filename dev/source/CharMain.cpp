@@ -64,6 +64,7 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    fastShot = 1;
 
    hp = 100;
+   xp = 0;
 }
 
 void CharMain::changeSprite(float angle){
@@ -118,10 +119,16 @@ void CharMain::update(float x, float y){
          hp += 10;
       }else if(collisionObject->events[i] == -3){
          bulletStock += 10;
+      }else if(collisionObject->events[i] == -4){
+         xp += 10;
       }else if(collisionObject->events[i] == -11){
          gun1 = gunManager->getGun(2);
       }else if(collisionObject->events[i] == -12){
          gun1 = gunManager->getGun(3);
+      }else if(collisionObject->events[i] == -13){
+         gun1 = gunManager->getGun(4);
+      }else if(collisionObject->events[i] == -14){
+         gun1 = gunManager->getGun(5);
       }
     }
     collisionObject->clearEvents();

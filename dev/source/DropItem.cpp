@@ -12,6 +12,7 @@ void DropItem::start(){
    this->collisionObject->size.x      = this->texture.getSize().x - 20;
    this->collisionObject->size.y      = this->texture.getSize().y - 20;
    this->collisionObject->type        = "d";
+   this->lastTime                     = 0;
 }
 
 sf::Sprite DropItem::getSprite(){
@@ -35,5 +36,14 @@ char DropItem::getType(){
 }
 
 int DropItem::getGunId(){
+   return gunId;
 
+}
+
+float DropItem::getLastTime(){
+   return lastTime;
+}
+
+void DropItem::setLastTime(float lt){
+   lastTime = lt;
 }

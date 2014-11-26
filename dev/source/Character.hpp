@@ -50,6 +50,9 @@ class Character{
    int  getHp();
 
    void animate();
+
+   int getXp();
+   void addXp(int xp);
 };
 
 #endif

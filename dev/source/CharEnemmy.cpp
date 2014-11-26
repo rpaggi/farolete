@@ -57,8 +57,6 @@ CharEnemmy::CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionM
     // sprite.setPosition(position.x,position.y);
     spriteManager->setPosition(position);
 
-    alcanceVisao = 1;
-
     sf::Vector2f massCenter;
     sf::Vector2f screen_size;
     massCenter.x = position.x+(frameSize.x/2);
@@ -305,7 +303,6 @@ void CharEnemmy::kill(){
     }else{
         dropManager->sortItem(position.x+50, position.y+50);
     }
-    std::cout<<std::endl;
 }
 
 void CharEnemmy::activeCollision(){

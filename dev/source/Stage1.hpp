@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <sstream>
 
 #include "Display.hpp"
 #include "SceneManager.hpp"
@@ -62,6 +65,10 @@ class Stage1 : public Scene {
    sf::Sprite  loadingSpr;
 
    float       loadWave;
+
+   sf::Font    verdana;
+   sf::Text    txtCont;
+   int         cont;
 
 public:
    Stage1(Display * d);

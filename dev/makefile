@@ -49,8 +49,16 @@ obj/DropHealth.o: source/DropHealth.cpp
 	g++ -c "source/DropHealth.cpp" -o obj/DropHealth.o -std=c++0x
 obj/DropBullets.o: source/DropBullets.cpp
 	g++ -c "source/DropBullets.cpp" -o obj/DropBullets.o -std=c++0x
+obj/DropXp.o: source/DropXp.cpp
+	g++ -c "source/DropXp.cpp" -o obj/DropXp.o -std=c++0x
 obj/DropColt.o: source/DropColt.cpp
 	g++ -c "source/DropColt.cpp" -o obj/DropColt.o -std=c++0x
+obj/DropLuger.o: source/DropLuger.cpp
+	g++ -c "source/DropLuger.cpp" -o obj/DropLuger.o -std=c++0x
+obj/DropMauser.o: source/DropMauser.cpp
+	g++ -c "source/DropMauser.cpp" -o obj/DropMauser.o -std=c++0x
+obj/DropWinchester.o: source/DropWinchester.cpp
+	g++ -c "source/DropWinchester.cpp" -o obj/DropWinchester.o -std=c++0x
 obj/DropManager.o: source/DropManager.cpp
 	g++ -c "source/DropManager.cpp" -o obj/DropManager.o -std=c++0x
 obj/Character.o: source/Character.cpp
@@ -71,5 +79,5 @@ obj/main.o: source/main.cpp
 	g++ -c "source/main.cpp" -o obj/main.o -std=c++0x
 obj/xingu.res: source/xingu.rc
 	windres "source/xingu.rc" -O coff -o obj/xingu.res
-xingu.exe: obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropColt.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res
-	g++ -o bin/xingu.exe obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropColt.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x
+xingu.exe: obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropXp.o obj/DropColt.o obj/DropLuger.o obj/DropMauser.o obj/DropWinchester.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res
+	g++ -o bin/xingu.exe obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropXp.o obj/DropColt.o obj/DropLuger.o obj/DropMauser.o obj/DropWinchester.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/MainMenu.o obj/Stage1.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x
