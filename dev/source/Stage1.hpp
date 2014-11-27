@@ -5,6 +5,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Audio/Music.hpp>
 #include <sstream>
 
 #include "Display.hpp"
@@ -21,6 +22,8 @@
 class Stage1 : public Scene { 
    Display * display;
    CharMain * farolete;
+
+   sf::Music * soundBg;
 
    WaveManager * waveManager;
 

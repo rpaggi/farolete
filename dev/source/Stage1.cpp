@@ -16,6 +16,11 @@ void Stage1::start(){
    display->draw(loadingSpr);
    this->render();
 
+   soundBg = new sf::Music();
+   soundBg->openFromFile("audio./bg.ogg");
+   soundBg->setLoop(true);
+   soundBg->setVolume(15);
+
    esc =   new GameKey(sf::Keyboard::Escape);
    up =    new GameKey(sf::Keyboard::Up);
    down =  new GameKey(sf::Keyboard::Down);
@@ -64,6 +69,8 @@ void Stage1::start(){
    txtCont.setFont(verdana);
    txtCont.setString("00");
    txtCont.setCharacterSize(32);
+
+   soundBg->play();
 }
 
 void Stage1::draw(){

@@ -113,6 +113,7 @@ void CharMain::update(float x, float y){
     for(unsigned i=0;i < collisionObject->events.size();i++){
       if(collisionObject->events[i] > 0){
          hp -= collisionObject->events[i];
+         spriteManager->hit();
       }else if(collisionObject->events[i] == -1){
          stamina += 10;
       }else if(collisionObject->events[i] == -2){
