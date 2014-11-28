@@ -52,7 +52,8 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    gunManager = new GunManager();
    gun1 = gunManager->getGun(2);
    gun2 = gunManager->getGun(1);
-   activeGun = &gun1; 
+   activeGun = &gun1;
+   gunAudio = gunManager->getAudio(2);
    gunFlag = 1;
 
    bullets->setLifetime(gun1.getRange());
@@ -147,7 +148,7 @@ void CharMain::move(sf::Vector2f pos){
 
 bool CharMain::testCollisionMovement(sf::Vector2f destination){
    std::string test = collisionManager->test(collisionObject, destination);   
-   if(test != "n"){
+   if(test != "n" && test != "d"){
       if(test == "cs"){
          hidden = true;
          collisionObject->type = "h";
@@ -172,9 +173,11 @@ void CharMain::pushTrigger(sf::Vector2f dest){
          if(fastShot>1){
             stamina -= 5;
          }
+         gunAudio->play();
       }else{
          if(activeGun->getId() == 1){
             bullets->includeBullet(dest);
+            gunAudio->play();
          }
       }
       controlTrigger = false;
@@ -230,8 +233,10 @@ int CharMain::getBulletQtd(){
 void CharMain::switchGun(){
    if(activeGun->getId() == gun1.getId()){
       activeGun = &gun2;
+      gunAudio = gunManager->getAudio(gun2.getId());
    }else{
       activeGun = &gun1;
+      gunAudio = gunManager->getAudio(gun1.getId());
    }
 
    bullets->setLifetime(activeGun->getRange());

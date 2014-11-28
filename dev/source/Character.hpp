@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Audio/Music.hpp>
 #include <vector>
 #include <cmath>
 
@@ -39,6 +40,7 @@ class Character{
    float             velocity;
 
    Gun               gun1;
+   sf::Music       * gunAudio;
 
    int               side;
 
