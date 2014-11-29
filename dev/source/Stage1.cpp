@@ -21,6 +21,10 @@ void Stage1::start(){
    soundBg->setLoop(true);
    soundBg->setVolume(15);
 
+   soundLoadWave = new sf::Music();
+   soundLoadWave->openFromFile("audio/load_wave.wav");
+   soundLoadWave->setVolume(20);
+
    esc =   new GameKey(sf::Keyboard::Escape);
    up =    new GameKey(sf::Keyboard::Up);
    down =  new GameKey(sf::Keyboard::Down);
@@ -69,6 +73,8 @@ void Stage1::start(){
    txtCont.setFont(verdana);
    txtCont.setString("00");
    txtCont.setCharacterSize(32);
+
+   faroleteKill = false;
 
    soundBg->play();
 }
@@ -176,6 +182,10 @@ void Stage1::logic(){
       }
    }else{
       farolete->setHidden(true);
+      if(!faroleteKill){
+         farolete->kill();
+         faroleteKill = true;
+      }
    }
 
    farolete->update(mouse_position.x, mouse_position.y);
@@ -224,6 +234,7 @@ void Stage1::logic(){
             inimigos[i]->activeCollision();
             inimigos[i]->setDropManager(dropManager);
          }
+         soundLoadWave->play();
       }
    }
 

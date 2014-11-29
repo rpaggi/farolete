@@ -41,6 +41,8 @@ class Character{
 
    Gun               gun1;
    sf::Music       * gunAudio;
+   sf::Music       * walkSound;
+   sf::Music       * deadSound;
 
    int               side;
 

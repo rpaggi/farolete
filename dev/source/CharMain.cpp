@@ -66,6 +66,9 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
 
    hp = 100;
    xp = 0;
+
+   walkSound->setVolume(05);
+   deadSound->openFromFile("audio/farolete_dead.wav");
 }
 
 void CharMain::changeSprite(float angle){
@@ -173,7 +176,10 @@ void CharMain::pushTrigger(sf::Vector2f dest){
          if(fastShot>1){
             stamina -= 5;
          }
-         gunAudio->play();
+
+         if(gunAudio->getStatus() == sf::SoundSource::Status::Stopped){
+            gunAudio->play();
+        }
       }else{
          if(activeGun->getId() == 1){
             bullets->includeBullet(dest);
@@ -247,4 +253,8 @@ void CharMain::switchGun(){
    }else{
       bullets->setHide(false);
    }
+}
+
+void CharMain::kill(){
+   deadSound->play();
 }

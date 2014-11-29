@@ -50,6 +50,8 @@ public:
    int          getBulletQtd();
 
    void         switchGun();
+
+   void         kill();
 };
 
 #endif

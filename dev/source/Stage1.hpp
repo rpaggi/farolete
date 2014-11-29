@@ -24,6 +24,7 @@ class Stage1 : public Scene {
    CharMain * farolete;
 
    sf::Music * soundBg;
+   sf::Music * soundLoadWave;
 
    WaveManager * waveManager;
 
@@ -72,6 +73,8 @@ class Stage1 : public Scene {
    sf::Font    verdana;
    sf::Text    txtCont;
    int         cont;
+
+   bool        faroleteKill;
 
 public:
    Stage1(Display * d);
