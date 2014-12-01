@@ -85,7 +85,8 @@ CharEnemmy::CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionM
 
    gunManager = new GunManager();
    gun1 = gunManager->getGun(gunId);
-   gunAudio = gunManager->getAudio(gunId);
+   gunBuffer.loadFromFile(gunManager->getAudio(gunId));
+   gunAudio->setBuffer(gunBuffer);
 
    bullets->setLifetime(gun1.getRange());
    bullets->setDamage(gun1.getDamage());
@@ -160,9 +161,9 @@ void CharEnemmy::update(){
        std::string collisionTest = collisionManager->test(collisionObject, movement);
    
        if(collisionTest == "n" || collisionTest == "e" || collisionTest == "d"){
-          if((movement.x != 0 || movement.y != 0) && walkSound.getStatus() == sf::SoundSource::Status::Stopped){
-            walkSound.play();
-          }
+          // if((movement.x != 0 || movement.y != 0) && walkSound.getStatus() == sf::SoundSource::Status::Stopped){
+          //   walkSound.play();
+          // }
           position = position + movement;
           // sprite.setPosition(position);
           spriteManager->setPosition(position);
@@ -235,7 +236,7 @@ void CharEnemmy::update(){
    spriteManager->update(gun1.getId(), side);
 
    walkSound.setPosition(position.x, position.y, 0.0);
-   gunAudio.setPosition(position.x, position.y, 0.0);
+   gunAudio->setPosition(position.x, position.y, 0.0);
 }
 
 void CharEnemmy::draw(){
@@ -311,8 +312,8 @@ void CharEnemmy::pushTrigger(sf::Vector2f dest){
    if(gunElapsed > (1.3/gun1.getCadence()) || (gun1.getId() == 1 && gunElapsed > 2.5) ){
       bullets->includeBullet(dest);
       gunClock.restart();
-      if(gunAudio.getStatus() == sf::SoundSource::Status::Stopped){
-         gunAudio.play();
+      if(gunAudio->getStatus() == sf::SoundSource::Status::Stopped){
+         gunAudio->play();
       }
    }
 }

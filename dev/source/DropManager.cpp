@@ -33,6 +33,10 @@ void DropManager::update(){
    showMessage = false;
    message.setPosition((display->getView().getCenter().x)-140, (display->getView().getCenter().y - display->getSize().y/2) + 20);
 
+   if(elapsed - cKeyTime > 1){
+      getGun = false;
+   }
+
    for(unsigned i=0;i<vetor.size();i++){
       float itemTime = (elapsed - vetor[i]->getLastTime());
 
@@ -154,4 +158,5 @@ void DropManager::dropGun(int gunId, float x, float y){
 
 void DropManager::getGunOn(){
    getGun = true;
+   cKeyTime = elapsed;
 }

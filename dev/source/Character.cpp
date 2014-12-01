@@ -2,8 +2,12 @@
 #include <iostream>
 
 Character::Character(){
+   gunAudio = new sf::Sound();
+   
    walkBuffer.loadFromFile("audio/walk.wav");
    walkSound.setBuffer(walkBuffer);
+
+   gunAudio->setVolume(20);
 }
 
 void Character::draw(){

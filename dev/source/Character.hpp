@@ -41,7 +41,8 @@ class Character{
    float             velocity;
 
    Gun               gun1;
-   sf::Sound         gunAudio;
+   sf::Sound       * gunAudio;
+   sf::SoundBuffer   gunBuffer;
    sf::Sound         walkSound;
    sf::SoundBuffer   walkBuffer;
    sf::Sound         deadSound;

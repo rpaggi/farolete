@@ -68,6 +68,7 @@ void Stage1::start(){
 
    hud = new Hud(display);
 
+   cont = 0;
    verdana.loadFromFile("images/hud/verdanab.ttf");
    txtCont.setFont(verdana);
    txtCont.setString("00");

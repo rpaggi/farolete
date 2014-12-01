@@ -22,6 +22,7 @@ private:
    float         gElapsed;
    int           bulletStock;
    float         fastShot;
+   bool          godMode;
 public:
    CharMain(float screen_x, float screen_y, CollisionManager * cManager, Display * dis);
 

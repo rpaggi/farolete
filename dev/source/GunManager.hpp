@@ -3,20 +3,19 @@
 
 #include <vector>
 #include <fstream> 
-#include <SFML/Audio/Sound.hpp> 
-#include <SFML/Audio/SoundBuffer.hpp> 
+#include <string>
 #include "Gun.hpp"
 
 class GunManager {   
 private:
    std::vector<Gun> gunVector;
-   std::vector<sf::SoundBuffer> gunAudio;
+   std::vector<std::string> gunAudio;
 public:
    GunManager();
 
    Gun getGun(int id);
 
-   sf::Sound getAudio(int id);
+   std::string getAudio(int id);
 };
 
 #endif

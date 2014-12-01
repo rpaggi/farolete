@@ -53,7 +53,8 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    gun1 = gunManager->getGun(2);
    gun2 = gunManager->getGun(1);
    activeGun = &gun1;
-   gunAudio = gunManager->getAudio(2);
+   gunBuffer.loadFromFile(gunManager->getAudio(2));
+   gunAudio->setBuffer(gunBuffer);
    gunFlag = 1;
 
    bullets->setLifetime(gun1.getRange());
@@ -71,6 +72,8 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    deadBuffer.loadFromFile("audio/farolete_dead.wav");
    deadSound.setBuffer(deadBuffer);
    deadSound.setVolume(15);
+
+   godMode = true;
 }
 
 void CharMain::changeSprite(float angle){
@@ -121,11 +124,12 @@ void CharMain::update(float x, float y){
          hp -= collisionObject->events[i];
          spriteManager->hit();
       }else if(collisionObject->events[i] == -1){
-         stamina += 10;
+         if(stamina<100) stamina += 10;
       }else if(collisionObject->events[i] == -2){
-         hp += 10;
+         if (hp<100) hp += 10;
       }else if(collisionObject->events[i] == -3){
          bulletStock += 10;
+         if(bulletStock > 99) bulletStock = 99;
       }else if(collisionObject->events[i] == -4){
          xp += 10;
       }else if(collisionObject->events[i] == -11){
@@ -139,6 +143,10 @@ void CharMain::update(float x, float y){
       }
     }
     collisionObject->clearEvents();
+    if(godMode){
+      hp = 100;
+      bulletStock = 99;
+    }
 }
 
 void CharMain::move(sf::Vector2f pos){
@@ -179,13 +187,13 @@ void CharMain::pushTrigger(sf::Vector2f dest){
             stamina -= 5;
          }
 
-         if(gunAudio.getStatus() == sf::SoundSource::Status::Stopped){
-            gunAudio.play();
+         if(gunAudio->getStatus() == sf::SoundSource::Status::Stopped){
+            gunAudio->play();
         }
       }else{
          if(activeGun->getId() == 1){
             bullets->includeBullet(dest);
-            gunAudio.play();
+            gunAudio->play();
          }
       }
       controlTrigger = false;
@@ -239,12 +247,23 @@ int CharMain::getBulletQtd(){
 }
 
 void CharMain::switchGun(){
+   std::string bufferAdress;
+
    if(activeGun->getId() == gun1.getId()){
       activeGun = &gun2;
-      gunAudio = gunManager->getAudio(gun2.getId());
+      bufferAdress = gunManager->getAudio(gun2.getId());
    }else{
       activeGun = &gun1;
-      gunAudio = gunManager->getAudio(gun1.getId());
+      bufferAdress = gunManager->getAudio(gun1.getId());      
+   }
+
+   sf::SoundBuffer buffer;
+
+   if(!buffer.loadFromFile(bufferAdress))
+      std::cout<<"Error loading "<<bufferAdress<<" sound"<<std::endl;
+   else{
+      gunBuffer = sf::SoundBuffer(buffer);
+      this->gunAudio->setBuffer(this->gunBuffer);
    }
 
    bullets->setLifetime(activeGun->getRange());

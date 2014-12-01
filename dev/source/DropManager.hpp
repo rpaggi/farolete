@@ -34,6 +34,8 @@ private:
 
 	sf::Clock                clock;
 	float                    elapsed;
+
+	float                    cKeyTime;
 public:
 	DropManager(Display * display, float areaX, float areaY, CollisionManager * collisionManager);
 
