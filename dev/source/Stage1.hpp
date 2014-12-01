@@ -6,6 +6,8 @@
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Audio/Music.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 #include <sstream>
 
 #include "Display.hpp"
@@ -18,13 +20,15 @@
 #include "DropManager.hpp"
 #include "DropStamina.hpp"
 #include "WaveManager.hpp"
+#include "LoaderImages.hpp"
 
 class Stage1 : public Scene { 
    Display * display;
    CharMain * farolete;
 
-   sf::Music * soundBg;
-   sf::Music * soundLoadWave;
+   sf::Music musicBg;
+   sf::SoundBuffer bufferLoadWave;
+   sf::Sound       soundLoadWave;
 
    WaveManager * waveManager;
 

@@ -25,7 +25,3 @@ DropLuger::DropLuger(float x, float y){
    this->collisionObject->size.x      = this->texture.getSize().x - 10;
    this->collisionObject->size.y      = this->texture.getSize().y - 10;
 }
-
-int DropLuger::getGunId(){
-   return gunId;
-}

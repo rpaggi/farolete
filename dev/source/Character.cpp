@@ -2,11 +2,8 @@
 #include <iostream>
 
 Character::Character(){
-   walkSound = new sf::Music();
-   deadSound = new sf::Music();
-
-   walkSound->openFromFile("audio/walk.wav");
-   walkSound->setLoop(false);
+   walkBuffer.loadFromFile("audio/walk.wav");
+   walkSound.setBuffer(walkBuffer);
 }
 
 void Character::draw(){
@@ -38,8 +35,8 @@ int Character::getHp(){
 
 void Character::animate(){
    spriteManager->animate();
-   if(walkSound->getStatus() == sf::SoundSource::Status::Stopped){
-      walkSound->play();
+   if(walkSound.getStatus() == sf::SoundSource::Status::Stopped){
+      walkSound.play();
    }
 }
 

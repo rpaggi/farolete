@@ -11,19 +11,18 @@ void Stage1::start(){
 
    view = display->getView();
 
-   loadingTex.loadFromFile("images/FaroleteInfos.png");
+   loadingTex.loadFromFile(LoaderImages().getImage());
    loadingSpr.setTexture(loadingTex);
    display->draw(loadingSpr);
    this->render();
 
-   soundBg = new sf::Music();
-   soundBg->openFromFile("audio./bg.ogg");
-   soundBg->setLoop(true);
-   soundBg->setVolume(15);
+   musicBg.openFromFile("audio./bg.ogg");
+   musicBg.setLoop(true);
+   musicBg.setVolume(15);
 
-   soundLoadWave = new sf::Music();
-   soundLoadWave->openFromFile("audio/load_wave.wav");
-   soundLoadWave->setVolume(20);
+   bufferLoadWave.loadFromFile("audio/load_wave.wav");
+   soundLoadWave.setBuffer(bufferLoadWave);
+   soundLoadWave.setVolume(20);
 
    esc =   new GameKey(sf::Keyboard::Escape);
    up =    new GameKey(sf::Keyboard::Up);
@@ -76,7 +75,7 @@ void Stage1::start(){
 
    faroleteKill = false;
 
-   soundBg->play();
+   musicBg.play();
 }
 
 void Stage1::draw(){
@@ -234,7 +233,7 @@ void Stage1::logic(){
             inimigos[i]->activeCollision();
             inimigos[i]->setDropManager(dropManager);
          }
-         soundLoadWave->play();
+         soundLoadWave.play();
       }
    }
 

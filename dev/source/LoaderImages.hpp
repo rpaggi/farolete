@@ -1,10 +1,8 @@
 #ifndef LOADERIMAGES_HPP
 #define LOADERIMAGES_HPP
 
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-
 #include "Random.hpp"
+#include <string>
 
 class LoaderImages{
 private:
@@ -12,7 +10,7 @@ private:
 public:
 	LoaderImages();
 
-	sf::Sprite getImage();
+	std::string getImage();
 };
 
 #endif

@@ -6,12 +6,9 @@
 
 class DropColt : public DropItem{
 private:
-	int     gunId;
 public:
 	DropColt(sf::Vector2f position);
 	DropColt(float x, float y);
-
-	int getGunId();
 };
 
 #endif

@@ -9,25 +9,22 @@ GunManager::GunManager(){
       gunVector.push_back(gun);
 
       int id = gun.getId();
-      sf::Music * music = new sf::Music();
 
+      sf::SoundBuffer buffer;
       if(id == 1){
-         music->openFromFile("audio/machete.wav");
+         buffer.loadFromFile("audio/machete.wav");
       }else if(id == 2){
-         music->openFromFile("audio/colt_shot.wav");
+         buffer.loadFromFile("audio/colt_shot.wav");
       }else if(id == 3){
-         music->openFromFile("audio/luger_shot.wav");
+         buffer.loadFromFile("audio/luger_shot.wav");
       }else if(id == 4){
-         music->openFromFile("audio/mouser_shot.wav");
+         buffer.loadFromFile("audio/mouser_shot.wav");
       }else if(id == 5){
-         music->openFromFile("audio/luger_shot.wav");
+         buffer.loadFromFile("audio/luger_shot.wav");
       }else if(id == 6){
-         music->openFromFile("audio/hotchkiss_shot.wav");
+         buffer.loadFromFile("audio/hotchkiss_shot.wav");
       }
-      music->setVolume(20);
-      music->setLoop(false);
-
-      gunAudio.push_back(music);
+      gunAudio.push_back(buffer);
    }
    fin.close();
 }
@@ -40,6 +37,11 @@ Gun GunManager::getGun(int id){
    }
 }
 
-sf::Music * GunManager::getAudio(int id){
-   return gunAudio[id-1];
+sf::Sound GunManager::getAudio(int id){
+   sf::Sound sound;
+   sound.setBuffer(gunAudio[id-1]);
+   sound.setVolume(20);
+   sound.setLoop(false);
+
+   return sound;
 }
