@@ -23,6 +23,7 @@ private:
 	float         frameRate;
 	int           color;
 	int           alpha;
+	bool          animateM;
 
 public:
 	SpriteManager(Display * d, std::string file);
@@ -38,6 +39,7 @@ public:
 	void update(int gunId, int side);
 
 	void animate();
+	void animateMachete();
 
 	void setPosition(sf::Vector2f position);
 

@@ -194,6 +194,7 @@ void CharMain::pushTrigger(sf::Vector2f dest){
          if(activeGun->getId() == 1){
             bullets->includeBullet(dest);
             gunAudio->play();
+            spriteManager->animateMachete();
          }
       }
       controlTrigger = false;

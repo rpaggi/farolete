@@ -151,6 +151,10 @@ void CharEnemmy::update(){
          // sprite.setTextureRect(sf::IntRect(0, frameSize.y*4, 100, 100));
          movement.y -= velocity;
        }
+
+       if(gun1.getId() == 6){
+          movement = sf::Vector2f(0,0);
+       }
    
        for(unsigned i=0;i < collisionObject->events.size();i++){
          hp -= collisionObject->events[i];
@@ -191,17 +195,46 @@ void CharEnemmy::update(){
               }
          }
        }else{
-         if(follow_side == 1){
-            if(follow_dest.x >= position.x){
-              codDirection = 3;
+         if(gun1.getId() != 6){
+            if(follow_side == 1){
+               if(follow_dest.x >= position.x){
+                 codDirection = 3;
+               }else{
+                 codDirection = 1;            
+               }
             }else{
-              codDirection = 1;            
+               if(follow_dest.y >= position.y){
+                 codDirection = 4;
+               }else{
+                 codDirection = 2;            
+               }
             }
          }else{
-            if(follow_dest.y >= position.y){
-              codDirection = 4;
-            }else{
-              codDirection = 2;            
+            float distance_x = follow_dest.x-massCenter.x;
+            float distance_y = follow_dest.y-massCenter.y;
+
+            float distance = sqrt(pow(distance_x, 2.0) + pow(distance_y,2.0));
+
+            float s = distance_y/distance;
+            float c = distance_x/distance;
+            float angle = (atan2(s, c) * 180 / PI);
+
+            if (angle < 0){
+               angle += 360;
+            }
+
+            if((angle>=0 && angle<=45) || (angle>310 && angle<=360)){
+               //Left
+               codDirection = 3;
+            }else if(angle>45 && angle<=126){
+               //Right
+               codDirection = 4;
+            }else if(angle>126 && angle<236){
+               //Up
+               codDirection = 1;
+            }else if(angle>=236 && angle<=310){
+               //Down
+               codDirection = 2;
             }
          }
    
@@ -221,11 +254,11 @@ void CharEnemmy::update(){
               clock.restart();
               follow_flag = false;
               velocity = 0.2f;
-            }
-            if(follow_side == 1){
-              follow_side = 2;
-            }else{
-              follow_side = 1;
+              if(follow_side == 1){
+                follow_side = 2;
+              }else{
+                follow_side = 1;
+              }
             }
          }
        }
@@ -314,6 +347,10 @@ void CharEnemmy::pushTrigger(sf::Vector2f dest){
       gunClock.restart();
       if(gunAudio->getStatus() == sf::SoundSource::Status::Stopped){
          gunAudio->play();
+      }
+
+      if(gun1.getId() == 1){
+        spriteManager->animateMachete();
       }
    }
 }
