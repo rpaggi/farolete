@@ -3,6 +3,7 @@
 using namespace std;
 
 #include <windows.h>
+#include <stdlib.h>
 //Classes Includes
 #include "Display.hpp"
 #include "SceneManager.hpp"
@@ -15,6 +16,8 @@ int main(){
 	//To hide prompt
 	// HWND hWnd = GetConsoleWindow();
 	// ShowWindow( hWnd, SW_HIDE );
+
+	srand(time(NULL));
 
 	Display display;
 	SceneManager sceneManager;

@@ -3,7 +3,7 @@
 DropColt::DropColt(sf::Vector2f position){
    type = 'g';
    gunId = 2;
-   texture.loadFromFile("images/dropColt.png");
+   texture.loadFromFile("images/drop/dropColt.png");
    sprite.setTexture(texture);
    sprite.setPosition(position.x,position.y);
    this->start();
@@ -16,7 +16,7 @@ DropColt::DropColt(sf::Vector2f position){
 DropColt::DropColt(float x, float y){
    type = 'g';
    gunId = 2;
-   texture.loadFromFile("images/dropColt.png");
+   texture.loadFromFile("images/drop/dropColt.png");
    sprite.setTexture(texture);
    sprite.setPosition(x,y);
    this->start();

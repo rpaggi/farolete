@@ -3,7 +3,7 @@
 DropWinchester::DropWinchester(sf::Vector2f position){
    type = 'g';
    gunId = 5;
-   texture.loadFromFile("images/dropWinchester.png");
+   texture.loadFromFile("images/drop/dropWinchester.png");
    sprite.setTexture(texture);
    sprite.setPosition(position.x,position.y);
    this->start();
@@ -16,7 +16,7 @@ DropWinchester::DropWinchester(sf::Vector2f position){
 DropWinchester::DropWinchester(float x, float y){
    type = 'g';
    gunId = 5;
-   texture.loadFromFile("images/dropWinchester.png");
+   texture.loadFromFile("images/drop/dropWinchester.png");
    sprite.setTexture(texture);
    sprite.setPosition(x,y);
    this->start();

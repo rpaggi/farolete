@@ -3,7 +3,7 @@
 DropMauser::DropMauser(sf::Vector2f position){
    type = 'g';
    gunId = 4;
-   texture.loadFromFile("images/dropMauser.png");
+   texture.loadFromFile("images/drop/dropMauser.png");
    sprite.setTexture(texture);
    sprite.setPosition(position.x,position.y);
    this->start();
@@ -16,7 +16,7 @@ DropMauser::DropMauser(sf::Vector2f position){
 DropMauser::DropMauser(float x, float y){
    type = 'g';
    gunId = 4;
-   texture.loadFromFile("images/dropMauser.png");
+   texture.loadFromFile("images/drop/dropMauser.png");
    sprite.setTexture(texture);
    sprite.setPosition(x,y);
    this->start();

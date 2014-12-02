@@ -3,7 +3,7 @@
 DropLuger::DropLuger(sf::Vector2f position){
    type = 'g';
    gunId = 3;
-   texture.loadFromFile("images/dropLuger.png");
+   texture.loadFromFile("images/drop/dropLuger.png");
    sprite.setTexture(texture);
    sprite.setPosition(position.x,position.y);
    this->start();
@@ -16,7 +16,7 @@ DropLuger::DropLuger(sf::Vector2f position){
 DropLuger::DropLuger(float x, float y){
    type = 'g';
    gunId = 3;
-   texture.loadFromFile("images/dropLuger.png");
+   texture.loadFromFile("images/drop/dropLuger.png");
    sprite.setTexture(texture);
    sprite.setPosition(x,y);
    this->start();

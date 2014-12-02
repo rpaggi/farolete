@@ -11,7 +11,7 @@ Display::Display() {
    m_pointer_sprite.setTexture(m_pointer_texture);
    m_pointer_sprite.setPosition(-30, -30);
 
-   window.setFramerateLimit(75);
+   window.setFramerateLimit(60);
 }
 
 void Display::handleEvents() {

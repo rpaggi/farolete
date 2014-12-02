@@ -2,7 +2,7 @@
 
 DropStamina::DropStamina(sf::Vector2f position){
 	type = 's';
-	texture.loadFromFile("images/dropStamina.png");
+	texture.loadFromFile("images/drop/dropStamina.png");
 	sprite.setTexture(texture);
 	sprite.setPosition(position.x,position.y);
 	this->start();
@@ -10,7 +10,7 @@ DropStamina::DropStamina(sf::Vector2f position){
 
 DropStamina::DropStamina(float x, float y){
 	type = 's';
-	texture.loadFromFile("images/dropStamina.png");
+	texture.loadFromFile("images/drop/dropStamina.png");
 	sprite.setTexture(texture);
 	sprite.setPosition(x,y);
 	this->start();
