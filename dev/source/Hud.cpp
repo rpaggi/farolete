@@ -3,6 +3,7 @@
 
 Hud::Hud(Display * d){
    display = d;
+   fontVerdana.loadFromFile("font/verdanab.ttf");
 
    //Load and set the texture of background into sprite
    bgTex.loadFromFile("images/hud/bg.png");
@@ -24,15 +25,19 @@ Hud::Hud(Display * d){
    gSpr.setTextureRect(sf::IntRect(0, 0, gSize.x, gSize.y));
 
    bTex.loadFromFile("images/hud/bullets.png");
-   bFont.loadFromFile("images/hud/verdanab.ttf");
    bSpr.setTexture(bTex);
    bSize = sf::Vector2f(50,29);
    bSpr.setTextureRect(sf::IntRect(0, 0, bSize.x, bSize.y));
-   bText.setFont(bFont);
+   bText.setFont(fontVerdana);
    bText.setString("20");
    bText.setCharacterSize(10);
    bText.setColor(sf::Color::Black);
    bDraw = false;
+
+   iText.setFont(fontVerdana);
+   iText.setString("00");
+   iText.setCharacterSize(12);
+   iText.setColor(sf::Color::White);
 }
 
 void Hud::draw(){
@@ -49,16 +54,19 @@ void Hud::draw(){
    bgSpr.setPosition(bgPos);
 
    //Set the position of hp bar
-   hpSpr.setPosition(bgPos.x+171.5, bgPos.y+38);
+   hpSpr.setPosition(bgPos.x+171, bgPos.y+37.5);
 
    //Set the position of stamina bar
-   stSpr.setPosition(bgPos.x+171.5, bgPos.y+81.5);
+   stSpr.setPosition(bgPos.x+171, bgPos.y+80.5);
 
    //Set the position of guns icons
-   gSpr.setPosition(bgPos.x+228, bgPos.y+116.5);
+   gSpr.setPosition(bgPos.x+227.5, bgPos.y+115);
 
    //Set the position of bullets icons
    bSpr.setPosition(bgPos.x+170, bgPos.y+115);
+
+   //Set the position of enemmies quantity text
+   iText.setPosition(bgPos.x+189, bgPos.y+156);
 
    //Draw the sprites
    display->draw(bgSpr);
@@ -66,6 +74,7 @@ void Hud::draw(){
    display->draw(stSpr);
    display->draw(gSpr);
    display->draw(bSpr);
+   display->draw(iText);
 
    if(bDraw){
       //Set the position of text 
@@ -74,7 +83,9 @@ void Hud::draw(){
    }
 }
 
-void Hud::update(float hp, float st, int g, int b){
+void Hud::update(float hp, float st, int g, int b, int i){
+   std::ostringstream ss;
+
    //Update the hp bar
    if(hp>=90 && hp <=100){
       hpSpr.setTextureRect(sf::IntRect(0, 0, hpSize.x, hpSize.y));
@@ -143,7 +154,6 @@ void Hud::update(float hp, float st, int g, int b){
          bSpr.setTextureRect(sf::IntRect(0, bSize.y*1, bSize.x, bSize.y));
       }else{
          bDraw = true;
-         std::ostringstream ss;
          if(b<10){
             ss <<"0"<< b;
          }else{
@@ -153,4 +163,13 @@ void Hud::update(float hp, float st, int g, int b){
          bSpr.setTextureRect(sf::IntRect(0, bSize.y*2, bSize.x, bSize.y));
       }
    }
+
+   ss.str("");
+   if(i<10){
+      ss<<"0"<<i;
+   }else{
+      ss<<i;
+   }
+   iText.setString(ss.str());
+
 }

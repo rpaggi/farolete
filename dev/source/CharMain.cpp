@@ -22,9 +22,9 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    //Configure sprite frame
    // sprite.setTextureRect(sf::IntRect(0, 0, frameSize.x, frameSize.y));
    // sprite.setPosition((screen_x/2)-(frameSize.x/2),(screen_y/2)-(frameSize.y/2));
-   spriteManager->setPosition(sf::Vector2f((screen_x/2)-(frameSize.x/2),(screen_y/2)-(frameSize.y/2)));
    position.x = (screen_x/2)-(frameSize.x/2);
    position.y = (screen_y/2)-(frameSize.y/2);
+   spriteManager->setPosition(position);
 
    sf::Vector2f screen_size;
    screen_size.x = screen_x;

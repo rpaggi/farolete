@@ -15,6 +15,8 @@ class Hud{
 private:
    Display *         display;
 
+   sf::Font          fontVerdana;
+
    sf::Texture       bgTex;
    sf::Sprite        bgSpr;
 
@@ -32,17 +34,18 @@ private:
 
    sf::Texture       bTex;
    sf::Sprite        bSpr;
-   sf::Font          bFont;
    sf::Text          bText;
    bool              bDraw;
    sf::Vector2f      bSize;
+
+   sf::Text          iText;
 
 public:
    Hud(Display * d);
 
    void draw();
 
-   void update(float hp, float st, int g, int b);
+   void update(float hp, float st, int g, int b, int i);
 };
 
 #endif

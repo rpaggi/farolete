@@ -1,75 +1,96 @@
 #ifndef GAMEPLAY_HPP
 #define GAMEPLAY_HPP
 
-#include <math.h>
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/Window/Mouse.hpp>
 #include <vector>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Audio/Music.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
+#include <sstream>
 
 #include "Display.hpp"
 #include "SceneManager.hpp"
+#include "CollisionManager.hpp"
 #include "Input.hpp"
-#include "Shot.hpp"
-#include "AssetsManager.cpp"
+#include "CharMain.hpp"
+#include "CharEnemmy.hpp"
+#include "Hud.hpp"
+#include "DropManager.hpp"
+#include "DropStamina.hpp"
+#include "WaveManager.hpp"
+#include "LoaderImages.hpp"
 
-namespace Textures
-{
-   enum ID
-   {
-       personTex1,
-       personTex2,
-       personTex3,
-       personTex4,
-       personTex5,
-       personTex6,
-       personTex7,
-       personTex8,
-   };
-}
+class GamePlay : public Scene { 
+protected:
+   Display * display;
+   CharMain * farolete;
 
-class GamePlay : public Scene {
-	Display * display;
+   sf::Music musicBg;
+   sf::SoundBuffer bufferLoadWave;
+   sf::Sound       soundLoadWave;
 
-    KeyboardInput keyboard;
-    GameKey* esc;
-    GameKey* up;
-    GameKey* down;
-    GameKey* left;
-    GameKey* right;
-    int freeMouse;
-    float timeShot;
+   WaveManager * waveManager;
 
-    //time variables
-    sf::Clock clock;
-    sf::Time time;
-    float elapsed;
+   std::vector<CharEnemmy *> inimigos;
 
-    //person
-    int pos;
-    sf::Vector2u perCm;
-    std::vector<sf::Sprite> perSprite;
-    AssetsManager<sf::Texture, Textures::ID> textures;
+   KeyboardInput keyboard;
+   GameKey* esc;
+   GameKey* up;
+   GameKey* down;
+   GameKey* left;
+   GameKey* right;
+   GameKey* a_key;
+   GameKey* s_key;
+   GameKey* d_key;
+   GameKey* w_key;
+   GameKey* c_key;
+   GameKey* spacebar;
+   GameKey* snapshot_key;
 
-    //shot
-    std::vector<Shot*> vShot;
+   MouseInput mouse;
+   MouseButton* mb_left;
+   MouseButton* mb_right;
 
-    //map
-    tmx::MapLoader* mapLoader;
+   sf::Vector2i mouse_position;
+   sf::View view;
 
-    //camera view
-    sf::Vector2f screenMovement;
+   tmx::MapLoader* mapLoader;
+   sf::Vector2f screenMovement;
 
-    float angBetween(float cmX, float cmY, float pX, float pY);
+   sf::Clock clock;
+   sf::Time time;
+   float elapsed;
+
+   CollisionManager * collisionManager;
+
+   Hud * hud;
+
+   DropItem    * dropStamina;
+   DropManager * dropManager;
+
+   sf::Texture loadingTex;
+   sf::Sprite  loadingSpr;
+
+   float       loadWave;
+
+   sf::Font    verdana;
+   sf::Text    txtCont;
+   int         cont;
+
+   bool        faroleteKill;
+
+   int         fase;
+
 public:
-	GamePlay(Display * d);
+   GamePlay();
 
-	void start();
-	void draw();
-	void render();
-	void logic();
-	void finish();
+   void start();
+   void draw();
+   void render();
+   void logic();
+   void finish();
 };
 
 #endif

@@ -12384,28 +12384,21 @@
   <object x="411" y="803" width="291" height="188"/>
   <object x="896" y="931" width="414" height="220"/>
   <object x="897" y="1119" width="254" height="226"/>
-  <object x="27" y="1345" width="674" height="160"/>
+  <object x="27" y="1319" width="678" height="182"/>
   <object x="1506" y="1026" width="190" height="478"/>
-  <object x="1376" y="1346" width="165" height="156"/>
+  <object x="1376" y="1330" width="165" height="173"/>
   <object x="1728" y="1026" width="126" height="157"/>
   <object x="1919" y="480" width="126" height="157"/>
   <object x="1889" y="1376" width="155" height="165"/>
  </objectgroup>
  <objectgroup color="#5500ff" name="Spawn">
-  <object name="Spawn1" x="645.667" y="229.667" width="13" height="14"/>
-  <object name="Spawn1" x="1839" y="777" width="13" height="14"/>
-  <object name="Spawn1" x="637" y="1116" width="13" height="14"/>
-  <object name="Spawn1" x="1919" y="961.5" width="13" height="14"/>
-  <object name="Spawn1" x="1829.5" y="623.5" width="13" height="14"/>
+  <object name="Spawn1" x="633.546" y="141.788" width="61.4848" height="68.5455"/>
+  <object name="Spawn1" x="1839" y="777" width="52.3939" height="47.3333"/>
+  <object name="Spawn1" x="667" y="1143" width="52.3939" height="50.3636"/>
   <object name="Spawn1" x="1435.5" y="552.333" width="39" height="38"/>
-  <object name="Spawn1" x="912.167" y="240.333" width="13" height="14"/>
-  <object name="Spawn1" x="1018.83" y="1410.33" width="13" height="14"/>
-  <object name="Spawn1" x="1344.83" y="1137.67" width="13" height="14"/>
-  <object name="Spawn1" x="1443.59" y="112.939" width="13" height="14"/>
-  <object name="Spawn1" x="1600.5" y="114" width="13" height="14"/>
-  <object name="Spawn1" x="1518.5" y="262" width="13" height="14"/>
-  <object name="Spawn1" x="67.5" y="510" width="13" height="14"/>
-  <object name="Spawn1" x="70.5" y="1174" width="13" height="14"/>
-  <object name="Spawn1" x="63.5" y="779.5" width="13" height="14"/>
+  <object name="Spawn1" x="957.622" y="349.424" width="55.4242" height="50.3636"/>
+  <object name="Spawn1" x="1393.31" y="1137.67" width="40.2727" height="38.2424"/>
+  <object name="Spawn1" x="1451.83" y="183.212" width="49.3636" height="47.3333"/>
+  <object name="Spawn1" x="104.5" y="779.5" width="46.3333" height="47.3333"/>
  </objectgroup>
 </map>

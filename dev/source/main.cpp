@@ -8,8 +8,8 @@ using namespace std;
 #include "Display.hpp"
 #include "SceneManager.hpp"
 // #include "SceneSplash1.hpp"
-//#include "GamePlay.hpp"
 #include "Stage1.hpp"
+#include "Stage2.hpp"
 
 // Main Processrm 
 int main(){
@@ -22,8 +22,8 @@ int main(){
 	Display display;
 	SceneManager sceneManager;
 	// Scene * firstScene = new SceneSplash1(&display);
-	//Scene * firstScene = new GamePlay(&display);
-	Scene * firstScene = new Stage1(&display);
+	// Scene * firstScene = new Stage1(&display);
+	Scene * firstScene = new Stage2(&display);
 
 	sceneManager.setDisplay(&display);
 	sceneManager.setCurrentScene(firstScene);

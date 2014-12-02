@@ -1,194 +1,244 @@
 #include "GamePlay.hpp"
-
-//Remove this shit mother fucker!
 #include <iostream>
-#include <cmath>
 
-#define PI 3.14159265
-
-GamePlay::GamePlay(Display * d){
-	display = d;
-	freeMouse = 0;
-	timeShot = 0.3;
+GamePlay::GamePlay(){
 }
 
 void GamePlay::start(){
-	esc = new GameKey(sf::Keyboard::Escape);
-	up = new GameKey(sf::Keyboard::Up);
-	down = new GameKey(sf::Keyboard::Down);
-	left = new GameKey(sf::Keyboard::Left);
-	right = new GameKey(sf::Keyboard::Right);
-	mapLoader = new tmx::MapLoader("maps/");
-	mapLoader->Load("desert.tmx");
+   float screen_x = display->getSize().x;
+   float screen_y = display->getSize().y;
 
-	
-	try
-	{
-		textures.load(Textures::personTex1, "person/r.png");
-		textures.load(Textures::personTex2, "person/dor.png");
-		textures.load(Textures::personTex3, "person/do.png");
-		textures.load(Textures::personTex4, "person/dol.png");
-		textures.load(Textures::personTex5, "person/l.png");
-		textures.load(Textures::personTex6, "person/upl.png");
-		textures.load(Textures::personTex7, "person/up.png");
-		textures.load(Textures::personTex8, "person/upr.png");
-	}
-	catch (std::runtime_error& e)
-	{
-	}
+   view = display->getView();
 
-	perSprite.begin();
-	for(int i=0;i<8;i++){
-		perSprite.push_back(sf::Sprite());
-	}
+   loadingTex.loadFromFile(LoaderImages().getImage());
+   loadingSpr.setTexture(loadingTex);
+   display->draw(loadingSpr);
+   this->render();
 
-	perSprite[0].setTexture(textures.get(Textures::personTex1));
-	perSprite[1].setTexture(textures.get(Textures::personTex2));
-	perSprite[2].setTexture(textures.get(Textures::personTex3));
-	perSprite[3].setTexture(textures.get(Textures::personTex4));
-	perSprite[4].setTexture(textures.get(Textures::personTex5));
-	perSprite[5].setTexture(textures.get(Textures::personTex6));
-	perSprite[6].setTexture(textures.get(Textures::personTex7));
-	perSprite[7].setTexture(textures.get(Textures::personTex8));
+   musicBg.openFromFile("audio./bg.ogg");
+   musicBg.setLoop(true);
+   musicBg.setVolume(15);
 
-	float sX = display->getSize().x/2;
-	float sY = display->getSize().y/2;
+   bufferLoadWave.loadFromFile("audio/load_wave.wav");
+   soundLoadWave.setBuffer(bufferLoadWave);
+   soundLoadWave.setVolume(20);
 
-	perCm.x = sX;
-	perCm.y = sY;
+   esc =   new GameKey(sf::Keyboard::Escape);
+   up =    new GameKey(sf::Keyboard::Up);
+   down =  new GameKey(sf::Keyboard::Down);
+   left =  new GameKey(sf::Keyboard::Left);
+   right = new GameKey(sf::Keyboard::Right);
+   a_key = new GameKey(sf::Keyboard::A);
+   s_key = new GameKey(sf::Keyboard::S);
+   d_key = new GameKey(sf::Keyboard::D);
+   w_key = new GameKey(sf::Keyboard::W);
+   c_key = new GameKey(sf::Keyboard::C);
+   spacebar = new GameKey(sf::Keyboard::Space);
+   snapshot_key = new GameKey(sf::Keyboard::F12);
 
-	perSprite[0].setPosition(sX-(textures.get(Textures::personTex1).getSize().x/2),sY-(textures.get(Textures::personTex1).getSize().y/2));
-	perSprite[1].setPosition(sX-(textures.get(Textures::personTex2).getSize().x/2),sY-(textures.get(Textures::personTex2).getSize().y/2));
-	perSprite[2].setPosition(sX-(textures.get(Textures::personTex3).getSize().x/2),sY-(textures.get(Textures::personTex3).getSize().y/2));
-	perSprite[3].setPosition(sX-(textures.get(Textures::personTex4).getSize().x/2),sY-(textures.get(Textures::personTex4).getSize().y/2));
-	perSprite[4].setPosition(sX-(textures.get(Textures::personTex5).getSize().x/2),sY-(textures.get(Textures::personTex5).getSize().y/2));
-	perSprite[5].setPosition(sX-(textures.get(Textures::personTex6).getSize().x/2),sY-(textures.get(Textures::personTex6).getSize().y/2));
-	perSprite[6].setPosition(sX-(textures.get(Textures::personTex7).getSize().x/2),sY-(textures.get(Textures::personTex7).getSize().y/2));
-	perSprite[7].setPosition(sX-(textures.get(Textures::personTex8).getSize().x/2),sY-(textures.get(Textures::personTex8).getSize().y/2));
+   mb_left = new MouseButton(sf::Mouse::Left);
+   mb_right = new MouseButton(sf::Mouse::Right);
 
-	perSprite[0].setOrigin(perSprite[0].getTextureRect().width/2, perSprite[0].getTextureRect().height/2);
-	perSprite[1].setOrigin(perSprite[1].getTextureRect().width/2, perSprite[1].getTextureRect().height/2);
-	perSprite[2].setOrigin(perSprite[2].getTextureRect().width/2, perSprite[2].getTextureRect().height/2);
-	perSprite[3].setOrigin(perSprite[3].getTextureRect().width/2, perSprite[3].getTextureRect().height/2);
-	perSprite[4].setOrigin(perSprite[4].getTextureRect().width/2, perSprite[4].getTextureRect().height/2);
-	perSprite[5].setOrigin(perSprite[5].getTextureRect().width/2, perSprite[5].getTextureRect().height/2);
-	perSprite[6].setOrigin(perSprite[6].getTextureRect().width/2, perSprite[6].getTextureRect().height/2);
-	perSprite[7].setOrigin(perSprite[7].getTextureRect().width/2, perSprite[7].getTextureRect().height/2);
+   collisionManager = new CollisionManager();
 
+   sf::Vector2u mapSize = mapLoader->GetMapSize();
+   collisionManager->include(mapLoader);
+
+   farolete = new CharMain(screen_x, screen_y, collisionManager, display);
+
+   dropManager = new DropManager(display, mapSize.x, mapSize.y, collisionManager);
+   dropManager->sortItem(750, 780);
+
+   waveManager = new WaveManager(fase, screen_x, screen_y, collisionManager, mapLoader, display);
+   inimigos = waveManager->getWaveEnemmyList(1);
+
+   for(unsigned i=0;i<inimigos.size();i++){
+      inimigos[i]->activeCollision();
+      inimigos[i]->setDropManager(dropManager);
+   }
+
+   loadWave = 0;
+
+   mapSize.x = (mapSize.x/2)-(view.getSize().x/2);
+   mapSize.y = (mapSize.y/2)-(view.getSize().y/2);
+
+   //Initial Position
+   view.move(mapSize.x-250, mapSize.y+30);
+
+   hud = new Hud(display);
+
+   cont = 0;
+   verdana.loadFromFile("font/verdanab.ttf");
+   txtCont.setFont(verdana);
+   txtCont.setString("00");
+   txtCont.setCharacterSize(32);
+
+   faroleteKill = false;
+
+   musicBg.play();
 }
 
 void GamePlay::draw(){
-	display->clear(sf::Color(255,255,255,255));
+   display->clear(sf::Color(0,0,0,255));
+   display->draw(mapLoader);
 
-	display->draw(mapLoader);
-	//mapLoader.draw(display->getWindow());
+   dropManager->draw();
+   
+   farolete->draw();
 
-	for(unsigned i=0;i<vShot.size();i++){
-		display->draw(vShot[i]->getSprite());
-	}
+   for(unsigned i=0; i<inimigos.size();i++){
+      inimigos[i]->draw();
+   }
 
-	display->draw(perSprite[pos]);
+   if(cont > 0){
+      if(cont<=3){
+         txtCont.setColor(sf::Color::Red);
+      }else{
+         txtCont.setColor(sf::Color(100, 100, 100));         
+      }
+      display->draw(txtCont);
+   }
 
+   hud->draw();
 }
 
 void GamePlay::render(){
-	display->display();
+   display->display();
 }
 
 void GamePlay::logic(){
-	time = clock.getElapsedTime();
-	elapsed = time.asSeconds();
+   time = clock.getElapsedTime();
+   elapsed = time.asSeconds();
 
-	sf::Vector2i mPos = display->getMousePosition();
+   screenMovement.x = 0.f;
+   screenMovement.y = 0.f;
 
-	sf::View view = display->getView();
+   sf::Vector2f iMovement;
 
-	screenMovement.x = 0.f;
-	screenMovement.y = 0.f;
+   float vel = 2.2f;
+   if (keyboard.triggered(*esc)){
+      sceneManager->exit();
+   }
+   
+   if (keyboard.pressed(*w_key)){
+      screenMovement.y = -vel;
+   }else if (keyboard.pressed(*s_key)){
+      screenMovement.y = vel;
+   }else if (keyboard.pressed(*a_key)){
+      screenMovement.x = -vel;
+   }else if (keyboard.pressed(*d_key)){
+      screenMovement.x = vel;
+   }
 
-	if (keyboard.triggered(*esc))
-        sceneManager->exit();
-    if (keyboard.pressed(*up))
-        screenMovement.y = -1.f;
-    if (keyboard.pressed(*down))
-        screenMovement.y = 1.f;
-    if (keyboard.pressed(*left))
-        screenMovement.x = -1.f;
-    if (keyboard.pressed(*right))
-        screenMovement.x = 1.f;
-    
-    float dt = time.asSeconds();
-    screenMovement = Helpers::Vectors::Normalize(screenMovement) * 10.f;// * dt;
-	view.move(screenMovement);
-	display->setView(view);
+   if (keyboard.triggered(*c_key)){
+      dropManager->getGunOn();
+   }
 
-	perCm.x = view.getCenter().x;
-	perCm.y = view.getCenter().y;
+   if (keyboard.triggered(*snapshot_key)){
+      display->printScreen();
+   }
 
-	mPos.x = (view.getCenter().x - view.getSize().x/2) + mPos.x;
-	mPos.y = (view.getCenter().y - view.getSize().y/2) + mPos.y;
+   if(keyboard.triggered(*spacebar)){
+      farolete->switchGun();
+   }
 
-	float angB = angBetween(perCm.x, perCm.y, mPos.x, mPos.y);
+   //screenMovement = Helpers::Vectors::Normalize(screenMovement);
 
+   if(!farolete->testCollisionMovement(screenMovement)){
+      screenMovement.x = 0.f;
+      screenMovement.y = 0.f;      
+      screenMovement = Helpers::Vectors::Normalize(screenMovement);
+   }
 
-	if((angB>0 && angB<22.5) || (angB>=337 && angB<=360)){
-		pos = 0;
-	}else if(angB>=22.5 && angB<67.5){
-		pos = 1;
-	}else if(angB>=67.5 && angB<112.5){
-		pos = 2;
-	}else if(angB>=112.5 && angB<157.5){
-		pos = 3;
-	}else if(angB>=157.5 && angB<202.5){
-		pos = 4;
-	}else if(angB>=202.5 && angB<247.5){
-		pos = 5;
-	}else if(angB>=247.5 && angB<292.5){
-		pos = 6;
-	}else if(angB>=292.5 && angB<337){
-		pos = 7;
-	}
+   mouse_position = display->getMousePosition();
 
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && freeMouse < 1)
-	{
-		freeMouse++;
-		clock.restart();
-		vShot.push_back(new Shot(perCm.x, perCm.y, mPos.x, mPos.y));
-	}
+   if(farolete->getHp() > 0){
+      if(screenMovement.x != 0 || screenMovement.y != 0){
+         farolete->animate();
+      }
 
-    
-    for(unsigned i = 0;i<vShot.size();i++){
-    	if(!vShot[i]->moveShot()){
-    		delete vShot[i];
-			vShot.erase(vShot.begin() + i);
-		}
-    }
+      view.move(screenMovement);
+      display->setView(view);
+      farolete->move(view.getCenter());
+      farolete->setView(view);
 
-    if(freeMouse > 0 && elapsed > timeShot){
-    	clock.restart();
-    	freeMouse--;
-    }
+      sf::Vector2f cast;
+      cast.x = mouse_position.x;
+      cast.y = mouse_position.y;
 
-    
+      if(farolete->getTriggerType() == 1){
+         if (mouse.triggered(*mb_left)){
+            farolete->pushTrigger(cast);   
+         }else if(mouse.triggered(*mb_right)){
+            farolete->fastTrigger(cast);
+         }
+      }else{
+         if (mouse.pressed(*mb_left)){
+            farolete->pushTrigger(cast);   
+         }else if(mouse.pressed(*mb_right)){
+            farolete->fastTrigger(cast);  
+         }
+      }
+   }else{
+      farolete->setHidden(true);
+      if(!faroleteKill){
+         farolete->kill();
+         faroleteKill = true;
+      }
+   }
 
-    perSprite[pos].setPosition(view.getCenter());
+   farolete->update(mouse_position.x, mouse_position.y);
+   hud->update(farolete->getHp(), farolete->getStamina(), farolete->getGunId(), farolete->getBulletQtd(), inimigos.size());
+   dropManager->update();
+
+   for(unsigned i=0; i<inimigos.size();i++){
+      inimigos[i]->update();
+      if((inimigos[i]->testVision() && !farolete->getHidden())
+      ||  inimigos[i]->getFollow()  && !farolete->getHidden()){
+         inimigos[i]->follow(view.getCenter());
+      }else{
+         inimigos[i]->follow(sf::Vector2f(-1,-1));
+      }
+
+      if(inimigos[i]->getHp() <= 0){
+         farolete->addXp(inimigos[i]->getXp());
+         inimigos[i]->kill();
+         inimigos.erase(inimigos.begin() + i);
+      }
+   }
+
+   if(inimigos.size() <= 0){
+      if(loadWave == 0){
+         loadWave = elapsed;
+      }
+
+      cont = 10 - (elapsed - loadWave);
+
+      std::ostringstream ss;
+
+      if(cont<10){
+         ss <<"0"<< cont;
+      }else{
+         ss << cont;
+      }
+
+      txtCont.setString(ss.str());
+
+      if(elapsed - loadWave >= 10){
+         //waveManager->setWaveAtual(waveManager->getWaveAtual() + 1);
+         inimigos = waveManager->getWaveEnemmyList(waveManager->getWaveAtual() + 1);
+         loadWave = 0;
+         cont = 0;
+         for(unsigned i=0;i<inimigos.size();i++){
+            inimigos[i]->activeCollision();
+            inimigos[i]->setDropManager(dropManager);
+         }
+         soundLoadWave.play();
+      }
+   }
+
+   txtCont.setPosition((view.getCenter().x)-10, (view.getCenter().y - display->getSize().y/2) + 30);
 }
 
 void GamePlay::finish(){
-
-}
-
-float GamePlay::angBetween(float cmX, float cmY, float pX, float pY){
-	float disX = pX-cmX;
-	float disY = pY-cmY;
-
-	float distance = sqrt(pow(disX, 2.0) + pow(disY,2.0));
-
-	float s = disY/distance;
-	float c = disX/distance;
-	float ang = (atan2(s, c) * 180 / PI);
-	if (ang < 0){
-		ang += 360;
-	}
-	return ang;
 }

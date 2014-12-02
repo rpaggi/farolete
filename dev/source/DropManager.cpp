@@ -7,7 +7,7 @@ DropManager::DropManager(Display * display, float areaX, float areaY, CollisionM
    area.x = areaX;
    area.y = areaY;
 
-   verdana.loadFromFile("images/hud/verdanab.ttf");
+   verdana.loadFromFile("font/verdanab.ttf");
    message.setFont(verdana);
    message.setCharacterSize(18);
    message.setColor(sf::Color(200, 200, 200));

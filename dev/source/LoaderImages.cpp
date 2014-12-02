@@ -5,11 +5,8 @@ LoaderImages::LoaderImages(){
 }
 
 std::string LoaderImages::getImage(){
-	int r = RandomInteger(8, 80);
-	r = RandomInteger(8, 80);
-	r = RandomInteger(8, 80);
+	int r = RandomInteger(1, 10);
 
-	r /= 8;
 	std::string out;
 
 	switch (r){
