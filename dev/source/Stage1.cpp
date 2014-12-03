@@ -1,9 +1,7 @@
 #include  "Stage1.hpp"
 #include <iostream>
 
-Stage1::Stage1(Display * d){
-   display = d;
-
+void Stage1::init(){
    mapLoader = new tmx::MapLoader("maps/map1/");
    mapLoader->Load("map1.tmx");
 
@@ -11,7 +9,17 @@ Stage1::Stage1(Display * d){
    float screen_y = display->getSize().y;
 
    fase = 1;
-   wave = 1;
+}
+
+Stage1::Stage1(Display * d){
+   display = d;
+   this->init();
+}
+
+Stage1::Stage1(Display * d, SaveGame sg){
+   display = d;
+   saveGame = sg;
+   this->init();
 }
 
 void Stage1::logic(){

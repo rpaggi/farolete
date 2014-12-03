@@ -3,6 +3,6 @@
 *.exe
 *.o
 *.res
-*.dat
+savegame.dat
 *.sublime-workspace
 pygame/

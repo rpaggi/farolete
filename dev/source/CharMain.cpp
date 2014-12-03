@@ -1,7 +1,7 @@
 #include "CharMain.hpp"
 #include <iostream>
 
-CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, Display * dis){
+void CharMain::init(float screen_x, float screen_y, CollisionManager * cManager, Display * dis){
    //Defines the mass center of person using the screen size pushed from parameter
    massCenter.x = screen_x/2;
    massCenter.y = screen_y/2;
@@ -14,14 +14,10 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    spriteManager->setFrameRate(0.1);
 
    //Load texture into sprite
-   // sprite.setTexture(texture);
-
    frameSize.x = 100;
    frameSize.y = 100;
 
    //Configure sprite frame
-   // sprite.setTextureRect(sf::IntRect(0, 0, frameSize.x, frameSize.y));
-   // sprite.setPosition((screen_x/2)-(frameSize.x/2),(screen_y/2)-(frameSize.y/2));
    position.x = (screen_x/2)-(frameSize.x/2);
    position.y = (screen_y/2)-(frameSize.y/2);
    spriteManager->setPosition(position);
@@ -50,31 +46,47 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    controlTrigger = true;
 
    gunManager = new GunManager();
-   gun1 = gunManager->getGun(2);
    gun2 = gunManager->getGun(1);
    activeGun = &gun1;
-   gunBuffer.loadFromFile(gunManager->getAudio(2));
-   gunAudio->setBuffer(gunBuffer);
    gunFlag = 1;
 
-   bullets->setLifetime(gun1.getRange());
-   bullets->setDamage(gun1.getDamage());
-
-   stamina = 50;
-   bulletStock = 50;
-
    fastShot = 1;
-
-   hp = 100;
-   xp = 0;
 
    walkSound.setVolume(05);
    deadBuffer.loadFromFile("audio/farolete_dead.wav");
    deadSound.setBuffer(deadBuffer);
    deadSound.setVolume(15);
 
-   godMode = true;
+   godMode = false;
 }
+
+CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, Display * dis){
+   this->init(screen_x, screen_y, cManager, dis);
+   gun1 = gunManager->getGun(2);
+   gunBuffer.loadFromFile(gunManager->getAudio(2));
+   gunAudio->setBuffer(gunBuffer);
+   bullets->setLifetime(gun1.getRange());
+   bullets->setDamage(gun1.getDamage());
+   hp = 100;
+   stamina = 50;
+   bulletStock = 50;
+   xp = 0;
+}
+
+CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, Display * dis, int h, int s, int x, int b, int g){
+   this->init(screen_x, screen_y, cManager, dis);
+   gun1 = gunManager->getGun(g);
+   gunBuffer.loadFromFile(gunManager->getAudio(g));
+   gunAudio->setBuffer(gunBuffer);
+   bullets->setLifetime(gun1.getRange());
+   bullets->setDamage(gun1.getDamage());
+   hp = h;
+   stamina = s;
+   bulletStock = b;
+   xp = x;
+}
+
+
 
 void CharMain::changeSprite(float angle){
    if((angle>=0 && angle<32.195) || (angle>=328.8 && angle<=360)){
@@ -241,6 +253,14 @@ float CharMain::getStamina(){
 
 int CharMain::getGunId(){
    return activeGun->getId();
+}
+
+int CharMain::getGunId(int id){
+   if(id == 1){
+      return gun1.getId();
+   }else{
+      return gun2.getId();
+   }
 }
 
 int CharMain::getBulletQtd(){

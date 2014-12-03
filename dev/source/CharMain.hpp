@@ -7,11 +7,13 @@
 
 class CharMain : public Character { 
 private:
+   void          init(float screen_x, float screen_y, CollisionManager * cManager, Display * dis);
+   void          changeSprite(float angle);
+   
    bool          hidden;
    bool          controlTrigger;
    float         stamina;
 
-   void          changeSprite(float angle);
 
    GunManager *  gunManager;
    int           gunFlag;
@@ -25,6 +27,7 @@ private:
    bool          godMode;
 public:
    CharMain(float screen_x, float screen_y, CollisionManager * cManager, Display * dis);
+   CharMain(float screen_x, float screen_y, CollisionManager * cManager, Display * dis, int h, int s, int x, int b, int g);
 
    void         update(float x, float y);
 
@@ -47,6 +50,8 @@ public:
    float        getStamina();
 
    int          getGunId();
+
+   int          getGunId(int id);
 
    int          getBulletQtd();
 

@@ -30,7 +30,7 @@ WaveManager::WaveManager(int fase, float screen_x, float screen_y, CollisionMana
 		break;
 
 		default:
-			std::cout <<"Fase Inválida"<<std::endl;
+			std::cout <<"Fase Invalida"<<std::endl;
 		break;
 	}
 }

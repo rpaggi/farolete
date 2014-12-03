@@ -21,9 +21,11 @@
 #include "DropStamina.hpp"
 #include "WaveManager.hpp"
 #include "LoaderImages.hpp"
+#include "SaveGame.hpp"
 
 class GamePlay : public Scene { 
 protected:
+   SaveGame    saveGame;
    Display * display;
    CharMain * farolete;
 
@@ -73,6 +75,9 @@ protected:
    sf::Texture loadingTex;
    sf::Sprite  loadingSpr;
 
+   sf::Texture savingTex;
+   sf::Sprite  savingSpr;
+
    float       loadWave;
 
    sf::Font    verdana;
@@ -80,8 +85,10 @@ protected:
    int         cont;
 
    bool        faroleteKill;
+   bool        saving;
 
    int         fase;
+
 
 public:
    GamePlay();
