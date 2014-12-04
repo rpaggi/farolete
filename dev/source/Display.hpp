@@ -28,6 +28,8 @@ public:
 
     sf::Vector2u getSize();
 
+    sf::Vector2f getSize2f();
+
     void display();
 
     const sf::View & getView();

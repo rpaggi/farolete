@@ -1,12 +1,11 @@
 #include "GamePlay.hpp"
+#include "GameOver.hpp"
 #include <iostream>
 
 GamePlay::GamePlay(){
 }
 
 void GamePlay::start(){
-   saveGame.display();
-
    float screen_x = display->getSize().x;
    float screen_y = display->getSize().y;
 
@@ -88,6 +87,7 @@ void GamePlay::start(){
    faroleteKill = false;
 
    musicBg.play();
+   saving = false;
 
    std::cout<<"WaveAtual: "<<waveManager->getWaveAtual()<<std::endl;
 }
@@ -201,6 +201,14 @@ void GamePlay::logic(){
       if(!faroleteKill){
          farolete->kill();
          faroleteKill = true;
+         counter = elapsed;
+      }else{
+         std::cout<<elapsed-counter<<std::endl;
+         if(elapsed-counter > 1.0){
+            musicBg.stop();
+            goScene = new GameOver(display);
+            sceneManager->setCurrentScene(goScene);
+         }
       }
    }
 
@@ -275,4 +283,5 @@ void GamePlay::logic(){
 }
 
 void GamePlay::finish(){
+   std::cout<<"Finish gameplay"<<std::endl;
 }

@@ -9,7 +9,6 @@
 
 #include "Display.hpp"
 #include "SceneManager.hpp"
-#include "MainMenu.hpp"
 
 class SceneSplash1 : public Scene {
 	Display * display;

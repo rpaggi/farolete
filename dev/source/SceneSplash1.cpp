@@ -1,4 +1,5 @@
 #include "SceneSplash1.hpp"
+#include "MainMenu.hpp"
 
 SceneSplash1::SceneSplash1(Display * d) {
     display = d;

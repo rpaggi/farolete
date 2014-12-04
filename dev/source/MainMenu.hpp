@@ -7,7 +7,6 @@
 #include "Display.hpp"
 #include "Input.hpp"
 #include "SceneManager.hpp"
-#include "Stage1.hpp"
 
 class MainMenu : public Scene {
 private:

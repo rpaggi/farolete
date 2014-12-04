@@ -26,8 +26,8 @@
 class GamePlay : public Scene { 
 protected:
    SaveGame    saveGame;
-   Display * display;
-   CharMain * farolete;
+   Display   * display;
+   CharMain  * farolete;
 
    sf::Music musicBg;
    sf::SoundBuffer bufferLoadWave;
@@ -88,7 +88,8 @@ protected:
    bool        saving;
 
    int         fase;
-
+   float       counter;
+   Scene     * goScene;
 
 public:
    GamePlay();

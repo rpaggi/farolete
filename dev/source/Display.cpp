@@ -30,6 +30,10 @@ sf::Vector2u Display::getSize() {
    return window.getSize();
 }
 
+sf::Vector2f Display::getSize2f() {
+   return sf::Vector2f(window.getSize().x, window.getSize().y);
+}
+
 const sf::View & Display::getView() {
    return window.getView();
 }

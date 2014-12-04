@@ -1,4 +1,5 @@
 #include "MainMenu.hpp"
+#include "Stage1.hpp"
 
 MainMenu::MainMenu(Display * d) {
     display = d;

@@ -7,10 +7,8 @@ using namespace std;
 //Classes Includes
 #include "Display.hpp"
 #include "SceneManager.hpp"
-#include "SceneSplash1.hpp"
-#include "Stage1.hpp"
-#include "Stage2.hpp"
 #include "SaveGame.hpp"
+#include "Stage1.hpp"
 
 // Main Processrm 
 int main(){
@@ -29,6 +27,7 @@ int main(){
 	// Scene * firstScene = new SceneSplash1(&display);
 	Scene * firstScene = new Stage1(&display, saveGame);
 	// Scene * firstScene = new Stage2(&display);
+// Scene * firstScene = new GameOver(&display);
 
 	sceneManager.setDisplay(&display);
 	sceneManager.setCurrentScene(firstScene);
