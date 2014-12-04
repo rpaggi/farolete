@@ -12,10 +12,10 @@ CharEnemmy::CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionM
       spriteManager = new SpriteManager(dis, "images/character/spriteSheetSoin.png");
       deadBuffer.loadFromFile("audio/monkey_dead.wav");
    }else if(idInimigo == 3){
-      spriteManager = new SpriteManager(dis, "images/character/spriteSheetSoin.png");
+      spriteManager = new SpriteManager(dis, "images/character/spriteSheetTatu.png");
       deadBuffer.loadFromFile("audio/tatu_dead.wav");
    }else if(idInimigo == 4){
-      spriteManager = new SpriteManager(dis, "images/character/spriteSheetSoin.png");
+      spriteManager = new SpriteManager(dis, "images/character/spriteSheetCurrupiao.png");
       deadBuffer.loadFromFile("audio/currupiao_dead.wav");
    }
 
@@ -103,6 +103,16 @@ CharEnemmy::CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionM
 
    walkSound.setVolume(02);
    walkSound.setRelativeToListener(true);
+}
+
+CharEnemmy::~CharEnemmy(){
+   collisionManager->remove(collisionObject);
+   collisionManager->remove(visionX);
+   collisionManager->remove(visionY);
+
+   delete spriteManager;
+   delete bullets;
+   delete gunManager;
 }
 
 void CharEnemmy::readSpawnAreas(tmx::MapLoader * mapLoader){

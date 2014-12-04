@@ -38,6 +38,7 @@ protected:
    std::vector<CharEnemmy *> inimigos;
 
    KeyboardInput keyboard;
+   GameKey* end;
    GameKey* esc;
    GameKey* up;
    GameKey* down;

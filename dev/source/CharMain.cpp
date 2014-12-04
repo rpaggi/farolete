@@ -9,7 +9,6 @@ void CharMain::init(float screen_x, float screen_y, CollisionManager * cManager,
    display = dis;
 
    //Load the texture map
-   texture.loadFromFile("images/character/farolete.png");
    spriteManager = new SpriteManager(display, "images/character/spriteSheetFarolete.png");
    spriteManager->setFrameRate(0.1);
 

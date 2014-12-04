@@ -5,6 +5,12 @@ WaveManager::WaveManager(){
 
 }
 
+WaveManager::~WaveManager(){
+	for(unsigned i=0;i<wavesFase.size();i++){
+		delete wavesFase[i];
+	}
+}
+
 WaveManager::WaveManager(int fase, float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader, Display * dis){
 	waveAtual = 0;
 	

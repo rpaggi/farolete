@@ -9,6 +9,10 @@ GameOver::GameOver(Display * dis){
 }
 
 void GameOver::start(){
+	display->setShowMousePointer(false);
+	sf::View view(sf::FloatRect(0,0,display->getSize().x, display->getSize().y));
+	display->setView(view);
+
 	a_key = new GameKey(sf::Keyboard::A);
 	d_key = new GameKey(sf::Keyboard::D);
 	enter = new GameKey(sf::Keyboard::Return);
@@ -17,6 +21,14 @@ void GameOver::start(){
 	moment = 1;
 	selected = 1;
 	alpha = 255;
+
+    buffMenu.loadFromFile("audio/menu.wav");
+    soundMenu.setBuffer(buffMenu);
+    soundMenu.setVolume(15);
+
+    buffCapsule.loadFromFile("audio/capsule.wav");
+    soundCapsule.setBuffer(buffCapsule);
+    soundCapsule.setVolume(25);
 
 	texBg.loadFromFile("images/gameover/background.png");
 	sprBg.setTexture(texBg);
@@ -37,9 +49,10 @@ void GameOver::start(){
 	blackScreen.setPosition(0,0);
 	blackScreen.setFillColor(sf::Color(0,0,0,alpha));
 
+	soundCapsule.play();
 }
 void GameOver::draw(){
-	display->clear(sf::Color(255,0,0,255));
+	display->clear(sf::Color(0,0,0,255));
 	display->draw(sprBg);
 	display->draw(sprBtnContinue);
 	display->draw(sprBtnExit);
@@ -65,14 +78,17 @@ void GameOver::logic(){
 
 		case 2:
     		if (keyboard.triggered(*a_key)) {
+    			soundMenu.play();
 				sprBtnContinue.setTextureRect(sf::IntRect(0, 55, 344, 55));
 				sprBtnExit.setTextureRect(sf::IntRect(0, 0, 137, 55));
     			selected = 1;
     		}else if (keyboard.triggered(*d_key)) {
+    			soundMenu.play();
 				sprBtnContinue.setTextureRect(sf::IntRect(0, 0, 344, 55));
 				sprBtnExit.setTextureRect(sf::IntRect(0, 55, 137, 55));
     			selected = 2;
     		}else if (keyboard.triggered(*enter)) {
+    			soundCapsule.play();
     			if(selected == 1){
     				SaveGame savegame;
     				savegame.loadGame();

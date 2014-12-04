@@ -11,6 +11,7 @@ class WaveManager{
   
 public:
   WaveManager(); 
+  ~WaveManager(); 
   WaveManager(int fase, float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader, Display * dis);   
   // Wave *                       getWave(int waveId);
   std::vector<CharEnemmy *>    getWaveEnemmyList(int waveId);

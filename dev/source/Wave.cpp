@@ -4,6 +4,12 @@ Wave::Wave(){
 
 }
 
+Wave::~Wave(){
+	for(unsigned i=0;i<waveEnemmies.size();i++){
+		delete waveEnemmies[i];
+	}
+}
+
 Wave::Wave(int waveNum, float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader, Display * dis){
 	int numSoin = 0, numCabra = 0, numTatu = 0, numCorrupiao = 0;
 	int numFacao = 0, numLuger = 0, numColt = 0, numWinchester = 0, numMouser = 0;

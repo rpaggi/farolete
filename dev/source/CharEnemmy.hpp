@@ -54,6 +54,7 @@ private:
    void pushTrigger(sf::Vector2f dest);
 public:
    CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader, int hp, int xp, int gunId, float velocity, int idInimigo, float alcanceVisao);
+   ~CharEnemmy();
 
    void update();
 

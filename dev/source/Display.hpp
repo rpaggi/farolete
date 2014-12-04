@@ -19,6 +19,8 @@ class Display{
     sf::RenderWindow window;
     sf::Texture      m_pointer_texture;
     sf::Sprite       m_pointer_sprite;
+    bool             showMousePointer;
+
 public:
     Display();
 
@@ -51,6 +53,8 @@ public:
     sf::Vector2i getMousePosition();
 
     void printScreen();
+
+    void setShowMousePointer(bool value);
 };
 
 #endif

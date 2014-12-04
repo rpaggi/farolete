@@ -4,13 +4,11 @@ using namespace std;
 
 #include <windows.h>
 #include <stdlib.h>
-//Classes Includes
+
 #include "Display.hpp"
 #include "SceneManager.hpp"
-#include "SaveGame.hpp"
-#include "Stage1.hpp"
+#include "SceneSplash1.hpp"
 
-// Main Processrm 
 int main(){
 	//To hide prompt
 	// HWND hWnd = GetConsoleWindow();
@@ -20,14 +18,11 @@ int main(){
 
 	Display display;
 
-	SaveGame saveGame;
-	saveGame.loadGame();
-
 	SceneManager sceneManager;
-	// Scene * firstScene = new SceneSplash1(&display);
-	Scene * firstScene = new Stage1(&display, saveGame);
+	Scene * firstScene = new SceneSplash1(&display);
+	// Scene * firstScene = new Stage1(&display, saveGame);
 	// Scene * firstScene = new Stage2(&display);
-// Scene * firstScene = new GameOver(&display);
+	// Scene * firstScene = new GameOver(&display);
 
 	sceneManager.setDisplay(&display);
 	sceneManager.setCurrentScene(firstScene);

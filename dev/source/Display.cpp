@@ -7,11 +7,15 @@ Display::Display() {
    // window.create(sf::VideoMode(1024, 600), "xingu"); 
    window.setVerticalSyncEnabled(true);
    window.setMouseCursorVisible(false);
+   window.clear(sf::Color::Black);
+   window.display();
    m_pointer_texture.loadFromFile("images/cursor.png");
    m_pointer_sprite.setTexture(m_pointer_texture);
    m_pointer_sprite.setPosition(-30, -30);
 
    window.setFramerateLimit(60);
+
+   showMousePointer = false;
 }
 
 void Display::handleEvents() {
@@ -43,7 +47,8 @@ void Display::setView(sf::View view) {
 }
 
 void Display::display() {
-   window.draw(m_pointer_sprite);
+   if(showMousePointer) window.draw(m_pointer_sprite);
+
    window.display();
 }
 
@@ -91,4 +96,8 @@ void Display::printScreen(){
    sf::Image image = window.capture();
    filename << "screenshots/screenshot_" << dt[4]<<dt[5]<<dt[6]<<dt[8]<<dt[9]<<dt[11]<<dt[12]<<dt[14]<<dt[15]<<dt[17]<<dt[18] << ".png";
    image.saveToFile( filename.str() );
+}
+
+void Display::setShowMousePointer(bool value){
+   showMousePointer = value;
 }

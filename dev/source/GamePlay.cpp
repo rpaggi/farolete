@@ -11,6 +11,8 @@ void GamePlay::start(){
 
    view = display->getView();
 
+   display->setShowMousePointer(true);
+
    loadingTex.loadFromFile(LoaderImages().getImage());
    loadingSpr.setTexture(loadingTex);
    display->draw(loadingSpr);
@@ -27,6 +29,7 @@ void GamePlay::start(){
    savingTex.loadFromFile("images/saving.png");
    savingSpr.setTexture(savingTex);
 
+   end =   new GameKey(sf::Keyboard::End);
    esc =   new GameKey(sf::Keyboard::Escape);
    up =    new GameKey(sf::Keyboard::Up);
    down =  new GameKey(sf::Keyboard::Down);
@@ -54,7 +57,6 @@ void GamePlay::start(){
       farolete = new CharMain(screen_x, screen_y, collisionManager, display);
 
    dropManager = new DropManager(display, mapSize.x, mapSize.y, collisionManager);
-   dropManager->sortItem(750, 780);
 
    waveManager = new WaveManager(fase, screen_x, screen_y, collisionManager, mapLoader, display);
    if(saveGame.wave > 0){
@@ -132,7 +134,7 @@ void GamePlay::logic(){
    sf::Vector2f iMovement;
 
    float vel = 2.2f;
-   if (keyboard.triggered(*esc)){
+   if (keyboard.triggered(*end)){
       musicBg.stop();
       sceneManager->exit();
    }
@@ -203,7 +205,6 @@ void GamePlay::logic(){
          faroleteKill = true;
          counter = elapsed;
       }else{
-         std::cout<<elapsed-counter<<std::endl;
          if(elapsed-counter > 1.0){
             musicBg.stop();
             goScene = new GameOver(display);
@@ -283,5 +284,25 @@ void GamePlay::logic(){
 }
 
 void GamePlay::finish(){
-   std::cout<<"Finish gameplay"<<std::endl;
+   delete end;
+   delete esc;
+   delete up;
+   delete down;
+   delete left;
+   delete right;
+   delete a_key;
+   delete s_key;
+   delete d_key;
+   delete w_key;
+   delete c_key;
+   delete spacebar;
+   delete snapshot_key;
+   delete mb_left;
+   delete mb_right;
+   delete farolete;
+   delete dropManager;
+   delete waveManager;
+   delete hud;
+   delete collisionManager;
+   delete this;
 }

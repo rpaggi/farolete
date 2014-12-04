@@ -12,6 +12,7 @@ class Wave{
 
 public:
   Wave();
+  ~Wave();
   Wave(int waveNum, float screen_x, float screen_y, CollisionManager * cManager, tmx::MapLoader * mapLoader, Display * dis);
 
   //getters and setters

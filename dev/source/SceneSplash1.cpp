@@ -6,6 +6,7 @@ SceneSplash1::SceneSplash1(Display * d) {
 }
 
 void SceneSplash1::start() {
+    display->setShowMousePointer(false);
     winSize = display->getSize();
     texSplash1.loadFromFile("images/splash1.png");
     sprSplash1.setTexture(texSplash1);

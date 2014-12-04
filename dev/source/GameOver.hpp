@@ -5,6 +5,8 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 #include "Display.hpp"
 #include "Input.hpp"
@@ -32,6 +34,12 @@ private:
 
 	sf::Texture texBtnExit;
 	sf::Sprite  sprBtnExit;
+
+    sf::SoundBuffer buffMenu;
+    sf::Sound       soundMenu;
+
+    sf::SoundBuffer buffCapsule;
+    sf::Sound       soundCapsule;
 
 	sf::Clock clock;
 	float     elapsed;

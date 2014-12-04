@@ -3,28 +3,48 @@
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 #include "Display.hpp"
 #include "Input.hpp"
 #include "SceneManager.hpp"
+#include "SaveGame.hpp"
 
 class MainMenu : public Scene {
 private:
     Display * display;
-    sf::Texture background;
-    sf::Texture txtBtNewGame;
-    sf::Texture txtBtContinue;
-    sf::Texture txtBtSetup;
-    sf::Sprite sprBG;
-    sf::Sprite sprBtNG;
-    sf::Sprite sprBtCo;
-    sf::Sprite sprBtSe;
-    GameKey* down;
-    GameKey* up;
-    GameKey* enter;
-    GameKey* esc;
+
+    sf::Texture texBG;
+    sf::Sprite  sprBG;
+
+    sf::Texture texBtnNewGame;
+    sf::Sprite  sprBtnNewGame;
+
+    sf::Texture texBtnContinue;
+    sf::Sprite  sprBtnContinue;
+
+    sf::Texture texBtnExit;
+    sf::Sprite  sprBtnExit;
+
     KeyboardInput keyboard;
+    GameKey* w_key;
+    GameKey* s_key;
+    GameKey* enter;
+    GameKey* end;
+
     int option;
+
+    SaveGame savegame;
+
+    bool continueEnabled;
+
+    sf::SoundBuffer buffMenu;
+    sf::Sound       soundMenu;
+
+    sf::SoundBuffer buffCapsule;
+    sf::Sound       soundCapsule;
+
     Scene * goScene;
 public:
     MainMenu(Display * d);    
