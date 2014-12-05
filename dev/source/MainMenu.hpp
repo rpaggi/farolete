@@ -27,6 +27,9 @@ private:
     sf::Texture texBtnExit;
     sf::Sprite  sprBtnExit;
 
+    sf::Texture texBtnInfo;
+    sf::Sprite  sprBtnInfo;
+
     KeyboardInput keyboard;
     GameKey* w_key;
     GameKey* s_key;
