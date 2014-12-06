@@ -87,6 +87,7 @@ CharEnemmy::CharEnemmy(Display * dis, float screen_x, float screen_y, CollisionM
    gun1 = gunManager->getGun(gunId);
    gunBuffer.loadFromFile(gunManager->getAudio(gunId));
    gunAudio->setBuffer(gunBuffer);
+   gunAudio->setVolume(20);
 
    bullets->setLifetime(gun1.getRange());
    bullets->setDamage(gun1.getDamage());
@@ -113,6 +114,7 @@ CharEnemmy::~CharEnemmy(){
    delete spriteManager;
    delete bullets;
    delete gunManager;
+   delete gunAudio;
 }
 
 void CharEnemmy::readSpawnAreas(tmx::MapLoader * mapLoader){

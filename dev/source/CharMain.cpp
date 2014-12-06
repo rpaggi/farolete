@@ -54,7 +54,7 @@ void CharMain::init(float screen_x, float screen_y, CollisionManager * cManager,
    walkSound.setVolume(05);
    deadBuffer.loadFromFile("audio/farolete_dead.wav");
    deadSound.setBuffer(deadBuffer);
-   deadSound.setVolume(15);
+   deadSound.setVolume(25);
 
    godMode = false;
 }
@@ -64,6 +64,7 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    gun1 = gunManager->getGun(2);
    gunBuffer.loadFromFile(gunManager->getAudio(2));
    gunAudio->setBuffer(gunBuffer);
+   gunAudio->setVolume(20);
    bullets->setLifetime(gun1.getRange());
    bullets->setDamage(gun1.getDamage());
    hp = 100;
@@ -77,6 +78,7 @@ CharMain::CharMain(float screen_x, float screen_y, CollisionManager * cManager, 
    gun1 = gunManager->getGun(g);
    gunBuffer.loadFromFile(gunManager->getAudio(g));
    gunAudio->setBuffer(gunBuffer);
+   gunAudio->setVolume(20);
    bullets->setLifetime(gun1.getRange());
    bullets->setDamage(gun1.getDamage());
    hp = h;
@@ -298,4 +300,8 @@ void CharMain::switchGun(){
 
 void CharMain::kill(){
    deadSound.play();
+}
+
+void CharMain::switchGodMode(){
+   godMode = !godMode;
 }

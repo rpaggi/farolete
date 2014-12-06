@@ -24,11 +24,7 @@ void GameOver::start(){
 
     buffMenu.loadFromFile("audio/menu.wav");
     soundMenu.setBuffer(buffMenu);
-    soundMenu.setVolume(15);
-
-    buffCapsule.loadFromFile("audio/capsule.wav");
-    soundCapsule.setBuffer(buffCapsule);
-    soundCapsule.setVolume(25);
+    soundMenu.setVolume(100);
 
 	texBg.loadFromFile("images/gameover/background.png");
 	sprBg.setTexture(texBg);
@@ -48,8 +44,6 @@ void GameOver::start(){
 	blackScreen.setOutlineThickness(0);
 	blackScreen.setPosition(0,0);
 	blackScreen.setFillColor(sf::Color(0,0,0,alpha));
-
-	soundCapsule.play();
 }
 void GameOver::draw(){
 	display->clear(sf::Color(0,0,0,255));
@@ -88,7 +82,6 @@ void GameOver::logic(){
 				sprBtnExit.setTextureRect(sf::IntRect(0, 55, 137, 55));
     			selected = 2;
     		}else if (keyboard.triggered(*enter)) {
-    			soundCapsule.play();
     			if(selected == 1){
     				SaveGame savegame;
     				savegame.loadGame();

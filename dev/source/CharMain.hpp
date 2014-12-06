@@ -58,6 +58,8 @@ public:
    void         switchGun();
 
    void         kill();
+
+   void         switchGodMode();
 };
 
 #endif

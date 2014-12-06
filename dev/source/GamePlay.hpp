@@ -39,6 +39,7 @@ protected:
 
    KeyboardInput keyboard;
    GameKey* end;
+   GameKey* home;
    GameKey* esc;
    GameKey* up;
    GameKey* down;

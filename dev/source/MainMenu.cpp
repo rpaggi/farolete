@@ -1,6 +1,8 @@
 #include "MainMenu.hpp"
 #include "Stage1.hpp"
-#include "Cutscene1.hpp"
+#include "Stage2.hpp"
+#include "Infos.hpp"
+#include "Tutorial.hpp"
 
 MainMenu::MainMenu(Display * d) {
     display = d;
@@ -24,10 +26,6 @@ void MainMenu::start() {
     soundMenu.setBuffer(buffMenu);
     soundMenu.setVolume(15);
 
-    buffCapsule.loadFromFile("audio/capsule.wav");
-    soundCapsule.setBuffer(buffCapsule);
-    soundCapsule.setVolume(25);
-
     texBG.loadFromFile("images/mainmenu/background.png");
     sprBG.setTexture(texBG);
 
@@ -41,16 +39,16 @@ void MainMenu::start() {
     sprBtnContinue.setTextureRect(sf::IntRect(0, 0, texBtnContinue.getSize().x, texBtnContinue.getSize().y/2));
     sprBtnContinue.setPosition(295,382);
 
-    texBtnExit.loadFromFile("images/mainmenu/btnSair.png");
-    sprBtnExit.setTexture(texBtnExit);
-    sprBtnExit.setTextureRect(sf::IntRect(0, 0, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
-    sprBtnExit.setPosition(295,451);
-
     texBtnInfo.loadFromFile("images/mainmenu/btnInfo.png");
     sprBtnInfo.setTexture(texBtnInfo);
     sprBtnInfo.setTextureRect(sf::IntRect(0, 0, texBtnInfo.getSize().x, texBtnInfo.getSize().y/2));
-    sprBtnInfo.setPosition(295,519);
+    sprBtnInfo.setPosition(295,442);
     // sprBtnInfo.setPosition(0,0);
+
+    texBtnExit.loadFromFile("images/mainmenu/btnSair.png");
+    sprBtnExit.setTexture(texBtnExit);
+    sprBtnExit.setTextureRect(sf::IntRect(0, 0, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
+    sprBtnExit.setPosition(295,519);
 
     savegame.loadGame();
     if(savegame.stage>0){
@@ -94,26 +92,29 @@ void MainMenu::logic() {
         soundMenu.play();
     }
     if (keyboard.triggered(*enter)){
-        soundCapsule.play();
         switch (option){
             case 1:
-                goScene  = new Cutscene1(display);
-                sceneManager->setCurrentScene(goScene);
+                goScene  = new Tutorial(display);
             break;
 
             case 2:
-                goScene  = new Stage1(display, savegame);
-                sceneManager->setCurrentScene(goScene);
+                if(savegame.stage == 1)
+                    goScene  = new Stage1(display, savegame);
+                else 
+                    goScene  = new Stage2(display, savegame);
             break;
 
             case 3:
-                sceneManager->exit();
+                goScene  = new Infos(display);
             break;
 
             case 4:
                 sceneManager->exit();
             break;
         }
+        
+        if(option!=4)
+            sceneManager->setCurrentScene(goScene);
     }
     // if (keyboard.triggered(*end)){
     //     sceneManager->exit();
@@ -126,29 +127,29 @@ void MainMenu::logic() {
         case 1:
         sprBtnNewGame.setTextureRect(sf::IntRect(0, texBtnNewGame.getSize().y/2, texBtnNewGame.getSize().x, texBtnNewGame.getSize().y/2));
         sprBtnContinue.setTextureRect(sf::IntRect(0, 0, texBtnContinue.getSize().x, texBtnContinue.getSize().y/2));
-        sprBtnExit.setTextureRect(sf::IntRect(0, 0, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
         sprBtnInfo.setTextureRect(sf::IntRect(0, 0, texBtnInfo.getSize().x, texBtnInfo.getSize().y/2));
+        sprBtnExit.setTextureRect(sf::IntRect(0, 0, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
         break;
 
         case 2:
         sprBtnNewGame.setTextureRect(sf::IntRect(0, 0, texBtnNewGame.getSize().x, texBtnNewGame.getSize().y/2));
         sprBtnContinue.setTextureRect(sf::IntRect(0, texBtnContinue.getSize().y/2, texBtnContinue.getSize().x, texBtnContinue.getSize().y/2));
-        sprBtnExit.setTextureRect(sf::IntRect(0, 0, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
         sprBtnInfo.setTextureRect(sf::IntRect(0, 0, texBtnInfo.getSize().x, texBtnInfo.getSize().y/2));
+        sprBtnExit.setTextureRect(sf::IntRect(0, 0, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
         break;
 
         case 3:
         sprBtnNewGame.setTextureRect(sf::IntRect(0, 0, texBtnNewGame.getSize().x, texBtnNewGame.getSize().y/2));
         sprBtnContinue.setTextureRect(sf::IntRect(0, 0, texBtnContinue.getSize().x, texBtnContinue.getSize().y/2));
-        sprBtnExit.setTextureRect(sf::IntRect(0, texBtnExit.getSize().y/2, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
-        sprBtnInfo.setTextureRect(sf::IntRect(0, 0, texBtnInfo.getSize().x, texBtnInfo.getSize().y/2));
+        sprBtnInfo.setTextureRect(sf::IntRect(0, texBtnInfo.getSize().y/2, texBtnInfo.getSize().x, texBtnInfo.getSize().y/2));
+        sprBtnExit.setTextureRect(sf::IntRect(0, 0, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
         break;
 
         case 4:
         sprBtnNewGame.setTextureRect(sf::IntRect(0, 0, texBtnNewGame.getSize().x, texBtnNewGame.getSize().y/2));
         sprBtnContinue.setTextureRect(sf::IntRect(0, 0, texBtnContinue.getSize().x, texBtnContinue.getSize().y/2));
-        sprBtnExit.setTextureRect(sf::IntRect(0, 0, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
-        sprBtnInfo.setTextureRect(sf::IntRect(0, texBtnInfo.getSize().y/2, texBtnInfo.getSize().x, texBtnInfo.getSize().y/2));
+        sprBtnInfo.setTextureRect(sf::IntRect(0, 0, texBtnInfo.getSize().x, texBtnInfo.getSize().y/2));
+        sprBtnExit.setTextureRect(sf::IntRect(0, texBtnExit.getSize().y/2, texBtnExit.getSize().x, texBtnExit.getSize().y/2));
         break;
     }
 }

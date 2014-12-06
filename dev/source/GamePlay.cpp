@@ -1,5 +1,7 @@
 #include "GamePlay.hpp"
 #include "GameOver.hpp"
+#include "Cutscene2.hpp"
+#include "Cutscene3.hpp"
 #include <iostream>
 
 GamePlay::GamePlay(){
@@ -20,7 +22,7 @@ void GamePlay::start(){
 
    musicBg.openFromFile("audio./bg.ogg");
    musicBg.setLoop(true);
-   musicBg.setVolume(15);
+   musicBg.setVolume(25);
 
    bufferLoadWave.loadFromFile("audio/load_wave.wav");
    soundLoadWave.setBuffer(bufferLoadWave);
@@ -29,6 +31,7 @@ void GamePlay::start(){
    savingTex.loadFromFile("images/saving.png");
    savingSpr.setTexture(savingTex);
 
+   home =   new GameKey(sf::Keyboard::Home);
    end =   new GameKey(sf::Keyboard::End);
    esc =   new GameKey(sf::Keyboard::Escape);
    up =    new GameKey(sf::Keyboard::Up);
@@ -138,6 +141,10 @@ void GamePlay::logic(){
       musicBg.stop();
       sceneManager->exit();
    }
+
+   if (keyboard.triggered(*home)){
+      farolete->switchGodMode();
+   }
    
    if (keyboard.pressed(*w_key)){
       screenMovement.y = -vel;
@@ -244,6 +251,7 @@ void GamePlay::logic(){
 
       std::ostringstream ss;
 
+      ss<<"Tempo para proxima wave: ";
       if(cont<10){
          ss <<"0"<< cont;
       }else{
@@ -258,13 +266,32 @@ void GamePlay::logic(){
 
       if(elapsed - loadWave >= 10){
          //waveManager->setWaveAtual(waveManager->getWaveAtual() + 1);
-         inimigos = waveManager->getWaveEnemmyList(waveManager->getWaveAtual() + 1);
          loadWave = 0;
          cont = 0;
          saving = false;
-         
-         saveGame.stage = fase;
-         saveGame.wave  = waveManager->getWaveAtual();
+         bool continua = true;
+
+         if(fase == 1 && waveManager->getWaveAtual() >= 1){
+            saveGame.stage = 2;
+            saveGame.wave  = 1;
+            goScene = new Cutscene2(display);
+            continua = false;
+         }else if(fase == 2 && waveManager->getWaveAtual() >= 1){
+            saveGame.stage = 1;
+            saveGame.wave  = 1;
+            goScene = new Cutscene3(display);
+            continua = false;
+         }else{
+            inimigos = waveManager->getWaveEnemmyList(waveManager->getWaveAtual() + 1);
+            saveGame.stage = fase;
+            saveGame.wave  = waveManager->getWaveAtual();
+            for(unsigned i=0;i<inimigos.size();i++){
+               inimigos[i]->activeCollision();
+               inimigos[i]->setDropManager(dropManager);
+            }
+            soundLoadWave.play();
+         }
+
          saveGame.gunId = farolete->getGunId(1);
          saveGame.hp    = farolete->getHp();
          saveGame.stamina = farolete->getStamina();
@@ -272,18 +299,18 @@ void GamePlay::logic(){
          saveGame.bullets = farolete->getBulletQtd();
          saveGame.saveGame();
 
-         for(unsigned i=0;i<inimigos.size();i++){
-            inimigos[i]->activeCollision();
-            inimigos[i]->setDropManager(dropManager);
+         if(!continua){
+            sceneManager->setCurrentScene(goScene);
          }
-         soundLoadWave.play();
+
       }
    }
 
-   txtCont.setPosition((view.getCenter().x)-10, (view.getCenter().y - display->getSize().y/2) + 30);
+   txtCont.setPosition((view.getCenter().x)-160, (view.getCenter().y - display->getSize().y/2) + 30);
 }
 
 void GamePlay::finish(){
+   delete home;
    delete end;
    delete esc;
    delete up;

@@ -1,11 +1,11 @@
-#include "Cutscene1.hpp"
-#include "Stage1.hpp"
+#include "Cutscene2.hpp"
+#include "Stage2.hpp"
 
-Cutscene1::Cutscene1(Display * display){
+Cutscene2::Cutscene2(Display * display){
 	this->display = display;
 }
 
-void Cutscene1::start(){
+void Cutscene2::start(){
     display->setShowMousePointer(false);
 
     sf::View view(sf::FloatRect(0,0,display->getSize().x, display->getSize().y));
@@ -13,42 +13,34 @@ void Cutscene1::start(){
 
     space = new GameKey(sf::Keyboard::Space);
 
-	texSeqA.loadFromFile("images/cutscenes/1/a.png");
+	texSeqA.loadFromFile("images/cutscenes/2/a.png");
 	sprSeqA.setTexture(texSeqA);
 	sprSeqA.setColor(sf::Color(255,255,255,0));
 
-	texSeqB.loadFromFile("images/cutscenes/1/b.png");
+	texSeqB.loadFromFile("images/cutscenes/2/b.png");
 	sprSeqB.setTexture(texSeqB);
 	sprSeqB.setColor(sf::Color(255,255,255,0));
 
-	texSeqC.loadFromFile("images/cutscenes/1/c.png");
-	sprSeqC.setTexture(texSeqC);
-	sprSeqC.setColor(sf::Color(255,255,255,0));
-
-	texSeqD.loadFromFile("images/cutscenes/1/d.png");;
-	sprSeqD.setTexture(texSeqD);
-	sprSeqD.setColor(sf::Color(255,255,255,0));
-
 	momento = 0;
+
+	savegame.loadGame();
 
 	clock.restart();
 }
 
-void Cutscene1::draw(){
+void Cutscene2::draw(){
 	display->clear(sf::Color::Black);
 	display->draw(sprSeqA);
 	display->draw(sprSeqB);
-	display->draw(sprSeqC);
-	display->draw(sprSeqD);
 }
 
-void Cutscene1::render(){
+void Cutscene2::render(){
 	display->display();
 }
 
-void Cutscene1::logic(){
+void Cutscene2::logic(){
 	elapsed = clock.getElapsedTime().asSeconds();
-	int tempo1 = 6;
+	int tempo1 = 15;
 
 	switch(momento){
 		case 0:
@@ -80,13 +72,13 @@ void Cutscene1::logic(){
 		break;
 
 		case 3:
-			if(elapsed > 0.50){
+			if(elapsed > 0.75){
 				momento = 4;
 				clock.restart();
 				sprSeqA.setColor(sf::Color(255,255,255,0));
 			}else{
-				trataSprite(3, &sprSeqA, 0.50);
-				trataSprite(1, &sprSeqB, 0.50);
+				trataSprite(3, &sprSeqA, 0.75);
+				trataSprite(1, &sprSeqB, 0.75);
 			}
 		break;
 
@@ -104,68 +96,21 @@ void Cutscene1::logic(){
 
 		case 5:
 			if(elapsed > 0.75){
-				momento = 6;
-				clock.restart();
+				goScene = new Stage2(display, savegame);
+				sceneManager->setCurrentScene(goScene);
 				sprSeqB.setColor(sf::Color(255,255,255,0));
 			}else{
 				trataSprite(3, &sprSeqB, 0.75);
-				trataSprite(1, &sprSeqC, 0.75);
 			}
 		break;
-
-		case 6:
-			if(keyboard.triggered(*space)){
-				elapsed = tempo1+1;
-			}
-			if(elapsed > tempo1){
-				momento = 7;
-				clock.restart();
-			}else{
-				trataSprite(2, &sprSeqC, tempo1);
-			}
-		break;
-
-		case 7:
-			if(elapsed > 0.50){
-				momento = 8;
-				clock.restart();
-				sprSeqC.setColor(sf::Color(255,255,255,0));
-			}else{
-				trataSprite(3, &sprSeqC, 0.50);
-				trataSprite(1, &sprSeqD, 0.50);
-			}
-		break;
-
-		case 8:
-			if(keyboard.triggered(*space)){
-				elapsed = tempo1+1;
-			}
-			if(elapsed > tempo1){
-				momento = 9;
-				clock.restart();
-			}else{
-				trataSprite(2, &sprSeqD, tempo1);
-			}
-		break;
-
-		case 9:
-			if(elapsed > 0.75){
-				goScene = new Stage1(display);
-				sceneManager->setCurrentScene(goScene);
-				sprSeqD.setColor(sf::Color(255,255,255,0));
-			}else{
-				trataSprite(3, &sprSeqD, 0.75);
-			}
-		break;
-
 	}
 }
 
-void Cutscene1::finish(){
+void Cutscene2::finish(){
 	delete this;
 }
 
-void Cutscene1::trataSprite(int function, sf::Sprite * sprite, float time){
+void Cutscene2::trataSprite(int function, sf::Sprite * sprite, float time){
 	int value = 255/time;
 	float alpha = 255;
 

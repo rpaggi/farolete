@@ -100,4 +100,6 @@ void Display::printScreen(){
 
 void Display::setShowMousePointer(bool value){
    showMousePointer = value;
+   if(!value)
+      m_pointer_sprite.setPosition(-50, -50);
 }

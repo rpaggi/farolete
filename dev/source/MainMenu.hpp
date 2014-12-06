@@ -45,9 +45,6 @@ private:
     sf::SoundBuffer buffMenu;
     sf::Sound       soundMenu;
 
-    sf::SoundBuffer buffCapsule;
-    sf::Sound       soundCapsule;
-
     Scene * goScene;
 public:
     MainMenu(Display * d);    

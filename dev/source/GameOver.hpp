@@ -38,9 +38,6 @@ private:
     sf::SoundBuffer buffMenu;
     sf::Sound       soundMenu;
 
-    sf::SoundBuffer buffCapsule;
-    sf::Sound       soundCapsule;
-
 	sf::Clock clock;
 	float     elapsed;
 
