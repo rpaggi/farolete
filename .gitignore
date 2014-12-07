@@ -6,3 +6,4 @@
 savegame.dat
 *.sublime-workspace
 pygame/
+!build/

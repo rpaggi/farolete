@@ -24,7 +24,7 @@ void GameOver::start(){
 
     buffMenu.loadFromFile("audio/menu.wav");
     soundMenu.setBuffer(buffMenu);
-    soundMenu.setVolume(100);
+    soundMenu.setVolume(15);
 
 	texBg.loadFromFile("images/gameover/background.png");
 	sprBg.setTexture(texBg);

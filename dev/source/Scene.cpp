@@ -1,7 +1,9 @@
 #include "Scene.hpp"
+#include <iostream>
 
 void Scene::main(SceneManager * sm) {
     sceneManager = sm;
+
     this->start();
     while(sm->isScene(this)){
         sm->display->handleEvents();

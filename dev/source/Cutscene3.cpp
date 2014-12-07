@@ -1,5 +1,6 @@
 #include "Cutscene3.hpp"
 #include "MainMenu.hpp"
+#include <iostream>
 
 Cutscene3::Cutscene3(Display * display){
 	this->display = display;
@@ -16,6 +17,12 @@ void Cutscene3::start(){
 	texSeqA.loadFromFile("images/cutscenes/3/a.png");
 	sprSeqA.setTexture(texSeqA);
 	sprSeqA.setColor(sf::Color(255,255,255,0));
+
+	musicBg.openFromFile("audio/cutscene.ogg");
+	musicBg.setVolume(20);
+	musicBg.setLoop(true);
+
+	musicBg.play();
 
 	momento = 0;
 
@@ -68,6 +75,7 @@ void Cutscene3::logic(){
 			if(elapsed > 0.75){
 				sprSeqA.setColor(sf::Color(255,255,255,0));
 				goScene = new MainMenu(display);
+				musicBg.stop();
 				sceneManager->setCurrentScene(goScene);
 			}else{
 				trataSprite(3, &sprSeqA, 0.75);

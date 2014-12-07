@@ -22,6 +22,7 @@
 #include "WaveManager.hpp"
 #include "LoaderImages.hpp"
 #include "SaveGame.hpp"
+#include "MenuInGame.hpp"
 
 class GamePlay : public Scene { 
 protected:
@@ -36,6 +37,8 @@ protected:
    WaveManager * waveManager;
 
    std::vector<CharEnemmy *> inimigos;
+
+   MenuInGame * menuInGame;
 
    KeyboardInput keyboard;
    GameKey* end;
@@ -88,6 +91,7 @@ protected:
 
    bool        faroleteKill;
    bool        saving;
+   bool        pause;
 
    int         fase;
    float       counter;
@@ -102,5 +106,6 @@ public:
    void logic();
    void finish();
 };
+
 
 #endif

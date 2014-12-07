@@ -9,7 +9,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
-
+#include <SFML/Audio/Music.hpp>
 
 class Cutscene3:public Scene{
 private:
@@ -24,6 +24,8 @@ private:
 	sf::Sprite         sprSeqA;
 	
 	int                momento;
+
+	sf::Music          musicBg;
 
 	Scene            * goScene;
 

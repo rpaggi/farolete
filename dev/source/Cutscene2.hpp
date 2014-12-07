@@ -10,7 +10,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/System/Time.hpp>
-
+#include <SFML/Audio.hpp>
 
 class Cutscene2:public Scene{
 private:
@@ -30,6 +30,9 @@ private:
 	int                momento;
 
 	SaveGame           savegame;
+
+	sf::SoundBuffer    bufferBg;
+	sf::Sound          soundBg;
 
 	Scene            * goScene;
 

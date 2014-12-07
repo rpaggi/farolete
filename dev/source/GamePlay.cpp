@@ -2,12 +2,14 @@
 #include "GameOver.hpp"
 #include "Cutscene2.hpp"
 #include "Cutscene3.hpp"
+#include "GamePlayPost.hpp"
 #include <iostream>
 
 GamePlay::GamePlay(){
 }
 
 void GamePlay::start(){
+   std::cout<<"Teste"<<std::endl;
    float screen_x = display->getSize().x;
    float screen_y = display->getSize().y;
 
@@ -23,6 +25,8 @@ void GamePlay::start(){
    musicBg.openFromFile("audio./bg.ogg");
    musicBg.setLoop(true);
    musicBg.setVolume(25);
+
+   menuInGame = new MenuInGame(display);
 
    bufferLoadWave.loadFromFile("audio/load_wave.wav");
    soundLoadWave.setBuffer(bufferLoadWave);
@@ -94,6 +98,8 @@ void GamePlay::start(){
    musicBg.play();
    saving = false;
 
+   pause = false;
+
    std::cout<<"WaveAtual: "<<waveManager->getWaveAtual()<<std::endl;
 }
 
@@ -120,6 +126,8 @@ void GamePlay::draw(){
 
    hud->draw();
 
+   if(pause) menuInGame->draw();
+
    if(saving) display->draw(savingSpr);;
 }
 
@@ -128,185 +136,214 @@ void GamePlay::render(){
 }
 
 void GamePlay::logic(){
-   time = clock.getElapsedTime();
-   elapsed = time.asSeconds();
-
-   screenMovement.x = 0.f;
-   screenMovement.y = 0.f;
-
-   sf::Vector2f iMovement;
-
-   float vel = 2.2f;
-   if (keyboard.triggered(*end)){
-      musicBg.stop();
-      sceneManager->exit();
-   }
-
-   if (keyboard.triggered(*home)){
-      farolete->switchGodMode();
-   }
-   
-   if (keyboard.pressed(*w_key)){
-      screenMovement.y = -vel;
-   }else if (keyboard.pressed(*s_key)){
-      screenMovement.y = vel;
-   }else if (keyboard.pressed(*a_key)){
-      screenMovement.x = -vel;
-   }else if (keyboard.pressed(*d_key)){
-      screenMovement.x = vel;
-   }
-
-   if (keyboard.triggered(*c_key)){
-      dropManager->getGunOn();
-   }
-
-   if (keyboard.triggered(*snapshot_key)){
-      display->printScreen();
-   }
-
-   if(keyboard.triggered(*spacebar)){
-      farolete->switchGun();
-   }
-
-   //screenMovement = Helpers::Vectors::Normalize(screenMovement);
-
-   if(!farolete->testCollisionMovement(screenMovement)){
-      screenMovement.x = 0.f;
-      screenMovement.y = 0.f;      
-      screenMovement = Helpers::Vectors::Normalize(screenMovement);
-   }
-
-   mouse_position = display->getMousePosition();
-
-   if(farolete->getHp() > 0){
-      if(screenMovement.x != 0 || screenMovement.y != 0){
-         farolete->animate();
+   if(pause){
+      int ret = menuInGame->update(farolete->getXp(), farolete->getHp(), farolete->getBulletQtd(), farolete->getStamina());
+      if(ret == 1){
+         display->setShowMousePointer(true);
+         musicBg.setVolume(25);
+         pause = false;  
+         clock.restart();       
+      }else if(ret == 2){
+         goScene = new GamePlayPost(display, 1);
+         musicBg.stop();
+         sceneManager->setCurrentScene(goScene);
       }
 
-      view.move(screenMovement);
-      display->setView(view);
-      farolete->move(view.getCenter());
-      farolete->setView(view);
-
-      sf::Vector2f cast;
-      cast.x = mouse_position.x;
-      cast.y = mouse_position.y;
-
-      if(farolete->getTriggerType() == 1){
-         if (mouse.triggered(*mb_left)){
-            farolete->pushTrigger(cast);   
-         }else if(mouse.triggered(*mb_right)){
-            farolete->fastTrigger(cast);
-         }
-      }else{
-         if (mouse.pressed(*mb_left)){
-            farolete->pushTrigger(cast);   
-         }else if(mouse.pressed(*mb_right)){
-            farolete->fastTrigger(cast);  
-         }
+      if (keyboard.triggered(*esc)){
+         display->setShowMousePointer(true);
+         musicBg.setVolume(25);
+         pause = false;
+         clock.restart();
       }
    }else{
-      farolete->setHidden(true);
-      if(!faroleteKill){
-         farolete->kill();
-         faroleteKill = true;
-         counter = elapsed;
-      }else{
-         if(elapsed-counter > 1.0){
-            musicBg.stop();
-            goScene = new GameOver(display);
-            sceneManager->setCurrentScene(goScene);
+      time = clock.getElapsedTime();
+      elapsed = time.asSeconds();
+
+      screenMovement.x = 0.f;
+      screenMovement.y = 0.f;
+
+      sf::Vector2f iMovement;
+
+      float vel = 2.2f;
+      // if (keyboard.triggered(*end)){
+
+      // }
+
+      if (keyboard.triggered(*esc)){
+         display->setShowMousePointer(false);
+         musicBg.setVolume(15);
+         pause = true;
+      }
+
+      if (keyboard.triggered(*home)){
+         farolete->switchGodMode();
+      }
+      
+      if (keyboard.pressed(*w_key)){
+         screenMovement.y = -vel;
+      }else if (keyboard.pressed(*s_key)){
+         screenMovement.y = vel;
+      }else if (keyboard.pressed(*a_key)){
+         screenMovement.x = -vel;
+      }else if (keyboard.pressed(*d_key)){
+         screenMovement.x = vel;
+      }
+
+      if (keyboard.triggered(*c_key)){
+         dropManager->getGunOn();
+      }
+
+      if (keyboard.triggered(*snapshot_key)){
+         display->printScreen();
+      }
+
+      if(keyboard.triggered(*spacebar)){
+         farolete->switchGun();
+      }
+
+      //screenMovement = Helpers::Vectors::Normalize(screenMovement);
+
+      if(!farolete->testCollisionMovement(screenMovement)){
+         screenMovement.x = 0.f;
+         screenMovement.y = 0.f;      
+         screenMovement = Helpers::Vectors::Normalize(screenMovement);
+      }
+
+      mouse_position = display->getMousePosition();
+
+      if(farolete->getHp() > 0){
+         if(screenMovement.x != 0 || screenMovement.y != 0){
+            farolete->animate();
          }
-      }
-   }
 
-   farolete->update(mouse_position.x, mouse_position.y);
-   hud->update(farolete->getHp(), farolete->getStamina(), farolete->getGunId(), farolete->getBulletQtd(), inimigos.size());
-   dropManager->update();
+         view.move(screenMovement);
+         display->setView(view);
+         farolete->move(view.getCenter());
+         farolete->setView(view);
 
-   for(unsigned i=0; i<inimigos.size();i++){
-      inimigos[i]->update();
-      if((inimigos[i]->testVision() && !farolete->getHidden())
-      ||  inimigos[i]->getFollow()  && !farolete->getHidden()){
-         inimigos[i]->follow(view.getCenter());
-      }else{
-         inimigos[i]->follow(sf::Vector2f(-1,-1));
-      }
+         sf::Vector2f cast;
+         cast.x = mouse_position.x;
+         cast.y = mouse_position.y;
 
-      if(inimigos[i]->getHp() <= 0){
-         farolete->addXp(inimigos[i]->getXp());
-         inimigos[i]->kill();
-         inimigos.erase(inimigos.begin() + i);
-      }
-   }
-
-   savingSpr.setPosition((view.getCenter().x + display->getSize().x/2)-50, (view.getCenter().y + display->getSize().y/2)-94);
-
-   if(inimigos.size() <= 0){
-      if(loadWave == 0){
-         loadWave = elapsed;
-      }
-
-      cont = 10 - (elapsed - loadWave);
-
-      std::ostringstream ss;
-
-      ss<<"Tempo para proxima wave: ";
-      if(cont<10){
-         ss <<"0"<< cont;
-      }else{
-         ss << cont;
-      }
-
-      txtCont.setString(ss.str());
-
-      if(elapsed - loadWave > 8){
-         saving = true;
-      }
-
-      if(elapsed - loadWave >= 10){
-         //waveManager->setWaveAtual(waveManager->getWaveAtual() + 1);
-         loadWave = 0;
-         cont = 0;
-         saving = false;
-         bool continua = true;
-
-         if(fase == 1 && waveManager->getWaveAtual() >= 1){
-            saveGame.stage = 2;
-            saveGame.wave  = 1;
-            goScene = new Cutscene2(display);
-            continua = false;
-         }else if(fase == 2 && waveManager->getWaveAtual() >= 1){
-            saveGame.stage = 1;
-            saveGame.wave  = 1;
-            goScene = new Cutscene3(display);
-            continua = false;
-         }else{
-            inimigos = waveManager->getWaveEnemmyList(waveManager->getWaveAtual() + 1);
-            saveGame.stage = fase;
-            saveGame.wave  = waveManager->getWaveAtual();
-            for(unsigned i=0;i<inimigos.size();i++){
-               inimigos[i]->activeCollision();
-               inimigos[i]->setDropManager(dropManager);
+         if(farolete->getTriggerType() == 1){
+            if (mouse.triggered(*mb_left)){
+               farolete->pushTrigger(cast);   
+            }else if(mouse.triggered(*mb_right)){
+               farolete->fastTrigger(cast);
             }
-            soundLoadWave.play();
+         }else{
+            if (mouse.pressed(*mb_left)){
+               farolete->pushTrigger(cast);   
+            }else if(mouse.pressed(*mb_right)){
+               farolete->fastTrigger(cast);  
+            }
          }
-
-         saveGame.gunId = farolete->getGunId(1);
-         saveGame.hp    = farolete->getHp();
-         saveGame.stamina = farolete->getStamina();
-         saveGame.xp = farolete->getXp();
-         saveGame.bullets = farolete->getBulletQtd();
-         saveGame.saveGame();
-
-         if(!continua){
-            sceneManager->setCurrentScene(goScene);
+      }else{
+         farolete->setHidden(true);
+         if(!faroleteKill){
+            farolete->kill();
+            faroleteKill = true;
+            counter = elapsed;
+         }else{
+            if(elapsed-counter > 1.0){
+               musicBg.stop();
+               goScene = new GamePlayPost(display, 2);
+               sceneManager->setCurrentScene(goScene);
+            }
          }
-
       }
-   }
 
-   txtCont.setPosition((view.getCenter().x)-160, (view.getCenter().y - display->getSize().y/2) + 30);
+      farolete->update(mouse_position.x, mouse_position.y);
+      hud->update(farolete->getHp(), farolete->getStamina(), farolete->getGunId(), farolete->getBulletQtd(), inimigos.size());
+      dropManager->update();
+
+      for(unsigned i=0; i<inimigos.size();i++){
+         inimigos[i]->update();
+         if((inimigos[i]->testVision() && !farolete->getHidden())
+         ||  inimigos[i]->getFollow()  && !farolete->getHidden()){
+            inimigos[i]->follow(view.getCenter());
+         }else{
+            inimigos[i]->follow(sf::Vector2f(-1,-1));
+         }
+
+         if(inimigos[i]->getHp() <= 0){
+            farolete->addXp(inimigos[i]->getXp());
+            inimigos[i]->kill();
+            inimigos.erase(inimigos.begin() + i);
+         }
+      }
+
+      savingSpr.setPosition((view.getCenter().x + display->getSize().x/2)-50, (view.getCenter().y + display->getSize().y/2)-94);
+
+      if(inimigos.size() <= 0 /*|| keyboard.triggered(*end)*/){
+         if(loadWave == 0){
+            loadWave = elapsed;
+         }
+
+         cont = 10 - (elapsed - loadWave);
+
+         std::ostringstream ss;
+
+         ss<<"Tempo para proxima wave: ";
+         if(cont<10){
+            ss <<"0"<< cont;
+         }else{
+            ss << cont;
+         }
+
+         txtCont.setString(ss.str());
+
+         if(elapsed - loadWave > 8){
+            saving = true;
+         }
+
+         if(elapsed - loadWave >= 10 /*|| keyboard.triggered(*end)*/){
+            //waveManager->setWaveAtual(waveManager->getWaveAtual() + 1);
+            loadWave = 0;
+            cont = 0;
+            saving = false;
+            bool continua = true;
+
+            if(fase == 1 && waveManager->getWaveAtual() >= 1){
+               musicBg.stop();
+               saveGame.stage = 2;
+               saveGame.wave  = 1;
+               saveGame.gunId = farolete->getGunId(1);
+               saveGame.hp    = farolete->getHp();
+               saveGame.stamina = farolete->getStamina();
+               saveGame.xp = farolete->getXp();
+               saveGame.bullets = farolete->getBulletQtd();
+               saveGame.saveGame();
+               goScene = new GamePlayPost(display, 3);
+               sceneManager->setCurrentScene(goScene);
+            }else if(fase == 2 && waveManager->getWaveAtual() >= 1){
+               musicBg.stop();
+               saveGame.stage = 1;
+               saveGame.wave  = 1;
+               saveGame.gunId = farolete->getGunId(1);
+               saveGame.hp    = farolete->getHp();
+               saveGame.stamina = farolete->getStamina();
+               saveGame.xp = farolete->getXp();
+               saveGame.bullets = farolete->getBulletQtd();
+               saveGame.saveGame();
+               goScene = new GamePlayPost(display, 4);
+               sceneManager->setCurrentScene(goScene);
+               continua = false;
+            }else{
+               inimigos = waveManager->getWaveEnemmyList(waveManager->getWaveAtual() + 1);
+               saveGame.stage = fase;
+               saveGame.wave  = waveManager->getWaveAtual();
+               for(unsigned i=0;i<inimigos.size();i++){
+                  inimigos[i]->activeCollision();
+                  inimigos[i]->setDropManager(dropManager);
+               }
+               soundLoadWave.play();
+            }
+         }
+      }
+
+      txtCont.setPosition((view.getCenter().x)-260, (view.getCenter().y - display->getSize().y/2) + 30);
+   }
 }
 
 void GamePlay::finish(){
@@ -331,5 +368,6 @@ void GamePlay::finish(){
    delete waveManager;
    delete hud;
    delete collisionManager;
+   delete menuInGame;
    delete this;
 }

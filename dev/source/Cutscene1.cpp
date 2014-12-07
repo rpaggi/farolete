@@ -29,6 +29,13 @@ void Cutscene1::start(){
 	sprSeqD.setTexture(texSeqD);
 	sprSeqD.setColor(sf::Color(255,255,255,0));
 
+	bufferBg.loadFromFile("audio/cutscene.ogg");
+	soundBg.setBuffer(bufferBg);
+	soundBg.setVolume(20);
+	soundBg.setLoop(true);
+
+	soundBg.play();
+
 	momento = 0;
 
 	clock.restart();
@@ -150,9 +157,9 @@ void Cutscene1::logic(){
 
 		case 9:
 			if(elapsed > 0.75){
+				sprSeqD.setColor(sf::Color(255,255,255,0));
 				goScene = new Stage1(display);
 				sceneManager->setCurrentScene(goScene);
-				sprSeqD.setColor(sf::Color(255,255,255,0));
 			}else{
 				trataSprite(3, &sprSeqD, 0.75);
 			}
@@ -162,6 +169,7 @@ void Cutscene1::logic(){
 }
 
 void Cutscene1::finish(){
+	soundBg.stop();
 	delete this;
 }
 

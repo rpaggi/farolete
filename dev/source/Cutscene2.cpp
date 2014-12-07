@@ -1,5 +1,6 @@
 #include "Cutscene2.hpp"
 #include "Stage2.hpp"
+#include <iostream>
 
 Cutscene2::Cutscene2(Display * display){
 	this->display = display;
@@ -21,6 +22,11 @@ void Cutscene2::start(){
 	sprSeqB.setTexture(texSeqB);
 	sprSeqB.setColor(sf::Color(255,255,255,0));
 
+	bufferBg.loadFromFile("audio/cutscene.ogg");
+	soundBg.setBuffer(bufferBg);
+	soundBg.setLoop(true);
+	soundBg.setVolume(20);
+
 	momento = 0;
 
 	savegame.loadGame();
@@ -38,7 +44,11 @@ void Cutscene2::render(){
 	display->display();
 }
 
-void Cutscene2::logic(){
+void Cutscene2::logic(){	
+	if(soundBg.getStatus() != sf::SoundSource::Status::Playing){
+		soundBg.play();
+	}
+	
 	elapsed = clock.getElapsedTime().asSeconds();
 	int tempo1 = 15;
 
@@ -96,9 +106,10 @@ void Cutscene2::logic(){
 
 		case 5:
 			if(elapsed > 0.75){
-				goScene = new Stage2(display, savegame);
-				sceneManager->setCurrentScene(goScene);
 				sprSeqB.setColor(sf::Color(255,255,255,0));
+				goScene = new Stage2(display, savegame);
+				soundBg.stop();
+				sceneManager->setCurrentScene(goScene);
 			}else{
 				trataSprite(3, &sprSeqB, 0.75);
 			}
@@ -107,7 +118,6 @@ void Cutscene2::logic(){
 }
 
 void Cutscene2::finish(){
-	delete this;
 }
 
 void Cutscene2::trataSprite(int function, sf::Sprite * sprite, float time){
