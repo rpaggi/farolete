@@ -15,18 +15,18 @@ Wave::Wave(int waveNum, float screen_x, float screen_y, CollisionManager * cMana
 	int numFacao = 0, numLuger = 0, numColt = 0, numWinchester = 0, numMouser = 0;
 
 	float vel1 = 0.3;
-	float vis1 = 50;
-	float hp1 = 50;
+	float vis1 = 70;
+	float hp1 = 25;
 	float xp1 = 5;
 
 	float vel2 = 0.2;
-	float vis2 = 25;
-	float hp2 = 100;
+	float vis2 = 30;
+	float hp2 = 70;
 	float xp2 = 10;
 
 	float vel3 = 0.4;
-	float vis3 = 70;
-	float hp3 = 80;
+	float vis3 = 100;
+	float hp3 = 50;
 	float xp3 = 15;
 
 	idWave = waveNum;

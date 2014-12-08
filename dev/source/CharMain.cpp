@@ -137,9 +137,11 @@ void CharMain::update(float x, float y){
          hp -= collisionObject->events[i];
          spriteManager->hit();
       }else if(collisionObject->events[i] == -1){
-         if(stamina<100) stamina += 10;
+         stamina += 10;
+         if(stamina>100) stamina = 100;
       }else if(collisionObject->events[i] == -2){
-         if (hp<100) hp += 10;
+         hp += 10;
+         if (hp>100)  hp = 100;
       }else if(collisionObject->events[i] == -3){
          bulletStock += 10;
          if(bulletStock > 99) bulletStock = 99;

@@ -175,9 +175,9 @@ void GamePlay::logic(){
          pause = true;
       }
 
-      if (keyboard.triggered(*home)){
-         farolete->switchGodMode();
-      }
+      // if (keyboard.triggered(*home)){
+      //    farolete->switchGodMode();
+      // }
       
       if (keyboard.pressed(*w_key)){
          screenMovement.y = -vel;

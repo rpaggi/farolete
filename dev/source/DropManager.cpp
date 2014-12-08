@@ -101,16 +101,16 @@ void DropManager::draw(){
 }
 
 void DropManager::sortItem(float x, float y){
-   int rItem     = RandomInteger(4, 16);
+   int rItem     = RandomInteger(5, 20);
 
-   rItem /= 4;
+   rItem /= 5;
 
    if (rItem == 1){
       DropStamina * dStamina = new DropStamina(x, y);
       dStamina->setLastTime(elapsed);
       collisionManager->include(dStamina->getCollisionObject());
       vetor.push_back(dStamina);
-   }else if(rItem == 2){
+   }else if(rItem == 2 || rItem == 5){
       DropHealth * dHealth = new DropHealth(x, y);
       dHealth->setLastTime(elapsed);
       collisionManager->include(dHealth->getCollisionObject());
