@@ -34,10 +34,10 @@ Wave::Wave(int waveNum, float screen_x, float screen_y, CollisionManager * cMana
 
 	switch (waveNum){
 	case 1:
-		// numSoin = 10; numCabra = 10; numTatu = 0; numCorrupiao = 0;
-		// numFacao = 10; numLuger = 10; numColt = 0; numWinchester = 0; numMouser = 0;
-		numSoin = 2; numCabra = 2; numTatu = 0; numCorrupiao = 0;
-		numFacao = 1; numLuger = 1; numColt = 0; numWinchester = 0; numMouser = 0;
+		numSoin = 10; numCabra = 10; numTatu = 0; numCorrupiao = 0;
+		numFacao = 10; numLuger = 10; numColt = 0; numWinchester = 0; numMouser = 0;
+		// numSoin = 2; numCabra = 2; numTatu = 0; numCorrupiao = 0;
+		// numFacao = 1; numLuger = 1; numColt = 0; numWinchester = 0; numMouser = 0;
 
 		// Construct method of CharEnemmy:
 		// CharEnemmy(Display, screen_x, screen_y, collisionManager, mapLoader, hp, xp, gun, vel, type, visionRange)
