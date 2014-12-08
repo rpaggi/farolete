@@ -101,21 +101,19 @@ void DropManager::draw(){
 }
 
 void DropManager::sortItem(float x, float y){
-   int rItem     = RandomInteger(5, 20);
-
-   rItem /= 5;
+   int rItem     = RandomInteger(1, 10);
 
    if (rItem == 1){
       DropStamina * dStamina = new DropStamina(x, y);
       dStamina->setLastTime(elapsed);
       collisionManager->include(dStamina->getCollisionObject());
       vetor.push_back(dStamina);
-   }else if(rItem == 2 || rItem == 5){
+   }else if(rItem == 2 || rItem >= 5 && rItem <= 7){
       DropHealth * dHealth = new DropHealth(x, y);
       dHealth->setLastTime(elapsed);
       collisionManager->include(dHealth->getCollisionObject());
       vetor.push_back(dHealth);
-   }else if(rItem == 3){
+   }else if(rItem == 3 || rItem >= 8){
       DropBullets * dBullets = new DropBullets(x, y);
       dBullets->setLastTime(elapsed);
       collisionManager->include(dBullets->getCollisionObject());

@@ -308,26 +308,13 @@ void GamePlay::logic(){
                musicBg.stop();
                saveGame.stage = 2;
                saveGame.wave  = 1;
-               saveGame.gunId = farolete->getGunId(1);
-               saveGame.hp    = farolete->getHp();
-               saveGame.stamina = farolete->getStamina();
-               saveGame.xp = farolete->getXp();
-               saveGame.bullets = farolete->getBulletQtd();
-               saveGame.saveGame();
                goScene = new GamePlayPost(display, 3);
-               sceneManager->setCurrentScene(goScene);
+               continua = false;
             }else if(fase == 2 && waveManager->getWaveAtual() >= 5){
                musicBg.stop();
                saveGame.stage = 1;
                saveGame.wave  = 1;
-               saveGame.gunId = farolete->getGunId(1);
-               saveGame.hp    = farolete->getHp();
-               saveGame.stamina = farolete->getStamina();
-               saveGame.xp = farolete->getXp();
-               saveGame.bullets = farolete->getBulletQtd();
-               saveGame.saveGame();
                goScene = new GamePlayPost(display, 4);
-               sceneManager->setCurrentScene(goScene);
                continua = false;
             }else{
                inimigos = waveManager->getWaveEnemmyList(waveManager->getWaveAtual() + 1);
@@ -339,6 +326,19 @@ void GamePlay::logic(){
                }
                soundLoadWave.play();
             }
+            
+            saveGame.gunId = farolete->getGunId(1);
+            saveGame.hp    = farolete->getHp();
+            saveGame.stamina = farolete->getStamina();
+            saveGame.xp = farolete->getXp();
+            saveGame.bullets = farolete->getBulletQtd();
+            saveGame.saveGame();
+
+            if(!continua){
+               sceneManager->setCurrentScene(goScene);
+            }
+
+
          }
       }
 
