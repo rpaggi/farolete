@@ -304,7 +304,7 @@ void GamePlay::logic(){
             saving = false;
             bool continua = true;
 
-            if(fase == 1 && waveManager->getWaveAtual() >= 1){
+            if(fase == 1 && waveManager->getWaveAtual() >= 5){
                musicBg.stop();
                saveGame.stage = 2;
                saveGame.wave  = 1;
@@ -316,7 +316,7 @@ void GamePlay::logic(){
                saveGame.saveGame();
                goScene = new GamePlayPost(display, 3);
                sceneManager->setCurrentScene(goScene);
-            }else if(fase == 2 && waveManager->getWaveAtual() >= 1){
+            }else if(fase == 2 && waveManager->getWaveAtual() >= 5){
                musicBg.stop();
                saveGame.stage = 1;
                saveGame.wave  = 1;
