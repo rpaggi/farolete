@@ -1,8 +1,10 @@
-LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio -lzdll
+#To compile in Windows include the -lzdll on LIBS
+#To compile in Linux include the -lz on LIBS
+LIBS=-lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio -lz
 
 all: xingu.exe
-obj/random.o: source/random.cpp
-	g++ -c "source/random.cpp" -o obj/random.o -std=c++0x
+obj/Random.o: source/Random.cpp
+	g++ -c "source/Random.cpp" -o obj/Random.o -std=c++0x
 obj/pugixml.o: source/pugixml/pugixml.cpp
 	g++ -c "source/pugixml/pugixml.cpp" -o obj/pugixml.o -std=c++0x
 obj/QuadTreeNode.o: source/sfml-tmxloader/QuadTreeNode.cpp
@@ -73,7 +75,7 @@ obj/Hud.o: source/Hud.cpp
 	g++ -c "source/Hud.cpp" -o obj/Hud.o -std=c++0x
 obj/Wave.o: source/Wave.cpp
 	g++ -c "source/Wave.cpp" -o obj/Wave.o -std=c++0x
-obj/WaveManager.o: source/Wavemanager.cpp
+obj/WaveManager.o: source/WaveManager.cpp
 	g++ -c "source/WaveManager.cpp" -o obj/WaveManager.o -std=c++0x
 obj/LoaderImages.o: source/LoaderImages.cpp
 	g++ -c "source/LoaderImages.cpp" -o obj/LoaderImages.o -std=c++0x
@@ -101,7 +103,11 @@ obj/GameOver.o: source/GameOver.cpp
 	g++ -c "source/GameOver.cpp" -o obj/GameOver.o -std=c++0x
 obj/main.o: source/main.cpp
 	g++ -c "source/main.cpp" -o obj/main.o -std=c++0x
-obj/xingu.res: source/xingu.rc
-	windres "source/xingu.rc" -O coff -o obj/xingu.res
-xingu.exe: obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropXp.o obj/DropColt.o obj/DropLuger.o obj/DropMauser.o obj/DropWinchester.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/Infos.o obj/MainMenu.o obj/LoaderImages.o obj/SaveGame.o obj/Tutorial.o obj/Cutscene1.o obj/Cutscene2.o obj/Cutscene3.o obj/MenuInGame.o obj/GamePlay.o obj/Stage1.o obj/Stage2.o obj/GamePlayPost.o obj/GameOver.o obj/main.o obj/xingu.res
-	g++ -o bin/xingu.exe obj/random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropXp.o obj/DropColt.o obj/DropLuger.o obj/DropMauser.o obj/DropWinchester.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/Infos.o obj/MainMenu.o obj/LoaderImages.o obj/SaveGame.o obj/Tutorial.o obj/Cutscene1.o obj/Cutscene2.o obj/Cutscene3.o obj/MenuInGame.o obj/GamePlay.o obj/Stage1.o obj/Stage2.o obj/GamePlayPost.o obj/GameOver.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x
+#For compile to Windows	
+#obj/xingu.res: source/xingu.rc
+#	windres "source/xingu.rc" -O coff -o obj/xingu.res
+#xingu.exe: obj/Random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropXp.o obj/DropColt.o obj/DropLuger.o obj/DropMauser.o obj/DropWinchester.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/Infos.o obj/MainMenu.o obj/LoaderImages.o obj/SaveGame.o obj/Tutorial.o obj/Cutscene1.o obj/Cutscene2.o obj/Cutscene3.o obj/MenuInGame.o obj/GamePlay.o obj/Stage1.o obj/Stage2.o obj/GamePlayPost.o obj/GameOver.o obj/main.o obj/xingu.res
+#	g++ -o bin/xingu.exe obj/Random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropXp.o obj/DropColt.o obj/DropLuger.o obj/DropMauser.o obj/DropWinchester.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/Infos.o obj/MainMenu.o obj/LoaderImages.o obj/SaveGame.o obj/Tutorial.o obj/Cutscene1.o obj/Cutscene2.o obj/Cutscene3.o obj/MenuInGame.o obj/GamePlay.o obj/Stage1.o obj/Stage2.o obj/GamePlayPost.o obj/GameOver.o obj/main.o obj/xingu.res $(LIBS) -std=c++0x
+#For compile to Linux
+xingu.exe: obj/Random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropXp.o obj/DropColt.o obj/DropLuger.o obj/DropMauser.o obj/DropWinchester.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/Infos.o obj/MainMenu.o obj/LoaderImages.o obj/SaveGame.o obj/Tutorial.o obj/Cutscene1.o obj/Cutscene2.o obj/Cutscene3.o obj/MenuInGame.o obj/GamePlay.o obj/Stage1.o obj/Stage2.o obj/GamePlayPost.o obj/GameOver.o obj/main.o
+	g++ -o bin/xingu.exe obj/Random.o obj/Input.o obj/Display.o obj/Scene.o obj/SceneManager.o obj/QuadTreeNode.o obj/MapObject.o obj/MapLoaderPublic.o obj/MapLoaderPrivate.o obj/DebugShape.o obj/MapLayer.o obj/pugixml.o obj/CollisionObject.o obj/CollisionManager.o obj/Bullets.o obj/Gun.o obj/GunManager.o obj/SpriteManager.o obj/DropItem.o obj/DropStamina.o obj/DropHealth.o obj/DropBullets.o obj/DropXp.o obj/DropColt.o obj/DropLuger.o obj/DropMauser.o obj/DropWinchester.o obj/DropManager.o obj/Character.o obj/CharMain.o obj/CharEnemmy.o obj/Hud.o obj/Wave.o obj/WaveManager.o obj/SceneSplash1.o obj/Infos.o obj/MainMenu.o obj/LoaderImages.o obj/SaveGame.o obj/Tutorial.o obj/Cutscene1.o obj/Cutscene2.o obj/Cutscene3.o obj/MenuInGame.o obj/GamePlay.o obj/Stage1.o obj/Stage2.o obj/GamePlayPost.o obj/GameOver.o obj/main.o $(LIBS) -std=c++0x

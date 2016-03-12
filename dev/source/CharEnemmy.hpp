@@ -8,7 +8,7 @@
 #include "GunManager.hpp"
 #include "DropManager.hpp"
 #include <string>
-#include <MapLoader.h>
+#include <tmx/MapLoader.h>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>

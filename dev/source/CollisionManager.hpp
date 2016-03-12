@@ -4,7 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <vector>
 #include <string>
-#include <MapLoader.h>
+#include <tmx/MapLoader.h>
 
 #include "CollisionObject.hpp"
 

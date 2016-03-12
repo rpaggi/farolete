@@ -2,10 +2,10 @@
 #define DROPMANAGER_HPP
 
 #include <vector>
-#include <SFML\System\Vector2.hpp>
-#include <SFML\Graphics\Text.hpp>
-#include <SFML\Graphics\Font.hpp>
-#include <SFML\System\Clock.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/System/Clock.hpp>
 
 #include "Display.hpp"
 #include "DropStamina.hpp"

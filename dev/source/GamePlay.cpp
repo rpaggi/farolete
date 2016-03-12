@@ -22,7 +22,7 @@ void GamePlay::start(){
    display->draw(loadingSpr);
    this->render();
 
-   musicBg.openFromFile("audio./bg.ogg");
+   musicBg.openFromFile("audio/bg.ogg");
    musicBg.setLoop(true);
    musicBg.setVolume(25);
 

@@ -11,7 +11,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Vector2.hpp>
 
-#include <MapLoader.h>
+#include <tmx/MapLoader.h>
 #include <ctime>
 #include <sstream>
 
